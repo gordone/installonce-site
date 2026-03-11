@@ -66,7 +66,7 @@ import '../styles/global.css';
         
         <!-- Email Signup -->
         <div class="max-w-md mx-auto">
-          <form id="signup-form" class="flex flex-col sm:flex-row gap-3 mb-3">
+          <form id="signup-form" action="https://formspree.io/f/xreyqoab" method="POST" class="flex flex-col sm:flex-row gap-3 mb-3">
             <input 
               type="email" 
               name="email"
@@ -78,6 +78,7 @@ import '../styles/global.css';
             />
             <button 
               type="submit"
+              id="submit-btn"
               class="px-6 py-3 bg-cyan-glow text-dark-bg font-semibold rounded-lg 
                      hover:bg-cyan-glow/90 transition-all duration-300 
                      hover:shadow-[0_0_20px_rgba(0,240,255,0.5)]"
@@ -85,7 +86,7 @@ import '../styles/global.css';
               Notify Me
             </button>
           </form>
-          <p class="text-gray-600 text-sm mt-4">
+          <p id="form-status" class="text-gray-600 text-sm mt-4">
             Be the first to know when it launches. No spam, ever.
           </p>
         </div>
@@ -99,18 +100,43 @@ import '../styles/global.css';
 
     <script>
       const form = document.getElementById('signup-form');
+      const button = document.getElementById('submit-btn');
+      const status = document.getElementById('form-status');
+      
       form?.addEventListener('submit', async (e) => {
         e.preventDefault();
-        const email = new FormData(form).get('email');
-        // For now, just show a success message
-        // TODO: Connect to email service (ConvertKit, Mailchimp, etc.)
-        const button = form.querySelector('button');
-        if (button) {
-          button.textContent = 'You\'re on the list!';
-          button.disabled = true;
-          button.classList.add('opacity-70');
+        
+        // Show loading state
+        button.textContent = 'Joining...';
+        button.disabled = true;
+        
+        try {
+          const response = await fetch(form.action, {
+            method: 'POST',
+            body: new FormData(form),
+            headers: { 'Accept': 'application/json' }
+          });
+          
+          if (response.ok) {
+            // Success
+            button.textContent = "You're on the list!";
+            button.classList.remove('bg-cyan-glow', 'hover:bg-cyan-glow/90');
+            button.classList.add('bg-emerald-500');
+            status.textContent = "🎉 Thanks! We'll notify you when the book drops.";
+            status.classList.remove('text-gray-600');
+            status.classList.add('text-emerald-400');
+            form.reset();
+          } else {
+            throw new Error('Form submission failed');
+          }
+        } catch (error) {
+          // Error
+          button.textContent = 'Try Again';
+          button.disabled = false;
+          status.textContent = "Something went wrong. Please try again.";
+          status.classList.remove('text-gray-600');
+          status.classList.add('text-red-400');
         }
-        console.log('Email signup:', email);
       });
     </script>
   </body>
