@@ -1,0 +1,38 @@
+@import "tailwindcss";
+
+@theme {
+  --color-cyan-glow: #00f0ff;
+  --color-dark-bg: #0a0a0f;
+  --color-dark-surface: #12121a;
+  --font-family-display: "Inter", system-ui, sans-serif;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--color-dark-bg);
+  color: white;
+  font-family: var(--font-family-display);
+}
+
+.glow-text {
+  text-shadow: 0 0 20px rgba(0, 240, 255, 0.5),
+               0 0 40px rgba(0, 240, 255, 0.3),
+               0 0 60px rgba(0, 240, 255, 0.1);
+}
+
+.glow-border {
+  box-shadow: 0 0 15px rgba(0, 240, 255, 0.3),
+              inset 0 0 15px rgba(0, 240, 255, 0.1);
+}
+
+@keyframes pulse-glow {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.7; }
+}
+
+.animate-pulse-glow {
+  animation: pulse-glow 3s ease-in-out infinite;
+}

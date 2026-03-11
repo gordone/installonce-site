@@ -1,0 +1,105 @@
+---
+import '../styles/global.css';
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="description" content="Install Once - The Operating System for Life. A book by Gordon Ebanks." />
+    <title>Install Once | The Operating System for Life</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  </head>
+  <body class="min-h-screen flex flex-col">
+    <main class="flex-1 flex flex-col items-center justify-center px-6 py-12">
+      <!-- Hero Section -->
+      <div class="max-w-2xl mx-auto text-center">
+        <!-- Logo/Title -->
+        <h1 class="text-6xl md:text-8xl font-light tracking-tight text-cyan-glow glow-text mb-2">
+          Install
+        </h1>
+        <h1 class="text-6xl md:text-8xl font-light tracking-tight text-cyan-glow glow-text mb-6">
+          Once
+        </h1>
+        
+        <!-- Tagline -->
+        <p class="text-lg md:text-xl tracking-[0.3em] uppercase text-cyan-glow/70 mb-12">
+          The Operating System for Life
+        </p>
+        
+        <!-- Brain Icon Placeholder -->
+        <div class="mb-12 animate-pulse-glow">
+          <svg class="w-24 h-24 mx-auto text-cyan-glow" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="1.5">
+            <path d="M50 15c-15 0-27 12-27 27 0 8 3.5 15.2 9 20.2V85h36V62.2c5.5-5 9-12.2 9-20.2 0-15-12-27-27-27z" />
+            <path d="M35 42c0-8.3 6.7-15 15-15" stroke-linecap="round" />
+            <path d="M30 55h40" stroke-linecap="round" />
+            <path d="M35 65h30" stroke-linecap="round" />
+            <circle cx="50" cy="42" r="3" fill="currentColor" class="animate-pulse" />
+          </svg>
+        </div>
+        
+        <!-- Description -->
+        <p class="text-gray-400 text-lg md:text-xl mb-8 max-w-lg mx-auto leading-relaxed">
+          What if you could install the habits, systems, and mental models that 
+          actually work—once—and have them run in the background forever?
+        </p>
+        
+        <p class="text-gray-500 mb-12">
+          A new book by <span class="text-white">Gordon Ebanks</span>
+        </p>
+        
+        <!-- Email Signup -->
+        <div class="max-w-md mx-auto">
+          <p class="text-cyan-glow font-medium mb-4">Coming Soon</p>
+          <form id="signup-form" class="flex flex-col sm:flex-row gap-3">
+            <input 
+              type="email" 
+              name="email"
+              placeholder="Enter your email" 
+              required
+              class="flex-1 px-5 py-3 bg-dark-surface border border-cyan-glow/30 rounded-lg 
+                     text-white placeholder-gray-500 focus:outline-none focus:border-cyan-glow 
+                     glow-border transition-all duration-300"
+            />
+            <button 
+              type="submit"
+              class="px-6 py-3 bg-cyan-glow text-dark-bg font-semibold rounded-lg 
+                     hover:bg-cyan-glow/90 transition-all duration-300 
+                     hover:shadow-[0_0_20px_rgba(0,240,255,0.5)]"
+            >
+              Notify Me
+            </button>
+          </form>
+          <p class="text-gray-600 text-sm mt-4">
+            Be the first to know when it launches. No spam, ever.
+          </p>
+        </div>
+      </div>
+    </main>
+    
+    <!-- Footer -->
+    <footer class="py-6 text-center text-gray-600 text-sm">
+      <p>&copy; 2025 Install Once. All rights reserved.</p>
+    </footer>
+
+    <script>
+      const form = document.getElementById('signup-form');
+      form?.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const email = new FormData(form).get('email');
+        // For now, just show a success message
+        // TODO: Connect to email service (ConvertKit, Mailchimp, etc.)
+        const button = form.querySelector('button');
+        if (button) {
+          button.textContent = 'You\'re on the list!';
+          button.disabled = true;
+          button.classList.add('opacity-70');
+        }
+        console.log('Email signup:', email);
+      });
+    </script>
+  </body>
+</html>
