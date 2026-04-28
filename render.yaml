@@ -1,11 +1,9 @@
 services:
   - type: web
     name: installonce
-    runtime: node
+    runtime: static
     buildCommand: npm install && npm run build
-    startCommand: node ./dist/server/entry.mjs
+    staticPublishPath: ./dist
     envVars:
       - key: NODE_VERSION
         value: 20
-      - key: RESEND_API_KEY
-        sync: false  # This will need to be set in Render dashboard

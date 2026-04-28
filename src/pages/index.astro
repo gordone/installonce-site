@@ -47,7 +47,7 @@ import '../styles/global.css';
         
         <!-- Email Signup -->
         <div class="max-w-md mx-auto mb-8">
-          <form id="signup-form" class="flex flex-col sm:flex-row gap-3 mb-3">
+          <form id="signup-form" action="https://formspree.io/f/xreyqoab" method="POST" class="flex flex-col sm:flex-row gap-3 mb-3">
             <input 
               type="email" 
               name="email"
@@ -102,16 +102,10 @@ import '../styles/global.css';
         button.disabled = true;
         
         try {
-          const formData = new FormData(form);
-          const email = formData.get('email');
-          
-          const response = await fetch('/api/waitlist', {
+          const response = await fetch(form.action, {
             method: 'POST',
-            headers: { 
-              'Content-Type': 'application/json',
-              'Accept': 'application/json' 
-            },
-            body: JSON.stringify({ email })
+            body: new FormData(form),
+            headers: { 'Accept': 'application/json' }
           });
           
           if (response.ok) {
