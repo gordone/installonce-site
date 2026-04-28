@@ -7,8 +7,8 @@ import '../styles/global.css';
     <meta charset="utf-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width" />
-    <meta name="description" content="Install Once - The Operating System for Life. A book by Gordon Ebanks." />
-    <title>Install Once | The Operating System for Life</title>
+    <meta name="description" content="Most change fails because you keep trying to force new behavior from an old identity. INSTALL ONCE shows you how to end the negotiation, decide first, and let repetition make it real." />
+    <title>Install Once | It Already Happened</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -16,23 +16,20 @@ import '../styles/global.css';
   <body class="min-h-screen flex flex-col">
     <main class="flex-1 flex flex-col items-center justify-center px-6 py-12">
       <!-- Hero Section -->
-      <div class="max-w-2xl mx-auto text-center">
+      <div class="max-w-3xl mx-auto text-center">
         <!-- Logo/Title -->
-        <h1 class="text-6xl md:text-8xl font-light tracking-tight text-cyan-glow glow-text mb-2">
-          Install
-        </h1>
-        <h1 class="text-6xl md:text-8xl font-light tracking-tight text-cyan-glow glow-text mb-6">
-          Once
+        <h1 class="text-6xl md:text-8xl font-light tracking-tight text-cyan-glow glow-text mb-4">
+          Install Once
         </h1>
         
-        <!-- Tagline -->
-        <p class="text-lg md:text-xl tracking-[0.3em] uppercase text-cyan-glow/70 mb-12">
-          The Operating System for Life
-        </p>
+        <!-- New Subhead -->
+        <h2 class="text-4xl md:text-5xl font-semibold tracking-tight text-white mb-12">
+          It Already Happened
+        </h2>
         
         <!-- Brain Icon - Lucide -->
-        <div class="mb-12 animate-pulse-glow">
-          <svg class="w-24 h-24 mx-auto text-cyan-glow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <div class="mb-8 animate-pulse-glow">
+          <svg class="w-20 h-20 mx-auto text-cyan-glow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
             <path d="M12 5a3 3 0 1 0-5.997.125 4 4 0 0 0-2.526 5.77 4 4 0 0 0 .556 6.588A4 4 0 1 0 12 18Z"/>
             <path d="M12 5a3 3 0 1 1 5.997.125 4 4 0 0 1 2.526 5.77 4 4 0 0 1-.556 6.588A4 4 0 1 1 12 18Z"/>
             <path d="M15 13a4.5 4.5 0 0 1-3-4 4.5 4.5 0 0 1-3 4"/>
@@ -41,61 +38,46 @@ import '../styles/global.css';
           </svg>
         </div>
         
-        <!-- Description -->
-        <h2 class="text-2xl md:text-3xl font-semibold text-white mb-6 flex items-center justify-center gap-3">
-          Your operating system is due for an update.
-          <svg class="w-8 h-8 text-cyan-glow inline-block" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"/>
-            <path d="M21 3v5h-5"/>
-            <path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"/>
-            <path d="M8 16H3v5"/>
-          </svg>
-        </h2>
-        
-        <p class="text-cyan-glow/90 text-base md:text-lg mb-6 max-w-xl mx-auto leading-relaxed font-medium">
-          INSTALL ONCE is a different kind of book.
-        </p>
-        
-        <p class="text-gray-400 text-base md:text-lg mb-4 max-w-xl mx-auto leading-relaxed">
-          One decision that closes the question of who you are.
-        </p>
-        
-        <p class="text-gray-400 text-base md:text-lg mb-6 max-w-xl mx-auto leading-relaxed">
-          One method that turns that decision into a default.
-        </p>
-        
-        <p class="text-gray-500 text-base md:text-lg mb-8 max-w-xl mx-auto leading-relaxed">
-          No hype. No restart. Just the shift that makes everything else quieter.
-        </p>
-        
-        <p class="text-gray-500 mb-8">
-          The book drops soon. Join the waitlist and be the first to install.
+        <!-- New Description -->
+        <p class="text-lg md:text-xl text-cyan-glow/90 mb-8 max-w-2xl mx-auto leading-relaxed font-medium">
+          Most change fails because you keep trying to force new behavior from an old identity. 
+          INSTALL ONCE shows you how to end the negotiation, decide first, and let repetition make it real. 
+          This single move rewires the deep settings that have been running your life on autopilot.
         </p>
         
         <!-- Email Signup -->
-        <div class="max-w-md mx-auto">
-          <form id="signup-form" action="https://formspree.io/f/xreyqoab" method="POST" class="flex flex-col sm:flex-row gap-3 mb-3">
+        <div class="max-w-md mx-auto mb-8">
+          <form id="signup-form" class="flex flex-col sm:flex-row gap-3 mb-3">
             <input 
               type="email" 
               name="email"
-              placeholder="Enter your email" 
+              placeholder="Enter your email address" 
               required
-              class="flex-1 px-5 py-3 bg-dark-surface border border-cyan-glow/30 rounded-lg 
+              class="flex-1 px-5 py-4 bg-dark-surface border border-cyan-glow/30 rounded-lg 
                      text-white placeholder-gray-500 focus:outline-none focus:border-cyan-glow 
-                     glow-border transition-all duration-300"
+                     glow-border transition-all duration-300 text-base"
             />
             <button 
               type="submit"
               id="submit-btn"
-              class="px-6 py-3 bg-cyan-glow text-dark-bg font-semibold rounded-lg 
+              class="px-8 py-4 bg-cyan-glow text-dark-bg font-semibold rounded-lg 
                      hover:bg-cyan-glow/90 transition-all duration-300 
-                     hover:shadow-[0_0_20px_rgba(0,240,255,0.5)]"
+                     hover:shadow-[0_0_20px_rgba(0,240,255,0.5)] text-base"
             >
-              Notify Me
+              Join the Waitlist
             </button>
           </form>
-          <p id="form-status" class="text-gray-600 text-sm mt-4">
-            Be the first to know when it launches. No spam, ever.
+          
+          <!-- Microcopy -->
+          <p id="form-status" class="text-gray-400 text-sm mt-3">
+            Be first to get the launch, early excerpts, and book updates
+          </p>
+        </div>
+        
+        <!-- Proof Strip -->
+        <div class="border-t border-gray-700 pt-8">
+          <p class="text-gray-500 text-base">
+            For readers of Atomic Habits, The Secret, and The 5 Second Rule.
           </p>
         </div>
       </div>
@@ -115,14 +97,21 @@ import '../styles/global.css';
         e.preventDefault();
         
         // Show loading state
+        const originalText = button.textContent;
         button.textContent = 'Joining...';
         button.disabled = true;
         
         try {
-          const response = await fetch(form.action, {
+          const formData = new FormData(form);
+          const email = formData.get('email');
+          
+          const response = await fetch('/api/waitlist', {
             method: 'POST',
-            body: new FormData(form),
-            headers: { 'Accept': 'application/json' }
+            headers: { 
+              'Content-Type': 'application/json',
+              'Accept': 'application/json' 
+            },
+            body: JSON.stringify({ email })
           });
           
           if (response.ok) {
@@ -130,19 +119,28 @@ import '../styles/global.css';
             button.textContent = "You're on the list!";
             button.classList.remove('bg-cyan-glow', 'hover:bg-cyan-glow/90');
             button.classList.add('bg-emerald-500');
-            status.textContent = "🎉 Thanks! We'll notify you when the book drops.";
-            status.classList.remove('text-gray-600');
+            status.innerHTML = "🎉 Welcome to the waitlist! Check your email for confirmation.";
+            status.classList.remove('text-gray-400');
             status.classList.add('text-emerald-400');
             form.reset();
+            
+            // Track conversion if analytics available
+            if (typeof gtag !== 'undefined') {
+              gtag('event', 'conversion', {
+                'send_to': 'YOUR_CONVERSION_ID',
+                'value': 1.0,
+                'currency': 'USD'
+              });
+            }
           } else {
             throw new Error('Form submission failed');
           }
         } catch (error) {
           // Error
-          button.textContent = 'Try Again';
+          button.textContent = originalText;
           button.disabled = false;
-          status.textContent = "Something went wrong. Please try again.";
-          status.classList.remove('text-gray-600');
+          status.textContent = "❌ Something went wrong. Please try again.";
+          status.classList.remove('text-gray-400');
           status.classList.add('text-red-400');
         }
       });
