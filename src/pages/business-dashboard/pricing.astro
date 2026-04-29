@@ -1,0 +1,391 @@
+---
+import '../../styles/global.css';
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="description" content="Configure dynamic pricing rules - Install Once Business Dashboard" />
+    <title>Pricing Rules | Install Once Business Dashboard</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+  </head>
+  <body class="min-h-screen bg-gray-900 text-white">
+    <!-- Header -->
+    <header class="bg-gray-800 border-b border-gray-700">
+      <div class="max-w-7xl mx-auto px-6 py-4">
+        <div class="flex items-center justify-between">
+          <div class="flex items-center space-x-4">
+            <h1 class="text-2xl font-bold text-cyan-glow">Install Once</h1>
+            <span class="text-gray-400">Business Dashboard</span>
+          </div>
+          <nav class="flex space-x-6">
+            <a href="/" class="text-cyan-glow hover:text-white transition-colors">Home</a>
+            <a href="/business-dashboard" class="text-gray-400 hover:text-white transition-colors">Dashboard</a>
+            <a href="/business-dashboard/pricing" class="text-white font-medium">Pricing Rules</a>
+          </nav>
+        </div>
+      </div>
+    </header>
+
+    <div class="flex">
+      <!-- Sidebar -->
+      <aside class="w-64 bg-gray-800 min-h-screen p-6">
+        <nav class="space-y-4">
+          <a href="/business-dashboard" class="flex items-center space-x-3 text-gray-400 hover:text-white px-3 py-2 rounded-lg">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+            </svg>
+            <span>Overview</span>
+          </a>
+          <a href="/business-dashboard/services" class="flex items-center space-x-3 text-gray-400 hover:text-white px-3 py-2 rounded-lg">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+            </svg>
+            <span>Services</span>
+          </a>
+          <a href="/business-dashboard/availability" class="flex items-center space-x-3 text-gray-400 hover:text-white px-3 py-2 rounded-lg">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+            </svg>
+            <span>Availability</span>
+          </a>
+          <a href="/business-dashboard/pricing" class="flex items-center space-x-3 text-white bg-gray-700 px-3 py-2 rounded-lg">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1" />
+            </svg>
+            <span>Pricing Rules</span>
+          </a>
+          <a href="/business-dashboard/bookings" class="flex items-center space-x-3 text-gray-400 hover:text-white px-3 py-2 rounded-lg">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v6a2 2 0 002 2h2m5 0h2a2 2 0 002-2V7a2 2 0 00-2-2h-2m-5 4h4" />
+            </svg>
+            <span>Bookings</span>
+          </a>
+        </nav>
+      </aside>
+
+      <!-- Main Content -->
+      <main class="flex-1 p-8">
+        <div x-data="{
+          rules: [
+            {
+              id: 1,
+              name: 'Monday & Tuesday Discount',
+              type: 'discount',
+              amount: 20,
+              conditions: 'Monday, Tuesday',
+              description: 'Build demand on slower weekdays',
+              isActive: true,
+              appliedBookings: 12
+            },
+            {
+              id: 2,
+              name: 'Early Morning Special',
+              type: 'discount',
+              amount: 15,
+              conditions: '8:00 AM - 10:00 AM',
+              description: 'Encourage early bookings',
+              isActive: true,
+              appliedBookings: 8
+            },
+            {
+              id: 3,
+              name: 'Same-Day Booking',
+              type: 'discount',
+              amount: 25,
+              conditions: 'Booked same day',
+              description: 'Fill last-minute cancellations',
+              isActive: true,
+              appliedBookings: 15
+            },
+            {
+              id: 4,
+              name: 'Weekend Premium',
+              type: 'markup',
+              amount: 20,
+              conditions: 'Saturday, Sunday',
+              description: 'Premium pricing for high-demand times',
+              isActive: true,
+              appliedBookings: 6
+            }
+          ],
+          showCreateForm: false,
+          newRule: {
+            name: '',
+            type: 'discount',
+            amount: 10,
+            conditions: '',
+            description: ''
+          },
+          createRule() {
+            if (this.newRule.name && this.newRule.conditions) {
+              this.rules.push({
+                id: this.rules.length + 1,
+                ...this.newRule,
+                isActive: true,
+                appliedBookings: 0
+              });
+              this.newRule = { name: '', type: 'discount', amount: 10, conditions: '', description: '' };
+              this.showCreateForm = false;
+            }
+          },
+          toggleRule(ruleId) {
+            const rule = this.rules.find(r => r.id === ruleId);
+            if (rule) rule.isActive = !rule.isActive;
+          }
+        }">
+
+          <!-- Header -->
+          <div class="mb-8">
+            <div class="flex items-center justify-between">
+              <div>
+                <h2 class="text-3xl font-bold mb-2">Dynamic Pricing Rules</h2>
+                <p class="text-gray-400">Optimize revenue with smart, automated pricing</p>
+              </div>
+              <button 
+                @click="showCreateForm = true"
+                class="bg-cyan-glow text-dark-bg px-6 py-3 rounded-lg hover:bg-cyan-glow/90 transition-colors font-medium flex items-center space-x-2">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                </svg>
+                <span>Create Rule</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Revenue Impact Stats -->
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+            <div class="bg-gradient-to-br from-green-600 to-emerald-600 p-6 rounded-xl text-white">
+              <div class="flex items-center justify-between">
+                <div>
+                  <p class="text-green-100 text-sm">Revenue Increase</p>
+                  <p class="text-3xl font-bold">+34%</p>
+                  <p class="text-green-100 text-xs">vs fixed pricing</p>
+                </div>
+                <div class="bg-green-500/20 p-3 rounded-lg">
+                  <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
+                  </svg>
+                </div>
+              </div>
+            </div>
+
+            <div class="bg-gradient-to-br from-blue-600 to-purple-600 p-6 rounded-xl text-white">
+              <div class="flex items-center justify-between">
+                <div>
+                  <p class="text-blue-100 text-sm">Booking Rate</p>
+                  <p class="text-3xl font-bold">87%</p>
+                  <p class="text-blue-100 text-xs">of searches convert</p>
+                </div>
+                <div class="bg-blue-500/20 p-3 rounded-lg">
+                  <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                  </svg>
+                </div>
+              </div>
+            </div>
+
+            <div class="bg-gradient-to-br from-orange-600 to-red-600 p-6 rounded-xl text-white">
+              <div class="flex items-center justify-between">
+                <div>
+                  <p class="text-orange-100 text-sm">Active Rules</p>
+                  <p class="text-3xl font-bold" x-text="rules.filter(r => r.isActive).length">4</p>
+                  <p class="text-orange-100 text-xs">optimizing pricing</p>
+                </div>
+                <div class="bg-orange-500/20 p-3 rounded-lg">
+                  <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                  </svg>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Pricing Rules List -->
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+            <template x-for="rule in rules" :key="rule.id">
+              <div class="bg-gray-800 rounded-xl border border-gray-700 p-6 hover:border-cyan-glow/50 transition-colors">
+                <!-- Rule Header -->
+                <div class="flex items-start justify-between mb-4">
+                  <div class="flex-1">
+                    <div class="flex items-center space-x-3 mb-2">
+                      <h3 class="text-lg font-bold text-white" x-text="rule.name"></h3>
+                      <span 
+                        :class="rule.type === 'discount' ? 'bg-green-500/20 text-green-400' : 'bg-orange-500/20 text-orange-400'"
+                        class="px-2 py-1 rounded-full text-xs font-medium"
+                        x-text="rule.type === 'discount' ? 'DISCOUNT' : 'PREMIUM'">
+                      </span>
+                    </div>
+                    <p class="text-gray-400 text-sm" x-text="rule.description"></p>
+                  </div>
+                  <button 
+                    @click="toggleRule(rule.id)"
+                    :class="rule.isActive ? 'bg-green-500' : 'bg-gray-600'"
+                    class="w-12 h-6 rounded-full relative transition-colors">
+                    <div 
+                      :class="rule.isActive ? 'translate-x-6' : 'translate-x-1'"
+                      class="w-4 h-4 bg-white rounded-full transition-transform absolute top-1"></div>
+                  </button>
+                </div>
+
+                <!-- Rule Details -->
+                <div class="space-y-3 mb-4">
+                  <div class="flex items-center justify-between p-3 bg-gray-700 rounded-lg">
+                    <span class="text-gray-300 text-sm">Amount</span>
+                    <span 
+                      :class="rule.type === 'discount' ? 'text-green-400' : 'text-orange-400'"
+                      class="font-bold">
+                      <span x-text="rule.type === 'discount' ? '-' : '+'"></span><span x-text="rule.amount"></span>%
+                    </span>
+                  </div>
+                  <div class="flex items-center justify-between p-3 bg-gray-700 rounded-lg">
+                    <span class="text-gray-300 text-sm">Conditions</span>
+                    <span class="text-white font-medium text-sm" x-text="rule.conditions"></span>
+                  </div>
+                  <div class="flex items-center justify-between p-3 bg-gray-700 rounded-lg">
+                    <span class="text-gray-300 text-sm">Applied</span>
+                    <span class="text-cyan-glow font-bold">
+                      <span x-text="rule.appliedBookings"></span> bookings
+                    </span>
+                  </div>
+                </div>
+
+                <!-- Actions -->
+                <div class="flex space-x-2">
+                  <button class="flex-1 bg-gray-700 text-white py-2 px-3 rounded-lg hover:bg-gray-600 transition-colors text-sm">
+                    Edit Rule
+                  </button>
+                  <button class="bg-cyan-glow/20 text-cyan-glow py-2 px-3 rounded-lg hover:bg-cyan-glow/30 transition-colors text-sm">
+                    View Impact
+                  </button>
+                </div>
+              </div>
+            </template>
+          </div>
+
+          <!-- Pricing Strategy Tips -->
+          <div class="bg-gradient-to-br from-gray-800 to-gray-700 rounded-xl p-6 border border-gray-600 mb-8">
+            <h3 class="text-xl font-bold text-white mb-4">💡 Smart Pricing Strategies</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div class="space-y-3">
+                <h4 class="font-medium text-cyan-glow">Discount Strategies</h4>
+                <ul class="text-gray-300 text-sm space-y-2">
+                  <li>• <strong>Weekday discounts:</strong> Fill slower Mon-Tue slots</li>
+                  <li>• <strong>Early/Late discounts:</strong> Expand your available hours</li>
+                  <li>• <strong>Same-day discounts:</strong> Convert cancellations to revenue</li>
+                  <li>• <strong>New customer discounts:</strong> Acquire and convert prospects</li>
+                </ul>
+              </div>
+              <div class="space-y-3">
+                <h4 class="font-medium text-orange-400">Premium Strategies</h4>
+                <ul class="text-gray-300 text-sm space-y-2">
+                  <li>• <strong>Weekend premiums:</strong> Charge more for high-demand times</li>
+                  <li>• <strong>Peak hour markups:</strong> 5-7pm premium pricing</li>
+                  <li>• <strong>Holiday premiums:</strong> Special occasion rates</li>
+                  <li>• <strong>Express booking fees:</strong> Premium for urgent requests</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <!-- Create Rule Modal -->
+          <div x-show="showCreateForm" 
+               x-transition:enter="transition ease-out duration-200"
+               x-transition:enter-start="opacity-0"
+               x-transition:enter-end="opacity-100"
+               class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+            <div x-transition:enter="transition ease-out duration-200"
+                 x-transition:enter-start="opacity-0 scale-95"
+                 x-transition:enter-end="opacity-100 scale-100"
+                 class="bg-gray-800 rounded-xl border border-gray-700 p-8 max-w-2xl w-full mx-4 max-h-[90vh] overflow-y-auto">
+              
+              <div class="flex items-center justify-between mb-6">
+                <h3 class="text-2xl font-bold">Create Pricing Rule</h3>
+                <button @click="showCreateForm = false" class="text-gray-400 hover:text-white">
+                  <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                </button>
+              </div>
+
+              <form @submit.prevent="createRule()" class="space-y-6">
+                <div>
+                  <label class="block text-sm font-medium text-gray-300 mb-2">Rule Name</label>
+                  <input 
+                    x-model="newRule.name"
+                    type="text" 
+                    required
+                    placeholder="e.g., Thursday Evening Discount"
+                    class="w-full bg-gray-700 border border-gray-600 rounded-lg px-4 py-3 text-white placeholder-gray-400 focus:outline-none focus:border-cyan-glow">
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div>
+                    <label class="block text-sm font-medium text-gray-300 mb-2">Rule Type</label>
+                    <select 
+                      x-model="newRule.type"
+                      class="w-full bg-gray-700 border border-gray-600 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-cyan-glow">
+                      <option value="discount">Discount (Lower prices)</option>
+                      <option value="markup">Premium (Higher prices)</option>
+                    </select>
+                  </div>
+
+                  <div>
+                    <label class="block text-sm font-medium text-gray-300 mb-2">Amount (%)</label>
+                    <input 
+                      x-model="newRule.amount"
+                      type="number" 
+                      min="5"
+                      max="100"
+                      required
+                      class="w-full bg-gray-700 border border-gray-600 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-cyan-glow">
+                  </div>
+                </div>
+
+                <div>
+                  <label class="block text-sm font-medium text-gray-300 mb-2">Conditions</label>
+                  <input 
+                    x-model="newRule.conditions"
+                    type="text" 
+                    required
+                    placeholder="e.g., Thursday 5:00 PM - 7:00 PM"
+                    class="w-full bg-gray-700 border border-gray-600 rounded-lg px-4 py-3 text-white placeholder-gray-400 focus:outline-none focus:border-cyan-glow">
+                  <p class="text-gray-400 text-xs mt-1">When should this rule apply? (days, times, booking windows, etc.)</p>
+                </div>
+
+                <div>
+                  <label class="block text-sm font-medium text-gray-300 mb-2">Description</label>
+                  <textarea 
+                    x-model="newRule.description"
+                    rows="3"
+                    placeholder="Explain the strategy behind this pricing rule..."
+                    class="w-full bg-gray-700 border border-gray-600 rounded-lg px-4 py-3 text-white placeholder-gray-400 focus:outline-none focus:border-cyan-glow resize-none"></textarea>
+                </div>
+
+                <div class="flex space-x-4 pt-4">
+                  <button 
+                    type="submit"
+                    class="flex-1 bg-cyan-glow text-dark-bg py-3 px-6 rounded-lg hover:bg-cyan-glow/90 transition-colors font-medium">
+                    Create Rule
+                  </button>
+                  <button 
+                    type="button"
+                    @click="showCreateForm = false"
+                    class="flex-1 bg-gray-700 text-white py-3 px-6 rounded-lg hover:bg-gray-600 transition-colors font-medium">
+                    Cancel
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+
+        </div>
+      </main>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,241 @@
+---
+import '../../styles/global.css';
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="description" content="Install Once Business Dashboard - Manage your life transformation coaching services" />
+    <title>Business Dashboard | Install Once</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+  </head>
+  <body class="min-h-screen bg-gray-900 text-white">
+    <!-- Header -->
+    <header class="bg-gray-800 border-b border-gray-700">
+      <div class="max-w-7xl mx-auto px-6 py-4">
+        <div class="flex items-center justify-between">
+          <div class="flex items-center space-x-4">
+            <h1 class="text-2xl font-bold text-cyan-glow">Install Once</h1>
+            <span class="text-gray-400">Business Dashboard</span>
+          </div>
+          <nav class="flex space-x-6">
+            <a href="/" class="text-cyan-glow hover:text-white transition-colors">Home</a>
+            <a href="/business-dashboard" class="text-white font-medium">Dashboard</a>
+          </nav>
+        </div>
+      </div>
+    </header>
+
+    <div class="flex">
+      <!-- Sidebar -->
+      <aside class="w-64 bg-gray-800 min-h-screen p-6">
+        <nav class="space-y-4">
+          <a href="/business-dashboard" class="flex items-center space-x-3 text-white bg-gray-700 px-3 py-2 rounded-lg">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+            </svg>
+            <span>Overview</span>
+          </a>
+          <a href="/business-dashboard/services" class="flex items-center space-x-3 text-gray-400 hover:text-white px-3 py-2 rounded-lg">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+            </svg>
+            <span>Services</span>
+          </a>
+          <a href="/business-dashboard/availability" class="flex items-center space-x-3 text-gray-400 hover:text-white px-3 py-2 rounded-lg">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+            </svg>
+            <span>Availability</span>
+          </a>
+          <a href="/business-dashboard/pricing" class="flex items-center space-x-3 text-gray-400 hover:text-white px-3 py-2 rounded-lg">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1" />
+            </svg>
+            <span>Pricing Rules</span>
+          </a>
+          <a href="/business-dashboard/bookings" class="flex items-center space-x-3 text-gray-400 hover:text-white px-3 py-2 rounded-lg">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v6a2 2 0 002 2h2m5 0h2a2 2 0 002-2V7a2 2 0 00-2-2h-2m-5 4h4" />
+            </svg>
+            <span>Bookings</span>
+          </a>
+        </nav>
+      </aside>
+
+      <!-- Main Content -->
+      <main class="flex-1 p-8">
+        <!-- Business Status -->
+        <div class="mb-8">
+          <h2 class="text-3xl font-bold mb-2">Install Once - Life Transformation Coaching</h2>
+          <p class="text-gray-400">Revolutionize lives through identity installation and deep settings reconfiguration</p>
+        </div>
+
+        <!-- Stats Cards -->
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8" x-data="{ stats: { bookings: 12, revenue: 1840, conversion: 78, nextBooking: '2:00 PM Today' } }">
+          <div class="bg-gray-800 p-6 rounded-xl border border-gray-700">
+            <div class="flex items-center justify-between">
+              <div>
+                <p class="text-gray-400 text-sm">Total Bookings</p>
+                <p class="text-2xl font-bold text-cyan-glow" x-text="stats.bookings">12</p>
+              </div>
+              <div class="bg-cyan-glow/20 p-3 rounded-lg">
+                <svg class="w-6 h-6 text-cyan-glow" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                </svg>
+              </div>
+            </div>
+          </div>
+
+          <div class="bg-gray-800 p-6 rounded-xl border border-gray-700">
+            <div class="flex items-center justify-between">
+              <div>
+                <p class="text-gray-400 text-sm">Revenue</p>
+                <p class="text-2xl font-bold text-green-400">$<span x-text="stats.revenue">1,840</span></p>
+              </div>
+              <div class="bg-green-400/20 p-3 rounded-lg">
+                <svg class="w-6 h-6 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1" />
+                </svg>
+              </div>
+            </div>
+          </div>
+
+          <div class="bg-gray-800 p-6 rounded-xl border border-gray-700">
+            <div class="flex items-center justify-between">
+              <div>
+                <p class="text-gray-400 text-sm">Conversion Rate</p>
+                <p class="text-2xl font-bold text-purple-400"><span x-text="stats.conversion">78</span>%</p>
+              </div>
+              <div class="bg-purple-400/20 p-3 rounded-lg">
+                <svg class="w-6 h-6 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                </svg>
+              </div>
+            </div>
+          </div>
+
+          <div class="bg-gray-800 p-6 rounded-xl border border-gray-700">
+            <div class="flex items-center justify-between">
+              <div>
+                <p class="text-gray-400 text-sm">Next Booking</p>
+                <p class="text-xl font-bold text-orange-400" x-text="stats.nextBooking">2:00 PM Today</p>
+              </div>
+              <div class="bg-orange-400/20 p-3 rounded-lg">
+                <svg class="w-6 h-6 text-orange-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Services Overview -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+          <!-- Services List -->
+          <div class="bg-gray-800 p-6 rounded-xl border border-gray-700">
+            <div class="flex items-center justify-between mb-6">
+              <h3 class="text-xl font-bold">Your Services</h3>
+              <a href="/business-dashboard/services" class="bg-cyan-glow text-dark-bg px-4 py-2 rounded-lg hover:bg-cyan-glow/90 transition-colors text-sm font-medium">
+                Manage Services
+              </a>
+            </div>
+            
+            <div class="space-y-4" x-data="{ services: [
+              { name: 'Identity Installation Session', price: 150, duration: '90 min', bookings: 8 },
+              { name: 'Habit Diagnostic Consultation', price: 75, duration: '45 min', bookings: 15 },
+              { name: 'Deep Settings Reconfiguration', price: 200, duration: '120 min', bookings: 4 }
+            ]}">
+              <template x-for="service in services" :key="service.name">
+                <div class="flex items-center justify-between p-4 bg-gray-700 rounded-lg">
+                  <div>
+                    <h4 class="font-medium text-white" x-text="service.name"></h4>
+                    <p class="text-gray-400 text-sm">
+                      <span x-text="service.duration"></span> • 
+                      <span x-text="service.bookings"></span> bookings this month
+                    </p>
+                  </div>
+                  <div class="text-right">
+                    <p class="text-lg font-bold text-cyan-glow">$<span x-text="service.price"></span></p>
+                    <p class="text-gray-400 text-xs">base price</p>
+                  </div>
+                </div>
+              </template>
+            </div>
+          </div>
+
+          <!-- Today's Schedule -->
+          <div class="bg-gray-800 p-6 rounded-xl border border-gray-700">
+            <div class="flex items-center justify-between mb-6">
+              <h3 class="text-xl font-bold">Today's Schedule</h3>
+              <a href="/business-dashboard/bookings" class="text-cyan-glow hover:text-white text-sm">View All</a>
+            </div>
+            
+            <div class="space-y-4" x-data="{ appointments: [
+              { time: '10:00 AM', client: 'Sarah M.', service: 'Habit Diagnostic', price: 60, status: 'confirmed' },
+              { time: '2:00 PM', client: 'Mike R.', service: 'Identity Installation', price: 120, status: 'confirmed' },
+              { time: '4:30 PM', client: 'Available', service: '', price: 0, status: 'open' }
+            ]}">
+              <template x-for="apt in appointments" :key="apt.time">
+                <div class="flex items-center justify-between p-4 bg-gray-700 rounded-lg">
+                  <div class="flex items-center space-x-3">
+                    <div :class="apt.status === 'open' ? 'bg-gray-600' : 'bg-green-400'" class="w-2 h-2 rounded-full"></div>
+                    <div>
+                      <p class="font-medium text-white" x-text="apt.time"></p>
+                      <p class="text-gray-400 text-sm" x-text="apt.client || 'Open slot'"></p>
+                    </div>
+                  </div>
+                  <div class="text-right" x-show="apt.status !== 'open'">
+                    <p class="text-cyan-glow font-medium" x-text="apt.service"></p>
+                    <p class="text-gray-400 text-sm">$<span x-text="apt.price"></span></p>
+                  </div>
+                  <div x-show="apt.status === 'open'">
+                    <span class="text-gray-500 text-sm">Available</span>
+                  </div>
+                </div>
+              </template>
+            </div>
+          </div>
+        </div>
+
+        <!-- Quick Actions -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <a href="/business-dashboard/services" class="bg-gradient-to-br from-cyan-600 to-blue-600 p-6 rounded-xl text-white hover:from-cyan-700 hover:to-blue-700 transition-all">
+            <div class="flex items-center space-x-3 mb-3">
+              <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+              </svg>
+              <h3 class="text-xl font-bold">Add Service</h3>
+            </div>
+            <p class="text-blue-100">Create new coaching offerings</p>
+          </a>
+
+          <a href="/business-dashboard/availability" class="bg-gradient-to-br from-green-600 to-emerald-600 p-6 rounded-xl text-white hover:from-green-700 hover:to-emerald-700 transition-all">
+            <div class="flex items-center space-x-3 mb-3">
+              <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+              </svg>
+              <h3 class="text-xl font-bold">Update Schedule</h3>
+            </div>
+            <p class="text-green-100">Manage your availability</p>
+          </a>
+
+          <a href="/business-dashboard/pricing" class="bg-gradient-to-br from-purple-600 to-pink-600 p-6 rounded-xl text-white hover:from-purple-700 hover:to-pink-700 transition-all">
+            <div class="flex items-center space-x-3 mb-3">
+              <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
+              </svg>
+              <h3 class="text-xl font-bold">Smart Pricing</h3>
+            </div>
+            <p class="text-purple-100">Configure dynamic pricing rules</p>
+          </a>
+        </div>
+      </main>
+    </div>
+  </body>
+</html>

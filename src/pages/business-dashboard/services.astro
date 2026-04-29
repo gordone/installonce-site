@@ -1,0 +1,326 @@
+---
+import '../../styles/global.css';
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="description" content="Manage your coaching services - Install Once Business Dashboard" />
+    <title>Services | Install Once Business Dashboard</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+  </head>
+  <body class="min-h-screen bg-gray-900 text-white">
+    <!-- Header -->
+    <header class="bg-gray-800 border-b border-gray-700">
+      <div class="max-w-7xl mx-auto px-6 py-4">
+        <div class="flex items-center justify-between">
+          <div class="flex items-center space-x-4">
+            <h1 class="text-2xl font-bold text-cyan-glow">Install Once</h1>
+            <span class="text-gray-400">Business Dashboard</span>
+          </div>
+          <nav class="flex space-x-6">
+            <a href="/" class="text-cyan-glow hover:text-white transition-colors">Home</a>
+            <a href="/business-dashboard" class="text-gray-400 hover:text-white transition-colors">Dashboard</a>
+            <a href="/business-dashboard/services" class="text-white font-medium">Services</a>
+          </nav>
+        </div>
+      </div>
+    </header>
+
+    <div class="flex">
+      <!-- Sidebar (same as main dashboard) -->
+      <aside class="w-64 bg-gray-800 min-h-screen p-6">
+        <nav class="space-y-4">
+          <a href="/business-dashboard" class="flex items-center space-x-3 text-gray-400 hover:text-white px-3 py-2 rounded-lg">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+            </svg>
+            <span>Overview</span>
+          </a>
+          <a href="/business-dashboard/services" class="flex items-center space-x-3 text-white bg-gray-700 px-3 py-2 rounded-lg">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+            </svg>
+            <span>Services</span>
+          </a>
+          <a href="/business-dashboard/availability" class="flex items-center space-x-3 text-gray-400 hover:text-white px-3 py-2 rounded-lg">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+            </svg>
+            <span>Availability</span>
+          </a>
+          <a href="/business-dashboard/pricing" class="flex items-center space-x-3 text-gray-400 hover:text-white px-3 py-2 rounded-lg">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1" />
+            </svg>
+            <span>Pricing Rules</span>
+          </a>
+          <a href="/business-dashboard/bookings" class="flex items-center space-x-3 text-gray-400 hover:text-white px-3 py-2 rounded-lg">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v6a2 2 0 002 2h2m5 0h2a2 2 0 002-2V7a2 2 0 00-2-2h-2m-5 4h4" />
+            </svg>
+            <span>Bookings</span>
+          </a>
+        </nav>
+      </aside>
+
+      <!-- Main Content -->
+      <main class="flex-1 p-8">
+        <div x-data="{
+          showCreateForm: false,
+          services: [
+            {
+              id: 1,
+              name: 'Identity Installation Session',
+              description: 'One-on-one session to install a new identity and end behavior negotiations. Transform how you see yourself at the deepest level.',
+              duration: 90,
+              basePrice: 150,
+              category: 'transformation',
+              isActive: true,
+              bookings: 8
+            },
+            {
+              id: 2,
+              name: 'Habit Diagnostic Consultation',
+              description: 'Analyze your current habit loops and design your personalized installation strategy. Discover what has been running your life on autopilot.',
+              duration: 45,
+              basePrice: 75,
+              category: 'diagnostic',
+              isActive: true,
+              bookings: 15
+            },
+            {
+              id: 3,
+              name: 'Deep Settings Reconfiguration',
+              description: 'Intensive 2-hour session to rewire the deep settings that control your automatic behaviors. For serious transformation seekers.',
+              duration: 120,
+              basePrice: 200,
+              category: 'intensive',
+              isActive: true,
+              bookings: 4
+            }
+          ],
+          newService: {
+            name: '',
+            description: '',
+            duration: 60,
+            basePrice: 100,
+            category: 'coaching'
+          },
+          createService() {
+            if (this.newService.name && this.newService.description) {
+              this.services.push({
+                id: this.services.length + 1,
+                ...this.newService,
+                isActive: true,
+                bookings: 0
+              });
+              this.newService = { name: '', description: '', duration: 60, basePrice: 100, category: 'coaching' };
+              this.showCreateForm = false;
+            }
+          },
+          toggleService(serviceId) {
+            const service = this.services.find(s => s.id === serviceId);
+            if (service) service.isActive = !service.isActive;
+          }
+        }">
+
+          <!-- Header -->
+          <div class="mb-8">
+            <div class="flex items-center justify-between">
+              <div>
+                <h2 class="text-3xl font-bold mb-2">Manage Services</h2>
+                <p class="text-gray-400">Create and manage your life transformation coaching offerings</p>
+              </div>
+              <button 
+                @click="showCreateForm = true"
+                class="bg-cyan-glow text-dark-bg px-6 py-3 rounded-lg hover:bg-cyan-glow/90 transition-colors font-medium flex items-center space-x-2">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                </svg>
+                <span>Create New Service</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Services Grid -->
+          <div class="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6 mb-8">
+            <template x-for="service in services" :key="service.id">
+              <div class="bg-gray-800 rounded-xl border border-gray-700 p-6 hover:border-cyan-glow/50 transition-colors">
+                <!-- Service Header -->
+                <div class="flex items-start justify-between mb-4">
+                  <div class="flex-1">
+                    <h3 class="text-xl font-bold text-white mb-2" x-text="service.name"></h3>
+                    <span class="inline-block px-3 py-1 bg-cyan-glow/20 text-cyan-glow rounded-full text-sm capitalize" x-text="service.category"></span>
+                  </div>
+                  <div class="flex items-center space-x-2">
+                    <button 
+                      @click="toggleService(service.id)"
+                      :class="service.isActive ? 'bg-green-500' : 'bg-gray-600'"
+                      class="w-12 h-6 rounded-full relative transition-colors">
+                      <div 
+                        :class="service.isActive ? 'translate-x-6' : 'translate-x-1'"
+                        class="w-4 h-4 bg-white rounded-full transition-transform absolute top-1"></div>
+                    </button>
+                  </div>
+                </div>
+
+                <!-- Service Details -->
+                <p class="text-gray-300 text-sm mb-4 leading-relaxed" x-text="service.description"></p>
+
+                <!-- Service Metrics -->
+                <div class="grid grid-cols-3 gap-4 mb-4">
+                  <div class="text-center">
+                    <p class="text-2xl font-bold text-cyan-glow" x-text="service.duration"></p>
+                    <p class="text-gray-400 text-xs">minutes</p>
+                  </div>
+                  <div class="text-center">
+                    <p class="text-2xl font-bold text-green-400">$<span x-text="service.basePrice"></span></p>
+                    <p class="text-gray-400 text-xs">base price</p>
+                  </div>
+                  <div class="text-center">
+                    <p class="text-2xl font-bold text-purple-400" x-text="service.bookings"></p>
+                    <p class="text-gray-400 text-xs">bookings</p>
+                  </div>
+                </div>
+
+                <!-- Actions -->
+                <div class="flex space-x-2">
+                  <button class="flex-1 bg-gray-700 text-white py-2 px-3 rounded-lg hover:bg-gray-600 transition-colors text-sm">
+                    Edit
+                  </button>
+                  <button class="bg-cyan-glow/20 text-cyan-glow py-2 px-3 rounded-lg hover:bg-cyan-glow/30 transition-colors text-sm">
+                    View Stats
+                  </button>
+                </div>
+              </div>
+            </template>
+          </div>
+
+          <!-- Create Service Modal -->
+          <div x-show="showCreateForm" 
+               x-transition:enter="transition ease-out duration-200"
+               x-transition:enter-start="opacity-0"
+               x-transition:enter-end="opacity-100"
+               class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+            <div x-transition:enter="transition ease-out duration-200"
+                 x-transition:enter-start="opacity-0 scale-95"
+                 x-transition:enter-end="opacity-100 scale-100"
+                 class="bg-gray-800 rounded-xl border border-gray-700 p-8 max-w-2xl w-full mx-4 max-h-[90vh] overflow-y-auto">
+              
+              <div class="flex items-center justify-between mb-6">
+                <h3 class="text-2xl font-bold">Create New Service</h3>
+                <button @click="showCreateForm = false" class="text-gray-400 hover:text-white">
+                  <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                </button>
+              </div>
+
+              <form @submit.prevent="createService()" class="space-y-6">
+                <div>
+                  <label class="block text-sm font-medium text-gray-300 mb-2">Service Name</label>
+                  <input 
+                    x-model="newService.name"
+                    type="text" 
+                    required
+                    placeholder="e.g., Mindset Reset Session"
+                    class="w-full bg-gray-700 border border-gray-600 rounded-lg px-4 py-3 text-white placeholder-gray-400 focus:outline-none focus:border-cyan-glow">
+                </div>
+
+                <div>
+                  <label class="block text-sm font-medium text-gray-300 mb-2">Description</label>
+                  <textarea 
+                    x-model="newService.description"
+                    required
+                    rows="4"
+                    placeholder="Describe what clients will experience and the transformation they can expect..."
+                    class="w-full bg-gray-700 border border-gray-600 rounded-lg px-4 py-3 text-white placeholder-gray-400 focus:outline-none focus:border-cyan-glow resize-none"></textarea>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                  <div>
+                    <label class="block text-sm font-medium text-gray-300 mb-2">Duration (minutes)</label>
+                    <input 
+                      x-model="newService.duration"
+                      type="number" 
+                      min="15"
+                      max="480"
+                      required
+                      class="w-full bg-gray-700 border border-gray-600 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-cyan-glow">
+                  </div>
+
+                  <div>
+                    <label class="block text-sm font-medium text-gray-300 mb-2">Base Price ($)</label>
+                    <input 
+                      x-model="newService.basePrice"
+                      type="number" 
+                      min="25"
+                      max="1000"
+                      required
+                      class="w-full bg-gray-700 border border-gray-600 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-cyan-glow">
+                  </div>
+
+                  <div>
+                    <label class="block text-sm font-medium text-gray-300 mb-2">Category</label>
+                    <select 
+                      x-model="newService.category"
+                      class="w-full bg-gray-700 border border-gray-600 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-cyan-glow">
+                      <option value="coaching">Coaching</option>
+                      <option value="transformation">Transformation</option>
+                      <option value="diagnostic">Diagnostic</option>
+                      <option value="intensive">Intensive</option>
+                      <option value="workshop">Workshop</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div class="flex space-x-4 pt-4">
+                  <button 
+                    type="submit"
+                    class="flex-1 bg-cyan-glow text-dark-bg py-3 px-6 rounded-lg hover:bg-cyan-glow/90 transition-colors font-medium">
+                    Create Service
+                  </button>
+                  <button 
+                    type="button"
+                    @click="showCreateForm = false"
+                    class="flex-1 bg-gray-700 text-white py-3 px-6 rounded-lg hover:bg-gray-600 transition-colors font-medium">
+                    Cancel
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+
+          <!-- Service Integration Info -->
+          <div class="bg-gradient-to-br from-blue-900/50 to-purple-900/50 rounded-xl p-6 border border-blue-500/30">
+            <div class="flex items-start space-x-4">
+              <div class="bg-blue-500/20 p-3 rounded-lg">
+                <svg class="w-8 h-8 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                </svg>
+              </div>
+              <div>
+                <h4 class="text-xl font-bold text-white mb-2">ZenBid Integration Ready</h4>
+                <p class="text-gray-300 mb-4">
+                  Your services are automatically available on ZenBid marketplace. AI agents can discover and book your services with dynamic pricing.
+                </p>
+                <div class="flex flex-wrap gap-3">
+                  <span class="px-3 py-1 bg-green-500/20 text-green-400 rounded-full text-sm">✓ API Ready</span>
+                  <span class="px-3 py-1 bg-green-500/20 text-green-400 rounded-full text-sm">✓ Smart Pricing</span>
+                  <span class="px-3 py-1 bg-green-500/20 text-green-400 rounded-full text-sm">✓ Agent Discoverable</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </main>
+    </div>
+  </body>
+</html>
