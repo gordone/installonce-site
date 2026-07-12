@@ -82,7 +82,7 @@ export const GET: APIRoute = async ({ url }) => {
     // Generate availability for each day
     for (let d = new Date(startDate); d <= endDate; d.setDate(d.getDate() + 1)) {
       const currentDate = new Date(d);
-      const dayName = currentDate.toLocaleDateString('en-US', { weekday: 'lowercase' }) as keyof typeof businessHours;
+      const dayName = currentDate.toLocaleDateString('en-US', { weekday: 'long' }).toLowerCase() as keyof typeof businessHours;
       const dayHours = businessHours[dayName];
 
       if (!dayHours) {
