@@ -1,0 +1,385 @@
+---
+const appTitle = 'HALO App - Interactive Prototype';
+---
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{appTitle}</title>
+<meta name="description" content="Start HALO with one identity decision, a sixty-second aligned action, and a thirty-day evidence sheet.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&family=Caveat:wght@500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --evergreen:#0B3D30; --evergreen-deep:#082E24; --teal:#0F6E56; --teal-bright:#2E9C7C;
+  --paper:#FCFBF7; --paper-shade:#F3F0E8; --card-rule:#C6D9E7; --headrule:#E2707A;
+  --ink:#20302B; --ink-soft:#54655F; --pen:#17355F; --slip:#C8845A; --slip-bg:#FBF0E8;
+  --display:'Fraunces',Georgia,serif; --body:'Source Serif 4',Georgia,serif;
+  --hand:'Caveat',cursive; --mono:ui-monospace,'SF Mono',Menlo,monospace;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#1a2622;font-family:var(--body);display:flex;align-items:center;justify-content:center;min-height:100vh;padding:1.5rem}
+button,input,textarea{font:inherit}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
+
+.phone{width:390px;max-width:100%;height:820px;max-height:94vh;background:var(--paper);border-radius:34px;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 40px 90px rgba(0,0,0,.6),0 0 0 10px #0d1512;position:relative}
+@media(max-width:430px){body{padding:0}.phone{height:100vh;max-height:none;border-radius:0;box-shadow:none}}
+
+.status{background:var(--evergreen);color:var(--paper);padding:.85rem 1.3rem .7rem;display:flex;justify-content:space-between;align-items:center;font-family:var(--mono);font-size:.68rem;letter-spacing:.06em}
+.status .brand{font-family:var(--display);font-weight:600;letter-spacing:.18em;font-size:.85rem;position:relative}
+.status .brand i{position:absolute;top:-.4em;left:.62em;width:.62em;height:.26em;border:1.5px solid var(--teal-bright);border-radius:50%;font-style:normal}
+
+.screens{flex:1;overflow-y:auto;background:var(--paper)}
+.screen{display:none;padding:1.3rem 1.3rem 2rem;animation:fadein .3s ease}
+.screen.active{display:block}
+@keyframes fadein{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+
+.day-label{font-family:var(--mono);font-size:.62rem;letter-spacing:.2em;text-transform:uppercase;color:var(--teal)}
+h1.today{font-family:var(--display);font-weight:600;font-size:1.6rem;color:var(--ink);margin-top:.25rem}
+.signal-chip{display:inline-flex;align-items:center;gap:.45rem;margin-top:.7rem;font-family:var(--mono);font-size:.62rem;letter-spacing:.14em;text-transform:uppercase;color:var(--teal);background:#E1F5EE;border-radius:20px;padding:.35rem .8rem}
+.signal-chip::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--teal-bright)}
+
+.icard{position:relative;background:#fff;border:1px solid #E5E1D6;border-radius:10px;box-shadow:0 6px 18px rgba(32,48,43,.1);padding:1.1rem 1.2rem;overflow:hidden;margin-top:1.2rem}
+.icard::before{content:"";position:absolute;left:0;right:0;top:2.1rem;height:2px;background:var(--headrule);opacity:.55}
+.icard .lbl{position:relative;z-index:2;font-family:var(--mono);font-size:.58rem;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-soft)}
+.icard .iam{position:relative;z-index:2;margin-top:1.7rem;font-size:1.05rem;color:var(--ink)}
+.icard .iam .w{font-family:var(--hand);font-size:1.65rem;font-weight:600;color:var(--pen)}
+.icard .q{position:relative;z-index:2;margin-top:1.5rem;font-family:var(--hand);font-size:1.5rem;font-weight:600;color:var(--pen);line-height:1.3}
+
+.btn{display:block;width:100%;font-family:var(--mono);font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;font-weight:600;border:none;border-radius:8px;padding:1rem;cursor:pointer;text-align:center;transition:transform .1s,background .15s;margin-top:1rem}
+.btn:active{transform:translateY(1px)}
+.btn-primary{background:var(--evergreen);color:var(--paper)}
+.btn-primary:hover{background:var(--teal)}
+.btn-slip{background:var(--slip-bg);color:#A86040}
+
+.timer-wrap{text-align:center;padding:1rem 0 .4rem}
+.timer-ring{width:150px;height:150px;margin:0 auto;position:relative}
+.timer-ring svg{transform:rotate(-90deg)}
+.timer-ring .num{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-family:var(--display);font-weight:600;font-size:2.6rem;color:var(--evergreen)}
+.timer-note{font-family:var(--mono);font-size:.62rem;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-soft);margin-top:.8rem}
+
+.proof{margin-top:1.2rem}
+.proof label{font-family:var(--mono);font-size:.62rem;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-soft);display:block;margin-bottom:.5rem}
+.proof textarea{width:100%;font-family:var(--hand);font-size:1.35rem;font-weight:500;color:var(--pen);background:#fff;border:1.5px solid #E5E1D6;border-radius:8px;padding:.8rem .9rem;resize:none;line-height:1.45}
+.proof textarea:focus{outline:2px solid var(--teal);border-color:var(--teal)}
+
+.ev-head{display:flex;justify-content:space-between;align-items:baseline;margin-top:1.4rem}
+.ev-head h2{font-family:var(--display);font-weight:600;font-size:1.15rem}
+.ev-count{font-family:var(--mono);font-size:.62rem;letter-spacing:.12em;color:var(--teal)}
+.ev-bar{height:6px;background:var(--paper-shade);border-radius:3px;margin-top:.7rem;overflow:hidden}
+.ev-bar i{display:block;height:100%;background:var(--teal);border-radius:3px;transition:width .4s}
+.ev-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:7px;margin-top:1rem}
+.ev-cell{aspect-ratio:1;border-radius:8px;border:1px solid #E5E1D6;display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;background:#fff;transition:transform .1s}
+.ev-cell:active{transform:scale(.94)}
+.ev-cell .d{font-family:var(--mono);font-size:.55rem;color:var(--ink-soft)}
+.ev-cell .m{font-size:.95rem;line-height:1;margin-top:2px}
+.ev-cell.done{background:var(--teal);border-color:var(--teal)}
+.ev-cell.done .d{color:#9FE1CB}.ev-cell.done .m{color:#fff}
+.ev-cell.slip{background:var(--slip-bg);border-color:var(--slip)}
+.ev-cell.slip .m{color:#A86040}
+.ev-verdict{margin-top:1rem;font-size:.92rem;color:var(--ink-soft);min-height:1.4em}
+.law{margin-top:1.2rem;background:var(--paper-shade);border-radius:10px;padding:.9rem 1.1rem;font-size:.85rem;color:var(--ink-soft)}
+.law b{color:var(--teal)}
+.treaty{margin-top:1rem;background:#fff;border:1.5px dashed #D8D3C6;border-radius:10px;padding:.9rem 1.1rem}
+.treaty .t1{font-family:var(--mono);font-size:.6rem;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-soft)}
+.treaty .t2{font-family:var(--hand);font-size:1.45rem;font-weight:600;color:var(--pen);margin-top:.3rem}
+
+.board-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:1.2rem}
+.bcell{border-radius:12px;aspect-ratio:4/3;padding:.8rem .9rem;display:flex;flex-direction:column;justify-content:space-between;cursor:pointer;border:1px solid rgba(0,0,0,.05)}
+.bcell .dom{font-family:var(--mono);font-size:.58rem;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-soft)}
+.bcell .add{font-family:var(--mono);font-size:.62rem;color:var(--ink-soft);opacity:.7}
+.bcell .cap{font-family:var(--hand);font-size:1.15rem;font-weight:600;color:var(--pen);line-height:1.25}
+.bword{grid-column:span 2;aspect-ratio:auto;padding:1.1rem;background:#fff;border:1.5px dashed #D8D3C6;text-align:center}
+.bword input{border:none;background:transparent;width:100%;text-align:center;font-family:var(--hand);font-size:1.7rem;font-weight:600;color:var(--pen);outline:none}
+.bword input::placeholder{color:#B8B2A4}
+
+.screen h2.sec{font-family:var(--display);font-weight:600;font-size:1.35rem;margin-top:.2rem;color:var(--ink)}
+.sub{color:var(--ink-soft);font-size:.9rem;margin-top:.4rem}
+
+.tabbar{display:flex;background:var(--evergreen-deep);border-top:1px solid rgba(252,251,247,.08)}
+.tab{flex:1;background:none;border:none;color:rgba(252,251,247,.5);font-family:var(--mono);font-size:.58rem;letter-spacing:.1em;text-transform:uppercase;padding:.85rem 0 1.05rem;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:.3rem}
+.tab svg{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:1.6}
+.tab.active{color:var(--paper)}
+.tab.active svg{stroke:var(--teal-bright)}
+
+.onboard{position:absolute;inset:0;background:var(--evergreen);color:var(--paper);z-index:20;display:flex;flex-direction:column;justify-content:center;padding:2rem 1.6rem;overflow-y:auto}
+.onboard.hidden{display:none}
+.ob-step{display:none}.ob-step.active{display:block;animation:fadein .35s ease}
+.ob-kicker{font-family:var(--mono);font-size:.62rem;letter-spacing:.22em;text-transform:uppercase;color:var(--teal-bright)}
+.onboard h1{font-family:var(--display);font-weight:600;font-size:1.9rem;line-height:1.2;margin-top:.7rem}
+.onboard p{color:rgba(252,251,247,.75);margin-top:.9rem;font-size:.98rem;line-height:1.6}
+.ob-card{background:var(--paper);border-radius:10px;padding:1.1rem 1.2rem;margin-top:1.5rem;position:relative;overflow:hidden}
+.ob-card::before{content:"";position:absolute;left:0;right:0;top:2.1rem;height:2px;background:var(--headrule);opacity:.55}
+.ob-card .lbl{font-family:var(--mono);font-size:.58rem;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-soft)}
+.ob-card .row{margin-top:1.6rem;font-size:1.1rem;color:var(--ink);display:flex;align-items:baseline;gap:.4rem}
+.ob-card input{flex:1;border:none;border-bottom:2px solid var(--teal);background:transparent;font-family:var(--hand);font-size:1.6rem;font-weight:600;color:var(--pen);outline:none;min-width:0}
+.chips{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:1.1rem}
+.chip{font-family:var(--mono);font-size:.62rem;letter-spacing:.08em;background:rgba(252,251,247,.1);border:1px solid rgba(252,251,247,.25);color:var(--paper);border-radius:16px;padding:.4rem .8rem;cursor:pointer}
+.chip:hover{background:rgba(252,251,247,.2)}
+.ob-btn{margin-top:1.6rem;background:var(--paper);color:var(--evergreen)}
+.ob-timer .timer-ring .num{color:var(--paper)}
+.installed{font-family:var(--hand);font-size:2.1rem;font-weight:600;color:var(--teal-bright)}
+</style>
+</head>
+<body>
+<div class="phone">
+  <div class="onboard" id="onboard">
+    <div class="ob-step active" id="ob1">
+      <p class="ob-kicker">HALO &middot; Installation</p>
+      <h1>Who have you decided to be?</h1>
+      <p>Not a goal. Not a wish. A sentence in the present tense. Choose one identity - the base everything else builds on.</p>
+      <div class="ob-card">
+        <span class="lbl">The Card - Side One</span>
+        <div class="row"><span>I am</span><input id="obIdentity" placeholder="a healthy person." maxlength="44" autocomplete="off"></div>
+      </div>
+      <div class="chips" aria-label="Suggestions">
+        <button class="chip" data-id="a healthy person.">a healthy person.</button>
+        <button class="chip" data-id="a wealth builder.">a wealth builder.</button>
+        <button class="chip" data-id="a present parent.">a present parent.</button>
+        <button class="chip" data-id="a writer.">a writer.</button>
+        <button class="chip" data-id="a business owner.">a business owner.</button>
+      </div>
+      <button class="btn btn-primary ob-btn" onclick="obNext()">Write the card</button>
+    </div>
+
+    <div class="ob-step" id="ob2">
+      <p class="ob-kicker">Rule 02 &middot; Prove it through action</p>
+      <h1>Sixty seconds.</h1>
+      <p>Take one aligned action before the timer ends. Small counts. Send the message. Move the money. Take the walk. The brain updates on evidence - give it the first piece now.</p>
+      <div class="timer-wrap ob-timer">
+        <div class="timer-ring">
+          <svg width="150" height="150" viewBox="0 0 150 150" aria-hidden="true">
+            <circle cx="75" cy="75" r="66" stroke="rgba(252,251,247,.15)" stroke-width="8" fill="none"/>
+            <circle id="obRing" cx="75" cy="75" r="66" stroke="#2E9C7C" stroke-width="8" fill="none" stroke-linecap="round" stroke-dasharray="414.7" stroke-dashoffset="0"/>
+          </svg>
+          <div class="num" id="obNum">60</div>
+        </div>
+        <p class="timer-note" style="color:rgba(252,251,247,.6)">Acting now, not preparing</p>
+      </div>
+      <button class="btn btn-primary ob-btn" onclick="obDone()">I took the action</button>
+    </div>
+
+    <div class="ob-step" id="ob3">
+      <p class="ob-kicker">Installed</p>
+      <h1 class="installed" id="obConfirm">It already happened.</h1>
+      <p id="obSummary"></p>
+      <p>From here the app runs the method: one question each morning, one aligned act, one line of proof. Slips are noise. The Evidence Sheet counts the votes.</p>
+      <button class="btn btn-primary ob-btn" onclick="enterApp()">Begin Day 1</button>
+    </div>
+  </div>
+
+  <div class="status">
+    <span class="brand">H<span style="position:relative">A<i></i></span>LO</span>
+    <span id="statusDay">DAY 1 &middot; THE 7-DAY TEST</span>
+  </div>
+
+  <div class="screens">
+    <section class="screen active" id="scr-today">
+      <p class="day-label" id="todayDate">Today</p>
+      <h1 class="today">The question is already answered.</h1>
+      <span class="signal-chip" id="signalChip">Signal building &middot; Day 1 of 7</span>
+
+      <div class="icard" id="todayCard">
+        <span class="lbl">Your card</span>
+        <p class="iam">I am <span class="w" id="cardIdentity">a healthy person.</span></p>
+      </div>
+
+      <div class="icard">
+        <span class="lbl">Side two - ask it now</span>
+        <p class="q">What would the person I&apos;ve decided to be do right now?</p>
+      </div>
+
+      <button class="btn btn-primary" id="btnSixty" onclick="startSixty()">Start 60 seconds - one aligned act</button>
+      <div class="timer-wrap" id="sixtyWrap" style="display:none">
+        <div class="timer-ring">
+          <svg width="150" height="150" viewBox="0 0 150 150" aria-hidden="true">
+            <circle cx="75" cy="75" r="66" stroke="#E9E5DA" stroke-width="8" fill="none"/>
+            <circle id="dayRing" cx="75" cy="75" r="66" stroke="#0F6E56" stroke-width="8" fill="none" stroke-linecap="round" stroke-dasharray="414.7" stroke-dashoffset="0"/>
+          </svg>
+          <div class="num" id="dayNum">60</div>
+        </div>
+        <p class="timer-note">Act, then log the proof below</p>
+      </div>
+
+      <div class="proof">
+        <label for="proofInput">Record one proof - one line</label>
+        <textarea id="proofInput" rows="2" placeholder="Walked before checking my phone."></textarea>
+      </div>
+      <button class="btn btn-primary" onclick="logDay(1)">Mark today: lived from the card</button>
+      <button class="btn btn-slip" onclick="logDay(2)">I slipped - reset, no story</button>
+    </section>
+
+    <section class="screen" id="scr-evidence">
+      <p class="day-label">Evidence Sheet</p>
+      <h2 class="sec">Thirty days of signal</h2>
+      <p class="sub">Tap a day to mark it. A slip stays on the record - it&apos;s a reset, not a verdict.</p>
+      <div class="ev-head"><h2 style="font-size:.95rem;font-family:var(--mono);font-weight:400;letter-spacing:.12em;color:var(--ink-soft)">SIGNAL</h2><span class="ev-count" id="evCount">0 / 30</span></div>
+      <div class="ev-bar"><i id="evBar" style="width:0%"></i></div>
+      <div class="ev-grid" id="evGrid"></div>
+      <p class="ev-verdict" id="evVerdict"></p>
+      <div class="law"><b>Signal Law.</b> Single events are noise. Repeated behavior is signal. Thirty days of signal builds a durable foundation.</div>
+      <div class="treaty">
+        <p class="t1">Review-date treaty</p>
+        <p class="t2" id="treatyLine">No verdicts before Day 90.</p>
+      </div>
+    </section>
+
+    <section class="screen" id="scr-board">
+      <p class="day-label">HALO Board</p>
+      <h2 class="sec">The Decided Life, visible</h2>
+      <p class="sub">A vision board grounded in a decision, not a wish. Tap a zone to caption it; add photos in the full app.</p>
+      <div class="board-grid" id="boardGrid"></div>
+    </section>
+
+    <section class="screen" id="scr-method">
+      <p class="day-label">The Method</p>
+      <h2 class="sec">Four rules</h2>
+      <div class="icard"><span class="lbl">Rule 01</span><p class="q">Choose now.</p><p class="sub" style="position:relative;z-index:2">Name the identity in the present tense.</p></div>
+      <div class="icard"><span class="lbl">Rule 02</span><p class="q">Prove it through action.</p><p class="sub" style="position:relative;z-index:2">One aligned step within sixty seconds.</p></div>
+      <div class="icard"><span class="lbl">Rule 03</span><p class="q">Stop negotiating.</p><p class="sub" style="position:relative;z-index:2">The decision is closed. No morning retrial.</p></div>
+      <div class="icard"><span class="lbl">Rule 04</span><p class="q">Treat slips as noise. Reset quickly.</p><p class="sub" style="position:relative;z-index:2">Return at the next scheduled opportunity.</p></div>
+    </section>
+  </div>
+
+  <div class="tabbar">
+    <button class="tab active" data-scr="today" onclick="go('today',this)">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="5" width="16" height="15" rx="2"/><line x1="4" y1="10" x2="20" y2="10"/><line x1="9" y1="3" x2="9" y2="7"/><line x1="15" y1="3" x2="15" y2="7"/></svg>
+      Today</button>
+    <button class="tab" data-scr="evidence" onclick="go('evidence',this)">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="4" width="7" height="7" rx="1"/><rect x="13" y="4" width="7" height="7" rx="1"/><rect x="4" y="13" width="7" height="7" rx="1"/><rect x="13" y="13" width="7" height="7" rx="1"/></svg>
+      Evidence</button>
+    <button class="tab" data-scr="board" onclick="go('board',this)">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="14" rx="2"/><circle cx="9" cy="10" r="2"/><path d="M3 16l5-4 4 3 4-5 5 6"/></svg>
+      Board</button>
+    <button class="tab" data-scr="method" onclick="go('method',this)">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="4" width="14" height="17" rx="2"/><line x1="8" y1="9" x2="16" y2="9"/><line x1="8" y1="13" x2="16" y2="13"/><line x1="8" y1="17" x2="13" y2="17"/></svg>
+      Method</button>
+  </div>
+</div>
+
+<script is:inline>
+var state = { identity:"a healthy person.", day:1, days:Array(30).fill(0), proofs:{} };
+
+document.querySelectorAll('.chip').forEach(function(c){
+  c.addEventListener('click', function(){ document.getElementById('obIdentity').value = c.dataset.id; });
+});
+function obNext(){
+  var v = document.getElementById('obIdentity').value.trim();
+  if (v) state.identity = v;
+  document.getElementById('ob1').classList.remove('active');
+  document.getElementById('ob2').classList.add('active');
+  runRing('obRing','obNum',60);
+}
+function obDone(){
+  document.getElementById('ob2').classList.remove('active');
+  document.getElementById('ob3').classList.add('active');
+  document.getElementById('obSummary').textContent = 'I am ' + state.identity + ' - declared, and backed by one act inside the first minute.';
+}
+function enterApp(){
+  document.getElementById('onboard').classList.add('hidden');
+  document.getElementById('cardIdentity').textContent = state.identity;
+  var d = new Date();
+  document.getElementById('todayDate').textContent = d.toLocaleDateString('en-US',{weekday:'long', month:'long', day:'numeric'});
+}
+
+var ringTimers = {};
+function runRing(ringId, numId, secs){
+  var ring = document.getElementById(ringId), num = document.getElementById(numId);
+  var total = 414.7, t = secs;
+  clearInterval(ringTimers[ringId]);
+  num.textContent = t;
+  ring.style.strokeDashoffset = 0;
+  ringTimers[ringId] = setInterval(function(){
+    t--;
+    if (t < 0) { clearInterval(ringTimers[ringId]); num.textContent = 'done'; return; }
+    num.textContent = t;
+    ring.style.strokeDashoffset = total * (1 - t/secs);
+  }, 1000);
+}
+function startSixty(){
+  document.getElementById('sixtyWrap').style.display = 'block';
+  document.getElementById('btnSixty').style.display = 'none';
+  runRing('dayRing','dayNum',60);
+}
+
+function logDay(kind){
+  var idx = state.day - 1;
+  if (idx >= 0 && idx < 30) state.days[idx] = kind;
+  var proof = document.getElementById('proofInput').value.trim();
+  if (proof) state.proofs[state.day] = proof;
+  state.day = Math.min(state.day + 1, 30);
+  document.getElementById('proofInput').value = '';
+  updateStatus(); renderEvidence();
+  go('evidence', document.querySelector('[data-scr="evidence"]'));
+}
+function updateStatus(){
+  var d = state.day;
+  var phase = d <= 7 ? 'THE 7-DAY TEST' : d <= 30 ? 'THE QUIET STRETCH' : 'THE 90-DAY BUILD';
+  document.getElementById('statusDay').textContent = 'DAY ' + d + ' · ' + phase;
+  var done = state.days.filter(function(x){return x===1}).length;
+  var chip = document.getElementById('signalChip');
+  chip.textContent = d <= 7 ? ('Signal building · Day ' + d + ' of 7')
+    : (done + ' aligned days · the installer is running');
+}
+
+function renderEvidence(){
+  var g = document.getElementById('evGrid'); g.innerHTML = '';
+  state.days.forEach(function(v,i){
+    var c = document.createElement('div');
+    c.className = 'ev-cell' + (v===1?' done':v===2?' slip':'');
+    c.innerHTML = '<span class="d">'+(i+1)+'</span><span class="m">'+(v===1?'yes':v===2?'reset':'')+'</span>';
+    c.onclick = function(){ state.days[i] = (state.days[i]+1)%3; renderEvidence(); };
+    g.appendChild(c);
+  });
+  var done = state.days.filter(function(x){return x===1}).length;
+  var slips = state.days.filter(function(x){return x===2}).length;
+  document.getElementById('evCount').textContent = done + ' / 30';
+  document.getElementById('evBar').style.width = (done/30*100)+'%';
+  var v = '';
+  if (done===0 && slips===0) v = 'Day one is small on purpose. You are recruiting proof, not impressing anyone.';
+  else if (done>0 && done<7) v = done + ' of 30 - noise until seven. Keep voting.';
+  else if (done>=7 && slips===0) v = 'Seven or more, no slips. That is signal.';
+  else if (slips>0 && done>slips) v = slips + ' slip' + (slips>1?'s':'') + ', reset each time. The signal holds.';
+  else if (slips>=done && slips>0) v = 'More slips than aligned days - that is information about fit, not a verdict on you.';
+  if (done>=30) v = 'Thirty days of signal. The default has taken root.';
+  document.getElementById('evVerdict').textContent = v;
+}
+
+var domains = [
+  {d:'Body', bg:'#E1F5EE'}, {d:'Wealth', bg:'#FBF4E8'},
+  {d:'Relationships', bg:'#FBEAF0'}, {d:'Career', bg:'#EAF0FB'},
+  {d:'Home', bg:'#EBF5EB'}, {d:'Growth', bg:'#FBF0E8'}
+];
+var caps = {};
+function renderBoard(){
+  var g = document.getElementById('boardGrid'); g.innerHTML='';
+  domains.forEach(function(o){
+    var c = document.createElement('div');
+    c.className = 'bcell'; c.style.background = o.bg;
+    c.innerHTML = '<span class="dom">'+o.d+'</span>' +
+      (caps[o.d] ? '<span class="cap">'+caps[o.d]+'</span>' : '<span class="add">[ tap to caption ]</span>');
+    c.onclick = function(){
+      var v = prompt('Caption for ' + o.d + ' - what does the Decided Life look like here?', caps[o.d]||'');
+      if (v !== null) { caps[o.d] = v.trim(); renderBoard(); }
+    };
+    g.appendChild(c);
+  });
+  var w = document.createElement('div');
+  w.className = 'bcell bword';
+  w.innerHTML = '<span class="dom">My word</span><input placeholder="one word for this life" maxlength="24">';
+  g.appendChild(w);
+}
+
+function go(name, btn){
+  document.querySelectorAll('.screen').forEach(function(s){ s.classList.remove('active'); });
+  document.getElementById('scr-'+name).classList.add('active');
+  document.querySelectorAll('.tab').forEach(function(t){ t.classList.remove('active'); });
+  if (btn) btn.classList.add('active');
+  document.querySelector('.screens').scrollTop = 0;
+}
+
+renderEvidence(); renderBoard(); updateStatus();
+</script>
+</body>
+</html>
