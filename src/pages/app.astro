@@ -1,12 +1,12 @@
 ---
-const appTitle = 'HALO App - Interactive Prototype';
+const appTitle = 'HALO App - Phase 1';
 ---
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>{appTitle}</title>
-<meta name="description" content="Start HALO with one identity decision, a sixty-second aligned action, and a thirty-day evidence sheet.">
+<meta name="description" content="Run the HALO Phase 1 loop: identity setup, first proof, Evidence Sheet, The Base, and Phase 2 diagnostic previews.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&family=Caveat:wght@500;600&display=swap" rel="stylesheet">
@@ -21,6 +21,7 @@ const appTitle = 'HALO App - Interactive Prototype';
 *{margin:0;padding:0;box-sizing:border-box}
 body{background:#1a2622;font-family:var(--body);display:flex;align-items:center;justify-content:center;min-height:100vh;padding:1.5rem}
 button,input,textarea{font:inherit}
+button{cursor:pointer}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
 
 .phone{width:390px;max-width:100%;height:820px;max-height:94vh;background:var(--paper);border-radius:34px;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 40px 90px rgba(0,0,0,.6),0 0 0 10px #0d1512;position:relative}
@@ -63,6 +64,16 @@ h1.today{font-family:var(--display);font-weight:600;font-size:1.6rem;color:var(-
 .proof label{font-family:var(--mono);font-size:.62rem;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-soft);display:block;margin-bottom:.5rem}
 .proof textarea{width:100%;font-family:var(--hand);font-size:1.35rem;font-weight:500;color:var(--pen);background:#fff;border:1.5px solid #E5E1D6;border-radius:8px;padding:.8rem .9rem;resize:none;line-height:1.45}
 .proof textarea:focus{outline:2px solid var(--teal);border-color:var(--teal)}
+.field-grid{display:grid;gap:.75rem;margin-top:1.1rem}
+.field-grid label{font-family:var(--mono);font-size:.58rem;letter-spacing:.16em;text-transform:uppercase;color:rgba(252,251,247,.68);display:block;margin-bottom:.35rem}
+.field-grid input{width:100%;border:1px solid rgba(252,251,247,.22);border-radius:8px;background:rgba(252,251,247,.09);color:var(--paper);padding:.72rem .8rem;outline:none}
+.field-grid input::placeholder{color:rgba(252,251,247,.42)}
+.field-grid input:focus{border-color:var(--teal-bright);box-shadow:0 0 0 2px rgba(46,156,124,.18)}
+.mini-panel{margin-top:1rem;background:var(--paper-shade);border-radius:10px;padding:.9rem 1rem;color:var(--ink-soft);font-size:.88rem}
+.mini-panel b{color:var(--teal)}
+.segmented{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-top:.6rem}
+.segmented button{border:1px solid #D8D3C6;background:#fff;border-radius:8px;padding:.7rem .35rem;font-family:var(--mono);font-size:.58rem;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-soft)}
+.segmented button.active{border-color:var(--teal);background:#E1F5EE;color:var(--teal);font-weight:700}
 
 .ev-head{display:flex;justify-content:space-between;align-items:baseline;margin-top:1.4rem}
 .ev-head h2{font-family:var(--display);font-weight:600;font-size:1.15rem}
@@ -84,6 +95,18 @@ h1.today{font-family:var(--display);font-weight:600;font-size:1.6rem;color:var(-
 .treaty{margin-top:1rem;background:#fff;border:1.5px dashed #D8D3C6;border-radius:10px;padding:.9rem 1.1rem}
 .treaty .t1{font-family:var(--mono);font-size:.6rem;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-soft)}
 .treaty .t2{font-family:var(--hand);font-size:1.45rem;font-weight:600;color:var(--pen);margin-top:.3rem}
+.metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:1rem}
+.metric{background:#fff;border:1px solid #E5E1D6;border-radius:10px;padding:.8rem .7rem}
+.metric strong{display:block;font-family:var(--display);font-size:1.25rem;color:var(--evergreen)}
+.metric span{display:block;font-family:var(--mono);font-size:.52rem;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-soft);margin-top:.2rem}
+.timeline{display:flex;align-items:center;gap:7px;margin-top:1rem}
+.timeline span{width:16px;height:16px;border-radius:50%;background:#D8D3C6;display:inline-flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:.48rem;color:var(--ink-soft)}
+.timeline span.done{background:var(--teal);color:#fff}
+.timeline span.slip{background:var(--slip-bg);border:1px solid var(--slip);color:#A86040}
+.proof-log{display:grid;gap:.65rem;margin-top:1rem}
+.proof-log article{background:#fff;border:1px solid #E5E1D6;border-radius:10px;padding:.8rem .9rem}
+.proof-log strong{display:block;color:var(--ink);font-size:.94rem}
+.proof-log span{display:block;color:var(--ink-soft);font-size:.78rem;margin-top:.25rem}
 
 .board-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:1.2rem}
 .bcell{border-radius:12px;aspect-ratio:4/3;padding:.8rem .9rem;display:flex;flex-direction:column;justify-content:space-between;cursor:pointer;border:1px solid rgba(0,0,0,.05)}
@@ -120,6 +143,20 @@ h1.today{font-family:var(--display);font-weight:600;font-size:1.6rem;color:var(-
 .ob-btn{margin-top:1.6rem;background:var(--paper);color:var(--evergreen)}
 .ob-timer .timer-ring .num{color:var(--paper)}
 .installed{font-family:var(--hand);font-size:2.1rem;font-weight:600;color:var(--teal-bright)}
+.base-hero{background:var(--evergreen);border-radius:14px;padding:1rem;color:var(--paper);margin-top:1rem;position:relative;overflow:hidden}
+.base-hero::after{content:"";position:absolute;width:130px;height:130px;border:1px solid rgba(46,156,124,.25);border-radius:50%;right:-55px;top:-55px}
+.base-hero .day-label{color:var(--teal-bright)}
+.base-identity{font-family:var(--hand);font-size:1.7rem;font-weight:600;line-height:1.18;margin-top:.55rem;position:relative;z-index:1}
+.base-proof{position:relative;z-index:1;margin-top:.9rem;background:rgba(255,255,255,.09);border:1px solid rgba(255,255,255,.14);border-radius:10px;padding:.8rem;color:rgba(252,251,247,.82);font-size:.9rem}
+.phase-strip{display:flex;gap:5px;margin-top:.85rem}
+.phase-strip span{height:5px;flex:1;border-radius:999px;background:#D8D3C6}
+.phase-strip span.on{background:var(--teal)}
+.tool-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:1rem}
+.tool-card{border:1px solid #E5E1D6;background:#fff;border-radius:12px;padding:.95rem;text-align:left;color:var(--ink);min-height:118px}
+.tool-card strong{display:block;font-family:var(--display);font-size:1rem;line-height:1.12}
+.tool-card span{display:block;color:var(--ink-soft);font-size:.76rem;line-height:1.35;margin-top:.4rem}
+.tool-card i{display:inline-block;font-style:normal;font-family:var(--mono);font-size:.55rem;letter-spacing:.12em;text-transform:uppercase;color:var(--teal);margin-bottom:.55rem}
+.tool-card.locked{background:var(--paper-shade)}
 </style>
 </head>
 <body>
@@ -134,13 +171,18 @@ h1.today{font-family:var(--display);font-weight:600;font-size:1.6rem;color:var(-
         <div class="row"><span>I am</span><input id="obIdentity" placeholder="a healthy person." maxlength="44" autocomplete="off"></div>
       </div>
       <div class="chips" aria-label="Suggestions">
-        <button class="chip" data-id="a healthy person.">a healthy person.</button>
-        <button class="chip" data-id="a wealth builder.">a wealth builder.</button>
-        <button class="chip" data-id="a present parent.">a present parent.</button>
-        <button class="chip" data-id="a writer.">a writer.</button>
-        <button class="chip" data-id="a business owner.">a business owner.</button>
+        <button class="chip" data-id="a healthy person." data-proof="Walk for sixty seconds." data-min="Put on walking shoes." data-reset="Stand up and take one breath.">a healthy person.</button>
+        <button class="chip" data-id="a wealth builder." data-proof="Move one dollar or review one number." data-min="Open the account." data-reset="Look at the next smallest number.">a wealth builder.</button>
+        <button class="chip" data-id="a present parent." data-proof="Give ten undistracted minutes." data-min="Put the phone face down." data-reset="Make eye contact and return.">a present parent.</button>
+        <button class="chip" data-id="a writer." data-proof="Write one honest sentence." data-min="Open the draft." data-reset="Write the next bad sentence.">a writer.</button>
+        <button class="chip" data-id="a business owner." data-proof="Send one useful follow-up." data-min="Open the pipeline." data-reset="Name the next customer action.">a business owner.</button>
       </div>
-      <button class="btn btn-primary ob-btn" onclick="obNext()">Write the card</button>
+      <div class="field-grid" aria-label="Installation worksheet">
+        <div><label for="obProof">First proof</label><input id="obProof" placeholder="One action that can begin within sixty seconds."></div>
+        <div><label for="obMinimum">Hard-day minimum</label><input id="obMinimum" placeholder="The smallest version that still counts."></div>
+        <div><label for="obReset">Reset rule</label><input id="obReset" placeholder="What protects the return after a slip?"></div>
+        <div><label for="obReview">Review date</label><input id="obReview" placeholder="Day 90 review" value="Day 90 review"></div>
+      </div>      <button class="btn btn-primary ob-btn" onclick="obNext()">Write the card</button>
     </div>
 
     <div class="ob-step" id="ob2">
@@ -163,7 +205,7 @@ h1.today{font-family:var(--display);font-weight:600;font-size:1.6rem;color:var(-
     <div class="ob-step" id="ob3">
       <p class="ob-kicker">Installed</p>
       <h1 class="installed" id="obConfirm">It already happened.</h1>
-      <p id="obSummary"></p>
+      <p id="obSummary"></p><p id="obProtocol"></p>
       <p>From here the app runs the method: one question each morning, one aligned act, one line of proof. Slips are noise. The Evidence Sheet counts the votes.</p>
       <button class="btn btn-primary ob-btn" onclick="enterApp()">Begin Day 1</button>
     </div>
@@ -190,6 +232,7 @@ h1.today{font-family:var(--display);font-weight:600;font-size:1.6rem;color:var(-
         <p class="q">What would the person I&apos;ve decided to be do right now?</p>
       </div>
 
+      <div class="mini-panel"><b>First proof:</b> <span id="todayProof">Walk for sixty seconds.</span><br><b>Hard-day minimum:</b> <span id="todayMinimum">Put on walking shoes.</span></div>
       <button class="btn btn-primary" id="btnSixty" onclick="startSixty()">Start 60 seconds - one aligned act</button>
       <div class="timer-wrap" id="sixtyWrap" style="display:none">
         <div class="timer-ring">
@@ -205,20 +248,32 @@ h1.today{font-family:var(--display);font-weight:600;font-size:1.6rem;color:var(-
       <div class="proof">
         <label for="proofInput">Record one proof - one line</label>
         <textarea id="proofInput" rows="2" placeholder="Walked before checking my phone."></textarea>
+        <div class="segmented" aria-label="Negotiation level">
+          <button type="button" class="active" data-neg="Low">Low</button>
+          <button type="button" data-neg="Some">Some</button>
+          <button type="button" data-neg="Heavy">Heavy</button>
+        </div>
       </div>
       <button class="btn btn-primary" onclick="logDay(1)">Mark today: lived from the card</button>
-      <button class="btn btn-slip" onclick="logDay(2)">I slipped - reset, no story</button>
+      <button class="btn btn-slip" onclick="logDay(2)">I slipped - protect the return</button>
     </section>
 
     <section class="screen" id="scr-evidence">
       <p class="day-label">Evidence Sheet</p>
       <h2 class="sec">Thirty days of signal</h2>
-      <p class="sub">Tap a day to mark it. A slip stays on the record - it&apos;s a reset, not a verdict.</p>
+      <p class="sub">Keep the required entry small: one proof line, one optional negotiation tap, and a computed return signal.</p>
+      <div class="metrics">
+        <div class="metric"><strong id="conductRate">0%</strong><span>Conduct rate</span></div>
+        <div class="metric"><strong id="returnSpeed">-</strong><span>Return speed</span></div>
+        <div class="metric"><strong id="phaseName">Test</strong><span>Phase</span></div>
+      </div>
       <div class="ev-head"><h2 style="font-size:.95rem;font-family:var(--mono);font-weight:400;letter-spacing:.12em;color:var(--ink-soft)">SIGNAL</h2><span class="ev-count" id="evCount">0 / 30</span></div>
       <div class="ev-bar"><i id="evBar" style="width:0%"></i></div>
+      <div class="timeline" id="signalTimeline" aria-label="Signal Law timeline"></div>
       <div class="ev-grid" id="evGrid"></div>
       <p class="ev-verdict" id="evVerdict"></p>
-      <div class="law"><b>Signal Law.</b> Single events are noise. Repeated behavior is signal. Thirty days of signal builds a durable foundation.</div>
+      <div class="proof-log" id="proofLog"></div>
+      <div class="law"><b>Signal Law.</b> Single events are noise. Repeated conduct is signal. Slips remain data when the return is protected.</div>
       <div class="treaty">
         <p class="t1">Review-date treaty</p>
         <p class="t2" id="treatyLine">No verdicts before Day 90.</p>
@@ -226,22 +281,43 @@ h1.today{font-family:var(--display);font-weight:600;font-size:1.6rem;color:var(-
     </section>
 
     <section class="screen" id="scr-board">
-      <p class="day-label">HALO Board</p>
+      <p class="day-label">The Base</p>
+      <h2 class="sec">Calm command center</h2>
+      <p class="sub">The Base shows whether the installation is producing conduct without turning the identity into a score.</p>
+      <div class="base-hero">
+        <p class="day-label">Active identity</p>
+        <p class="base-identity" id="baseIdentity">I am a healthy person.</p>
+        <p class="base-proof"><small>Next proof</small><span id="baseProof">Walk for sixty seconds.</span></p>
+        <div class="phase-strip" aria-label="7-Day Test progress"><span class="on"></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+      </div>
+      <div class="metrics">
+        <div class="metric"><strong id="baseProofCount">0</strong><span>Proofs</span></div>
+        <div class="metric"><strong id="baseReturnSpeed">-</strong><span>Return speed</span></div>
+        <div class="metric"><strong id="baseReview">Day 90</strong><span>Review</span></div>
+      </div>
+      <div class="mini-panel"><b>Reset rule:</b> <span id="baseReset">Stand up and take one breath.</span></div>
+      <p class="day-label" style="margin-top:1.3rem">HALO Board</p>
       <h2 class="sec">The Decided Life, visible</h2>
-      <p class="sub">A vision board grounded in a decision, not a wish. Tap a zone to caption it; add photos in the full app.</p>
+      <p class="sub">The book&apos;s vision board remains here: a reference point for someone who has already decided.</p>
       <div class="board-grid" id="boardGrid"></div>
     </section>
 
     <section class="screen" id="scr-method">
-      <p class="day-label">The Method</p>
-      <h2 class="sec">Four rules</h2>
+      <p class="day-label">Tools</p>
+      <h2 class="sec">Phase 1 now, Phase 2 next</h2>
+      <p class="sub">Every tool returns to conduct. Diagnostics stay quiet until there is enough evidence to make them useful.</p>
+      <div class="tool-grid">
+        <button class="tool-card" type="button" onclick="showTool('worksheet')"><i>Phase 1</i><strong>Installation Worksheet</strong><span>Identity, first proof, hard-day minimum, reset rule, and review date.</span></button>
+        <button class="tool-card" type="button" onclick="showTool('signal')"><i>Phase 1</i><strong>Signal Law</strong><span>Ambient verdicts from the evidence you already logged.</span></button>
+        <button class="tool-card locked" type="button" onclick="showTool('audit')"><i>Phase 2</i><strong>Installation Audit</strong><span>For stuck users or second identities after Day 90.</span></button>
+        <button class="tool-card locked" type="button" onclick="showTool('integrity')"><i>Phase 2</i><strong>Integrity Check</strong><span>Surfaces when conduct and language drift apart.</span></button>
+      </div>
       <div class="icard"><span class="lbl">Rule 01</span><p class="q">Choose now.</p><p class="sub" style="position:relative;z-index:2">Name the identity in the present tense.</p></div>
       <div class="icard"><span class="lbl">Rule 02</span><p class="q">Prove it through action.</p><p class="sub" style="position:relative;z-index:2">One aligned step within sixty seconds.</p></div>
       <div class="icard"><span class="lbl">Rule 03</span><p class="q">Stop negotiating.</p><p class="sub" style="position:relative;z-index:2">The decision is closed. No morning retrial.</p></div>
       <div class="icard"><span class="lbl">Rule 04</span><p class="q">Treat slips as noise. Reset quickly.</p><p class="sub" style="position:relative;z-index:2">Return at the next scheduled opportunity.</p></div>
     </section>
   </div>
-
   <div class="tabbar">
     <button class="tab active" data-scr="today" onclick="go('today',this)">
       <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="5" width="16" height="15" rx="2"/><line x1="4" y1="10" x2="20" y2="10"/><line x1="9" y1="3" x2="9" y2="7"/><line x1="15" y1="3" x2="15" y2="7"/></svg>
@@ -251,22 +327,61 @@ h1.today{font-family:var(--display);font-weight:600;font-size:1.6rem;color:var(-
       Evidence</button>
     <button class="tab" data-scr="board" onclick="go('board',this)">
       <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="14" rx="2"/><circle cx="9" cy="10" r="2"/><path d="M3 16l5-4 4 3 4-5 5 6"/></svg>
-      Board</button>
+      Base</button>
     <button class="tab" data-scr="method" onclick="go('method',this)">
       <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="4" width="14" height="17" rx="2"/><line x1="8" y1="9" x2="16" y2="9"/><line x1="8" y1="13" x2="16" y2="13"/><line x1="8" y1="17" x2="13" y2="17"/></svg>
-      Method</button>
+      Tools</button>
   </div>
 </div>
 
 <script is:inline>
-var state = { identity:"a healthy person.", day:1, days:Array(30).fill(0), proofs:{} };
+var state = {
+  identity:"a healthy person.",
+  firstProof:"Walk for sixty seconds.",
+  minimum:"Put on walking shoes.",
+  resetRule:"Stand up and take one breath.",
+  reviewDate:"Day 90 review",
+  day:1,
+  days:Array(30).fill(0),
+  proofs:{},
+  negotiation:{},
+  slips:[],
+  selectedNegotiation:"Low"
+};
+
+function valueOr(id, fallback){
+  var el = document.getElementById(id);
+  return el && el.value.trim() ? el.value.trim() : fallback;
+}
+
+function setText(id, value){
+  var el = document.getElementById(id);
+  if (el) el.textContent = value;
+}
 
 document.querySelectorAll('.chip').forEach(function(c){
-  c.addEventListener('click', function(){ document.getElementById('obIdentity').value = c.dataset.id; });
+  c.addEventListener('click', function(){
+    document.getElementById('obIdentity').value = c.dataset.id;
+    document.getElementById('obProof').value = c.dataset.proof || '';
+    document.getElementById('obMinimum').value = c.dataset.min || '';
+    document.getElementById('obReset').value = c.dataset.reset || '';
+  });
 });
+
+document.querySelectorAll('[data-neg]').forEach(function(btn){
+  btn.addEventListener('click', function(){
+    document.querySelectorAll('[data-neg]').forEach(function(b){ b.classList.remove('active'); });
+    btn.classList.add('active');
+    state.selectedNegotiation = btn.dataset.neg;
+  });
+});
+
 function obNext(){
-  var v = document.getElementById('obIdentity').value.trim();
-  if (v) state.identity = v;
+  state.identity = valueOr('obIdentity', state.identity);
+  state.firstProof = valueOr('obProof', state.firstProof);
+  state.minimum = valueOr('obMinimum', state.minimum);
+  state.resetRule = valueOr('obReset', state.resetRule);
+  state.reviewDate = valueOr('obReview', state.reviewDate);
   document.getElementById('ob1').classList.remove('active');
   document.getElementById('ob2').classList.add('active');
   runRing('obRing','obNum',60);
@@ -274,13 +389,17 @@ function obNext(){
 function obDone(){
   document.getElementById('ob2').classList.remove('active');
   document.getElementById('ob3').classList.add('active');
-  document.getElementById('obSummary').textContent = 'I am ' + state.identity + ' - declared, and backed by one act inside the first minute.';
+  setText('obSummary', 'I am ' + state.identity + ' - declared, and backed by one act inside the first minute.');
+  setText('obProtocol', 'Minimum: ' + state.minimum + ' Reset: ' + state.resetRule + ' Review: ' + state.reviewDate + '.');
 }
 function enterApp(){
   document.getElementById('onboard').classList.add('hidden');
-  document.getElementById('cardIdentity').textContent = state.identity;
+  setText('cardIdentity', state.identity);
+  setText('todayProof', state.firstProof);
+  setText('todayMinimum', state.minimum);
   var d = new Date();
-  document.getElementById('todayDate').textContent = d.toLocaleDateString('en-US',{weekday:'long', month:'long', day:'numeric'});
+  setText('todayDate', d.toLocaleDateString('en-US',{weekday:'long', month:'long', day:'numeric'}));
+  updateStatus();
 }
 
 var ringTimers = {};
@@ -307,20 +426,38 @@ function logDay(kind){
   var idx = state.day - 1;
   if (idx >= 0 && idx < 30) state.days[idx] = kind;
   var proof = document.getElementById('proofInput').value.trim();
-  if (proof) state.proofs[state.day] = proof;
+  if (!proof && kind === 2) proof = state.resetRule;
+  if (!proof && kind === 1) proof = state.firstProof;
+  state.proofs[state.day] = proof;
+  state.negotiation[state.day] = state.selectedNegotiation;
+  if (kind === 2) {
+    state.slips.push({ day: state.day, acknowledgedAt: Date.now() - 45000, resetAt: Date.now(), action: proof });
+  }
   state.day = Math.min(state.day + 1, 30);
   document.getElementById('proofInput').value = '';
-  updateStatus(); renderEvidence();
+  updateStatus(); renderEvidence(); renderBase();
   go('evidence', document.querySelector('[data-scr="evidence"]'));
+}
+function phaseLabel(){
+  var d = state.day;
+  if (d <= 7) return 'Test';
+  if (d <= 30) return 'Quiet';
+  return 'Build';
 }
 function updateStatus(){
   var d = state.day;
   var phase = d <= 7 ? 'THE 7-DAY TEST' : d <= 30 ? 'THE QUIET STRETCH' : 'THE 90-DAY BUILD';
-  document.getElementById('statusDay').textContent = 'DAY ' + d + ' · ' + phase;
+  setText('statusDay', 'DAY ' + d + ' - ' + phase);
   var done = state.days.filter(function(x){return x===1}).length;
   var chip = document.getElementById('signalChip');
-  chip.textContent = d <= 7 ? ('Signal building · Day ' + d + ' of 7')
-    : (done + ' aligned days · the installer is running');
+  chip.textContent = d <= 7 ? ('Signal building - Day ' + d + ' of 7')
+    : (done + ' aligned days - the installer is running');
+}
+function averageReturnSpeed(){
+  if (!state.slips.length) return '-';
+  var mins = state.slips.map(function(s){ return Math.max(1, Math.round((s.resetAt - s.acknowledgedAt) / 60000)); });
+  var avg = Math.round(mins.reduce(function(a,b){return a+b;},0) / mins.length);
+  return avg + 'm';
 }
 
 function renderEvidence(){
@@ -329,21 +466,39 @@ function renderEvidence(){
     var c = document.createElement('div');
     c.className = 'ev-cell' + (v===1?' done':v===2?' slip':'');
     c.innerHTML = '<span class="d">'+(i+1)+'</span><span class="m">'+(v===1?'yes':v===2?'reset':'')+'</span>';
-    c.onclick = function(){ state.days[i] = (state.days[i]+1)%3; renderEvidence(); };
+    c.onclick = function(){ state.days[i] = (state.days[i]+1)%3; renderEvidence(); renderBase(); };
     g.appendChild(c);
   });
   var done = state.days.filter(function(x){return x===1}).length;
   var slips = state.days.filter(function(x){return x===2}).length;
-  document.getElementById('evCount').textContent = done + ' / 30';
+  var logged = done + slips;
+  var conductRate = logged ? Math.round(done / logged * 100) : 0;
+  setText('evCount', done + ' / 30');
+  setText('conductRate', conductRate + '%');
+  setText('returnSpeed', averageReturnSpeed());
+  setText('phaseName', phaseLabel());
   document.getElementById('evBar').style.width = (done/30*100)+'%';
+  var t = document.getElementById('signalTimeline'); t.innerHTML = '';
+  state.days.slice(0,14).forEach(function(v,i){
+    var dot = document.createElement('span');
+    dot.className = v===1 ? 'done' : v===2 ? 'slip' : '';
+    dot.textContent = i + 1;
+    t.appendChild(dot);
+  });
   var v = '';
   if (done===0 && slips===0) v = 'Day one is small on purpose. You are recruiting proof, not impressing anyone.';
   else if (done>0 && done<7) v = done + ' of 30 - noise until seven. Keep voting.';
   else if (done>=7 && slips===0) v = 'Seven or more, no slips. That is signal.';
-  else if (slips>0 && done>slips) v = slips + ' slip' + (slips>1?'s':'') + ', reset each time. The signal holds.';
-  else if (slips>=done && slips>0) v = 'More slips than aligned days - that is information about fit, not a verdict on you.';
+  else if (slips>0 && done>=slips) v = slips + ' slip' + (slips>1?'s':'') + ', reset each time. The signal holds.';
+  else if (slips>done) v = 'More slips than aligned days - protect the return before making a verdict.';
   if (done>=30) v = 'Thirty days of signal. The default has taken root.';
-  document.getElementById('evVerdict').textContent = v;
+  setText('evVerdict', v);
+  var log = document.getElementById('proofLog'); log.innerHTML = '';
+  Object.keys(state.proofs).slice(-3).reverse().forEach(function(day){
+    var item = document.createElement('article');
+    item.innerHTML = '<strong>Day '+day+': '+state.proofs[day]+'</strong><span>Negotiation: '+(state.negotiation[day] || 'Low')+'</span>';
+    log.appendChild(item);
+  });
 }
 
 var domains = [
@@ -370,6 +525,26 @@ function renderBoard(){
   w.innerHTML = '<span class="dom">My word</span><input placeholder="one word for this life" maxlength="24">';
   g.appendChild(w);
 }
+function renderBase(){
+  var done = state.days.filter(function(x){return x===1}).length;
+  setText('baseIdentity', 'I am ' + state.identity);
+  setText('baseProof', state.firstProof);
+  setText('baseProofCount', String(done));
+  setText('baseReturnSpeed', averageReturnSpeed());
+  setText('baseReview', state.reviewDate.replace(' review',''));
+  setText('baseReset', state.resetRule);
+  var strips = document.querySelectorAll('.phase-strip span');
+  strips.forEach(function(s,i){ s.classList.toggle('on', i < Math.min(state.day, 7)); });
+}
+function showTool(name){
+  var messages = {
+    worksheet:'Phase 1 worksheet is already merged into onboarding: identity, first proof, hard-day minimum, reset rule, and review date.',
+    signal:'Phase 1 Signal Law is ambient: the Evidence timeline separates one-off events, repeated conduct, and protected returns without extra logging.',
+    audit:'Phase 2 Audit unlocks when you are stuck or choosing a second identity after the review date.',
+    integrity:'Phase 2 Integrity Check appears when the last seven days show language ahead of conduct.'
+  };
+  alert(messages[name]);
+}
 
 function go(name, btn){
   document.querySelectorAll('.screen').forEach(function(s){ s.classList.remove('active'); });
@@ -377,9 +552,10 @@ function go(name, btn){
   document.querySelectorAll('.tab').forEach(function(t){ t.classList.remove('active'); });
   if (btn) btn.classList.add('active');
   document.querySelector('.screens').scrollTop = 0;
+  renderBase();
 }
 
-renderEvidence(); renderBoard(); updateStatus();
+renderEvidence(); renderBoard(); renderBase(); updateStatus();
 </script>
 </body>
 </html>
