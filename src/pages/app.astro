@@ -182,7 +182,8 @@ h1.today{font-family:var(--display);font-weight:600;font-size:1.6rem;color:var(-
         <div><label for="obMinimum">Hard-day minimum</label><input id="obMinimum" placeholder="The smallest version that still counts."></div>
         <div><label for="obReset">Reset rule</label><input id="obReset" placeholder="What protects the return after a slip?"></div>
         <div><label for="obReview">Review date</label><input id="obReview" placeholder="Day 90 review" value="Day 90 review"></div>
-      </div>      <button class="btn btn-primary ob-btn" onclick="obNext()">Write the card</button>
+      </div>
+      <button class="btn btn-primary ob-btn" onclick="obNext()">Write the card</button>
     </div>
 
     <div class="ob-step" id="ob2">
@@ -306,6 +307,7 @@ h1.today{font-family:var(--display);font-weight:600;font-size:1.6rem;color:var(-
       <p class="day-label">Tools</p>
       <h2 class="sec">Phase 1 now, Phase 2 next</h2>
       <p class="sub">Every tool returns to conduct. Diagnostics stay quiet until there is enough evidence to make them useful.</p>
+      <button class="btn btn-slip" type="button" onclick="resetInstallation()">Reset local installation</button>
       <div class="tool-grid">
         <button class="tool-card" type="button" onclick="showTool('worksheet')"><i>Phase 1</i><strong>Installation Worksheet</strong><span>Identity, first proof, hard-day minimum, reset rule, and review date.</span></button>
         <button class="tool-card" type="button" onclick="showTool('signal')"><i>Phase 1</i><strong>Signal Law</strong><span>Ambient verdicts from the evidence you already logged.</span></button>
@@ -335,19 +337,24 @@ h1.today{font-family:var(--display);font-weight:600;font-size:1.6rem;color:var(-
 </div>
 
 <script is:inline>
-var state = {
-  identity:"a healthy person.",
-  firstProof:"Walk for sixty seconds.",
-  minimum:"Put on walking shoes.",
-  resetRule:"Stand up and take one breath.",
-  reviewDate:"Day 90 review",
-  day:1,
-  days:Array(30).fill(0),
-  proofs:{},
-  negotiation:{},
-  slips:[],
-  selectedNegotiation:"Low"
-};
+var STORAGE_KEY = 'halo.phase1.state.v1';
+function defaultState(){
+  return {
+    identity:"a healthy person.",
+    firstProof:"Walk for sixty seconds.",
+    minimum:"Put on walking shoes.",
+    resetRule:"Stand up and take one breath.",
+    reviewDate:"Day 90 review",
+    onboarded:false,
+    day:1,
+    days:Array(30).fill(0),
+    proofs:{},
+    negotiation:{},
+    slips:[],
+    selectedNegotiation:"Low"
+  };
+}
+var state = defaultState();
 
 function valueOr(id, fallback){
   var el = document.getElementById(id);
@@ -357,6 +364,48 @@ function valueOr(id, fallback){
 function setText(id, value){
   var el = document.getElementById(id);
   if (el) el.textContent = value;
+}
+function saveState(){
+  try { localStorage.setItem(STORAGE_KEY, JSON.stringify({ state: state, caps: caps })); } catch (error) {}
+}
+function restoreState(){
+  try {
+    var raw = localStorage.getItem(STORAGE_KEY);
+    if (!raw) return;
+    var saved = JSON.parse(raw);
+    if (saved && saved.state) state = Object.assign(defaultState(), saved.state);
+    if (!Array.isArray(state.days) || state.days.length !== 30) state.days = Array(30).fill(0);
+    state.proofs = state.proofs || {};
+    state.negotiation = state.negotiation || {};
+    state.slips = Array.isArray(state.slips) ? state.slips : [];
+    state.selectedNegotiation = state.selectedNegotiation || 'Low';
+    caps = saved && saved.caps && typeof saved.caps === 'object' ? saved.caps : {};
+  } catch (error) {
+    state = defaultState();
+    caps = {};
+  }
+}
+function hydrateFromState(){
+  var onboard = document.getElementById('onboard');
+  if (state.onboarded && onboard) onboard.classList.add('hidden');
+  setText('cardIdentity', state.identity);
+  setText('todayProof', state.firstProof);
+  setText('todayMinimum', state.minimum);
+  var d = new Date();
+  setText('todayDate', d.toLocaleDateString('en-US',{weekday:'long', month:'long', day:'numeric'}));
+  var proof = document.getElementById('obProof'); if (proof) proof.value = state.firstProof;
+  var minimum = document.getElementById('obMinimum'); if (minimum) minimum.value = state.minimum;
+  var reset = document.getElementById('obReset'); if (reset) reset.value = state.resetRule;
+  var review = document.getElementById('obReview'); if (review) review.value = state.reviewDate;
+  var identity = document.getElementById('obIdentity'); if (identity) identity.value = state.identity;
+  document.querySelectorAll('[data-neg]').forEach(function(btn){ btn.classList.toggle('active', btn.dataset.neg === state.selectedNegotiation); });
+}
+function resetInstallation(){
+  if (!confirm('Reset this local HALO installation on this device?')) return;
+  try { localStorage.removeItem(STORAGE_KEY); } catch (error) {}
+  state = defaultState();
+  caps = {};
+  location.reload();
 }
 
 document.querySelectorAll('.chip').forEach(function(c){
@@ -373,6 +422,7 @@ document.querySelectorAll('[data-neg]').forEach(function(btn){
     document.querySelectorAll('[data-neg]').forEach(function(b){ b.classList.remove('active'); });
     btn.classList.add('active');
     state.selectedNegotiation = btn.dataset.neg;
+    saveState();
   });
 });
 
@@ -382,6 +432,7 @@ function obNext(){
   state.minimum = valueOr('obMinimum', state.minimum);
   state.resetRule = valueOr('obReset', state.resetRule);
   state.reviewDate = valueOr('obReview', state.reviewDate);
+  saveState();
   document.getElementById('ob1').classList.remove('active');
   document.getElementById('ob2').classList.add('active');
   runRing('obRing','obNum',60);
@@ -393,6 +444,7 @@ function obDone(){
   setText('obProtocol', 'Minimum: ' + state.minimum + ' Reset: ' + state.resetRule + ' Review: ' + state.reviewDate + '.');
 }
 function enterApp(){
+  state.onboarded = true;
   document.getElementById('onboard').classList.add('hidden');
   setText('cardIdentity', state.identity);
   setText('todayProof', state.firstProof);
@@ -400,6 +452,7 @@ function enterApp(){
   var d = new Date();
   setText('todayDate', d.toLocaleDateString('en-US',{weekday:'long', month:'long', day:'numeric'}));
   updateStatus();
+  saveState();
 }
 
 var ringTimers = {};
@@ -434,6 +487,7 @@ function logDay(kind){
     state.slips.push({ day: state.day, acknowledgedAt: Date.now() - 45000, resetAt: Date.now(), action: proof });
   }
   state.day = Math.min(state.day + 1, 30);
+  saveState();
   document.getElementById('proofInput').value = '';
   updateStatus(); renderEvidence(); renderBase();
   go('evidence', document.querySelector('[data-scr="evidence"]'));
@@ -466,7 +520,7 @@ function renderEvidence(){
     var c = document.createElement('div');
     c.className = 'ev-cell' + (v===1?' done':v===2?' slip':'');
     c.innerHTML = '<span class="d">'+(i+1)+'</span><span class="m">'+(v===1?'yes':v===2?'reset':'')+'</span>';
-    c.onclick = function(){ state.days[i] = (state.days[i]+1)%3; renderEvidence(); renderBase(); };
+    c.onclick = function(){ state.days[i] = (state.days[i]+1)%3; saveState(); renderEvidence(); renderBase(); };
     g.appendChild(c);
   });
   var done = state.days.filter(function(x){return x===1}).length;
@@ -507,6 +561,7 @@ var domains = [
   {d:'Home', bg:'#EBF5EB'}, {d:'Growth', bg:'#FBF0E8'}
 ];
 var caps = {};
+restoreState();
 function renderBoard(){
   var g = document.getElementById('boardGrid'); g.innerHTML='';
   domains.forEach(function(o){
@@ -516,7 +571,7 @@ function renderBoard(){
       (caps[o.d] ? '<span class="cap">'+caps[o.d]+'</span>' : '<span class="add">[ tap to caption ]</span>');
     c.onclick = function(){
       var v = prompt('Caption for ' + o.d + ' - what does the Decided Life look like here?', caps[o.d]||'');
-      if (v !== null) { caps[o.d] = v.trim(); renderBoard(); }
+      if (v !== null) { caps[o.d] = v.trim(); saveState(); renderBoard(); }
     };
     g.appendChild(c);
   });
@@ -555,7 +610,7 @@ function go(name, btn){
   renderBase();
 }
 
-renderEvidence(); renderBoard(); renderBase(); updateStatus();
+hydrateFromState(); renderEvidence(); renderBoard(); renderBase(); updateStatus();
 </script>
 </body>
 </html>
