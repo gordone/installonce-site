@@ -1,12 +1,12 @@
 ---
-const appTitle = 'HALO App - Phase 1';
+const appTitle = 'HALO NOW - 1607';
 ---
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>{appTitle}</title>
-<meta name="description" content="Run the HALO Phase 1 loop: identity setup, first proof, Evidence Sheet, The Base, and Phase 2 diagnostic previews.">
+<meta name="description" content="Run the 1-60-7 Test in HALO NOW: one card, one action in sixty seconds, and seven days living from the decision.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&family=Caveat:wght@500;600&display=swap" rel="stylesheet">
@@ -163,9 +163,9 @@ h1.today{font-family:var(--display);font-weight:600;font-size:1.6rem;color:var(-
 <div class="phone">
   <div class="onboard" id="onboard">
     <div class="ob-step active" id="ob1">
-      <p class="ob-kicker">HALO &middot; Installation</p>
-      <h1>Who have you decided to be?</h1>
-      <p>Not a goal. Not a wish. A sentence in the present tense. Choose one identity - the base everything else builds on.</p>
+      <p class="ob-kicker">THE 1-60-7 TEST</p>
+      <h1>Identity for Lasting Change</h1>
+      <p>Stop trying to become the person you want to be. Decide who you are, prove it with one action in the next 60 seconds, then live from the decision for seven days.</p>
       <div class="ob-card">
         <span class="lbl">The Card - Side One</span>
         <div class="row"><span>I am</span><input id="obIdentity" placeholder="a healthy person." maxlength="44" autocomplete="off"></div>
@@ -177,19 +177,19 @@ h1.today{font-family:var(--display);font-weight:600;font-size:1.6rem;color:var(-
         <button class="chip" data-id="a writer." data-proof="Write one honest sentence." data-min="Open the draft." data-reset="Write the next bad sentence.">a writer.</button>
         <button class="chip" data-id="a business owner." data-proof="Send one useful follow-up." data-min="Open the pipeline." data-reset="Name the next customer action.">a business owner.</button>
       </div>
-      <div class="field-grid" aria-label="Installation worksheet">
+      <div class="field-grid" aria-label="1607 setup">
         <div><label for="obProof">First proof</label><input id="obProof" placeholder="One action that can begin within sixty seconds."></div>
         <div><label for="obMinimum">Hard-day minimum</label><input id="obMinimum" placeholder="The smallest version that still counts."></div>
         <div><label for="obReset">Reset rule</label><input id="obReset" placeholder="What protects the return after a slip?"></div>
         <div><label for="obReview">Review date</label><input id="obReview" placeholder="Day 90 review" value="Day 90 review"></div>
       </div>
-      <button class="btn btn-primary ob-btn" onclick="obNext()">Write the card</button>
+      <button class="btn btn-primary ob-btn" onclick="obNext()">Begin 1607</button>
     </div>
 
     <div class="ob-step" id="ob2">
-      <p class="ob-kicker">Rule 02 &middot; Prove it through action</p>
-      <h1>Sixty seconds.</h1>
-      <p>Take one aligned action before the timer ends. Small counts. Send the message. Move the money. Take the walk. The brain updates on evidence - give it the first piece now.</p>
+      <p class="ob-kicker">60 &middot; The Proof</p>
+      <h1>What would the person you have decided to be do right now?</h1>
+      <p>Take one aligned action within sixty seconds. Every aligned action adds evidence. Small counts: send the message, move the money, take the walk, open the draft.</p>
       <div class="timer-wrap ob-timer">
         <div class="timer-ring">
           <svg width="150" height="150" viewBox="0 0 150 150" aria-hidden="true">
@@ -200,28 +200,28 @@ h1.today{font-family:var(--display);font-weight:600;font-size:1.6rem;color:var(-
         </div>
         <p class="timer-note" style="color:rgba(252,251,247,.6)">Acting now, not preparing</p>
       </div>
-      <button class="btn btn-primary ob-btn" onclick="obDone()">I took the action</button>
+      <button class="btn btn-primary ob-btn" onclick="obDone()">I did it</button>
     </div>
 
     <div class="ob-step" id="ob3">
-      <p class="ob-kicker">Installed</p>
-      <h1 class="installed" id="obConfirm">It already happened.</h1>
+      <p class="ob-kicker">7 &middot; Live It</p>
+      <h1 class="installed" id="obConfirm">That's proof.</h1>
       <p id="obSummary"></p><p id="obProtocol"></p>
-      <p>From here the app runs the method: one question each morning, one aligned act, one line of proof. Slips are noise. The Evidence Sheet counts the votes.</p>
-      <button class="btn btn-primary ob-btn" onclick="enterApp()">Begin Day 1</button>
+      <p>Now live from it for seven days. HALO NOW keeps the card visible, captures evidence, and helps you reset quickly when the old pattern tries to come back.</p>
+      <button class="btn btn-primary ob-btn" onclick="enterApp()">Start the 7-day test</button>
     </div>
   </div>
 
   <div class="status">
-    <span class="brand">H<span style="position:relative">A<i></i></span>LO</span>
-    <span id="statusDay">DAY 1 &middot; THE 7-DAY TEST</span>
+    <span class="brand">H<span style="position:relative">A<i></i></span>LO NOW</span>
+    <span id="statusDay">DAY 1 &middot; 1607</span>
   </div>
 
   <div class="screens">
     <section class="screen active" id="scr-today">
       <p class="day-label" id="todayDate">Today</p>
-      <h1 class="today">The question is already answered.</h1>
-      <span class="signal-chip" id="signalChip">Signal building &middot; Day 1 of 7</span>
+      <h1 class="today">Live from the decision today.</h1>
+      <span class="signal-chip" id="signalChip">1607 &middot; Day 1 of 7</span>
 
       <div class="icard" id="todayCard">
         <span class="lbl">Your card</span>
@@ -234,7 +234,7 @@ h1.today{font-family:var(--display);font-weight:600;font-size:1.6rem;color:var(-
       </div>
 
       <div class="mini-panel"><b>First proof:</b> <span id="todayProof">Walk for sixty seconds.</span><br><b>Hard-day minimum:</b> <span id="todayMinimum">Put on walking shoes.</span></div>
-      <button class="btn btn-primary" id="btnSixty" onclick="startSixty()">Start 60 seconds - one aligned act</button>
+      <button class="btn btn-primary" id="btnSixty" onclick="startSixty()">Start 60-second proof</button>
       <div class="timer-wrap" id="sixtyWrap" style="display:none">
         <div class="timer-ring">
           <svg width="150" height="150" viewBox="0 0 150 150" aria-hidden="true">
@@ -255,7 +255,7 @@ h1.today{font-family:var(--display);font-weight:600;font-size:1.6rem;color:var(-
           <button type="button" data-neg="Heavy">Heavy</button>
         </div>
       </div>
-      <button class="btn btn-primary" onclick="logDay(1)">Mark today: lived from the card</button>
+      <button class="btn btn-primary" onclick="logDay(1)">I lived from the card today</button>
       <button class="btn btn-slip" onclick="logDay(2)">I slipped - protect the return</button>
     </section>
 
@@ -304,18 +304,18 @@ h1.today{font-family:var(--display);font-weight:600;font-size:1.6rem;color:var(-
     </section>
 
     <section class="screen" id="scr-method">
-      <p class="day-label">Tools</p>
-      <h2 class="sec">Phase 1 now, Phase 2 next</h2>
-      <p class="sub">Every tool returns to conduct. Diagnostics stay quiet until there is enough evidence to make them useful.</p>
-      <button class="btn btn-slip" type="button" onclick="resetInstallation()">Reset local installation</button>
+      <p class="day-label">HALO NOW</p>
+      <h2 class="sec">1607 now, the 90-Day Build next</h2>
+      <p class="sub">Start with one card, one action, and seven days. The app keeps the proof close without turning the identity into a score.</p>
+      <button class="btn btn-slip" type="button" onclick="resetTest()">Reset local 1607 test</button>
       <div class="tool-grid">
-        <button class="tool-card" type="button" onclick="showTool('worksheet')"><i>Phase 1</i><strong>Installation Worksheet</strong><span>Identity, first proof, hard-day minimum, reset rule, and review date.</span></button>
-        <button class="tool-card" type="button" onclick="showTool('signal')"><i>Phase 1</i><strong>Signal Law</strong><span>Ambient verdicts from the evidence you already logged.</span></button>
-        <button class="tool-card locked" type="button" onclick="showTool('audit')"><i>Phase 2</i><strong>Installation Audit</strong><span>For stuck users or second identities after Day 90.</span></button>
-        <button class="tool-card locked" type="button" onclick="showTool('integrity')"><i>Phase 2</i><strong>Integrity Check</strong><span>Surfaces when conduct and language drift apart.</span></button>
+        <button class="tool-card" type="button" onclick="showTool('worksheet')"><i>1 Card</i><strong>The decision</strong><span>Identity, first proof, hard-day minimum, reset rule, and review date.</span></button>
+        <button class="tool-card" type="button" onclick="showTool('signal')"><i>60 Seconds</i><strong>The proof</strong><span>Evidence from the aligned action you already took.</span></button>
+        <button class="tool-card locked" type="button" onclick="showTool('audit')"><i>7 Days</i><strong>Live from it</strong><span>Seven days tells you whether the identity fits.</span></button>
+        <button class="tool-card locked" type="button" onclick="showTool('integrity')"><i>90 Days</i><strong>The build</strong><span>Move from first proof into a durable default.</span></button>
       </div>
       <div class="icard"><span class="lbl">Rule 01</span><p class="q">Choose now.</p><p class="sub" style="position:relative;z-index:2">Name the identity in the present tense.</p></div>
-      <div class="icard"><span class="lbl">Rule 02</span><p class="q">Prove it through action.</p><p class="sub" style="position:relative;z-index:2">One aligned step within sixty seconds.</p></div>
+      <div class="icard"><span class="lbl">Rule 02</span><p class="q">Prove it through action.</p><p class="sub" style="position:relative;z-index:2">Take one aligned action within sixty seconds. Every aligned action adds evidence.</p></div>
       <div class="icard"><span class="lbl">Rule 03</span><p class="q">Stop negotiating.</p><p class="sub" style="position:relative;z-index:2">The decision is closed. No morning retrial.</p></div>
       <div class="icard"><span class="lbl">Rule 04</span><p class="q">Treat slips as noise. Reset quickly.</p><p class="sub" style="position:relative;z-index:2">Return at the next scheduled opportunity.</p></div>
     </section>
@@ -337,7 +337,7 @@ h1.today{font-family:var(--display);font-weight:600;font-size:1.6rem;color:var(-
 </div>
 
 <script is:inline>
-var STORAGE_KEY = 'halo.phase1.state.v1';
+var STORAGE_KEY = 'halo.now.1607.state.v1';
 function defaultState(){
   return {
     identity:"a healthy person.",
@@ -400,8 +400,8 @@ function hydrateFromState(){
   var identity = document.getElementById('obIdentity'); if (identity) identity.value = state.identity;
   document.querySelectorAll('[data-neg]').forEach(function(btn){ btn.classList.toggle('active', btn.dataset.neg === state.selectedNegotiation); });
 }
-function resetInstallation(){
-  if (!confirm('Reset this local HALO installation on this device?')) return;
+function resetTest(){
+  if (!confirm('Reset this local 1607 test on this device?')) return;
   try { localStorage.removeItem(STORAGE_KEY); } catch (error) {}
   state = defaultState();
   caps = {};
@@ -500,12 +500,12 @@ function phaseLabel(){
 }
 function updateStatus(){
   var d = state.day;
-  var phase = d <= 7 ? 'THE 7-DAY TEST' : d <= 30 ? 'THE QUIET STRETCH' : 'THE 90-DAY BUILD';
+  var phase = d <= 7 ? '1607' : d <= 30 ? 'THE QUIET STRETCH' : 'THE 90-DAY BUILD';
   setText('statusDay', 'DAY ' + d + ' - ' + phase);
   var done = state.days.filter(function(x){return x===1}).length;
   var chip = document.getElementById('signalChip');
-  chip.textContent = d <= 7 ? ('Signal building - Day ' + d + ' of 7')
-    : (done + ' aligned days - the installer is running');
+  chip.textContent = d <= 7 ? ('1607 - Day ' + d + ' of 7')
+    : (done + ' aligned days - HALO NOW is running');
 }
 function averageReturnSpeed(){
   if (!state.slips.length) return '-';
@@ -593,10 +593,10 @@ function renderBase(){
 }
 function showTool(name){
   var messages = {
-    worksheet:'Phase 1 worksheet is already merged into onboarding: identity, first proof, hard-day minimum, reset rule, and review date.',
-    signal:'Phase 1 Signal Law is ambient: the Evidence timeline separates one-off events, repeated conduct, and protected returns without extra logging.',
-    audit:'Phase 2 Audit unlocks when you are stuck or choosing a second identity after the review date.',
-    integrity:'Phase 2 Integrity Check appears when the last seven days show language ahead of conduct.'
+    worksheet:'The 1-card step is already merged into onboarding: identity, first proof, hard-day minimum, reset rule, and review date.',
+    signal:'The 60-second proof gives the decision evidence before motivation can turn it into a debate.',
+    audit:'The 7-day test unlocks the first useful verdict: whether the identity fits when lived, not imagined.',
+    integrity:'The 90-Day Build moves the decision from first proof into a durable default.'
   };
   alert(messages[name]);
 }
