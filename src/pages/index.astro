@@ -1,482 +1,152 @@
 ---
-import '../styles/global.css';
+import Halo1607Experience from "../components/Halo1607Experience.astro";
+import "../styles/global.css";
 ---
+
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>HALO - The Identity Method for Lasting Change</title>
-<meta name="description" content="Most change fails because you keep trying to force new behavior from an old identity. HALO shows you how to decide first, prove it in sixty seconds, and let repetition make it permanent. Install once. Live from there.">
+<title>HALO - Identity for Lasting Change</title>
+<meta name="description" content="Take the 1-60-7 Test. Decide who you are, prove it with one action in the next 60 seconds, then live from the decision for seven days.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&family=Caveat:wght@500;600&display=swap" rel="stylesheet">
 <style>
-:root{
-  --evergreen:#0B3D30;
-  --evergreen-deep:#082E24;
-  --teal:#0F6E56;
-  --teal-bright:#2E9C7C;
-  --paper:#FCFBF7;
-  --paper-shade:#F3F0E8;
-  --card-rule:#C6D9E7;
-  --card-headrule:#E2707A;
-  --ink:#20302B;
-  --ink-soft:#54655F;
-  --pen:#17355F;
-  --serif-display:'Fraunces',Georgia,serif;
-  --serif-body:'Source Serif 4',Georgia,serif;
-  --hand:'Caveat',cursive;
-  --mono:ui-monospace,'SF Mono',Menlo,monospace;
-}
-*{margin:0;padding:0;box-sizing:border-box}
-html{scroll-behavior:smooth}
+:root{--evergreen:#0B3D30;--evergreen-deep:#082E24;--teal:#0F6E56;--teal-bright:#2E9C7C;--paper:#FCFBF7;--paper-shade:#F3F0E8;--card-rule:#C6D9E7;--card-headrule:#E2707A;--ink:#20302B;--ink-soft:#54655F;--pen:#17355F;--serif-display:'Fraunces',Georgia,serif;--serif-body:'Source Serif 4',Georgia,serif;--hand:'Caveat',cursive;--mono:ui-monospace,'SF Mono',Menlo,monospace}
+*{margin:0;padding:0;box-sizing:border-box}html{scroll-behavior:smooth}body{font-family:var(--serif-body);color:var(--ink);background:var(--evergreen);font-size:17px;line-height:1.65}a{color:inherit}::selection{background:var(--teal-bright);color:#fff}:focus-visible{outline:2px solid var(--teal-bright);outline-offset:2px}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before,*::after{animation:none!important;transition:none!important}}
-body{font-family:var(--serif-body);color:var(--ink);background:var(--evergreen);font-size:17px;line-height:1.65}
-a{color:inherit}
-::selection{background:var(--teal-bright);color:#fff}
-
-/* -- Nav -- */
 nav{position:sticky;top:0;z-index:50;background:rgba(11,61,48,.92);backdrop-filter:blur(8px);border-bottom:1px solid rgba(252,251,247,.12)}
-.nav-inner{max-width:1120px;margin:0 auto;padding:.9rem 1.5rem;display:flex;align-items:center;justify-content:space-between}
-.wordmark{font-family:var(--serif-display);font-weight:600;font-size:1.35rem;letter-spacing:.16em;color:var(--paper);text-decoration:none;position:relative}
-.wordmark .ring{position:absolute;top:-.34em;left:50%;transform:translateX(-50%);width:1.15em;height:.38em;border:1.5px solid var(--teal-bright);border-radius:50%;opacity:.85}
-.nav-links{display:flex;gap:1.6rem;align-items:center;list-style:none}
-.nav-links a{font-family:var(--mono);font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:rgba(252,251,247,.75);text-decoration:none;transition:color .15s}
-.nav-links a:hover,.nav-links a:focus-visible{color:var(--paper)}
-.nav-cta{background:var(--paper);color:var(--evergreen)!important;padding:.5rem .95rem;border-radius:3px;font-weight:600}
-.nav-cta:hover{background:#fff}
-@media(max-width:720px){.nav-links li:not(:last-child){display:none}}
-
-/* -- Hero -- */
-.hero{max-width:1120px;margin:0 auto;padding:5.5rem 1.5rem 6rem;display:grid;grid-template-columns:1.1fr .9fr;gap:4rem;align-items:center}
-@media(max-width:900px){.hero{grid-template-columns:1fr;padding-top:3.5rem;gap:3rem}}
-.eyebrow{font-family:var(--mono);font-size:.72rem;letter-spacing:.22em;text-transform:uppercase;color:var(--teal-bright);margin-bottom:1.4rem}
-.hero h1{font-family:var(--serif-display);font-weight:600;font-size:clamp(4.2rem,9vw,6.8rem);letter-spacing:.06em;line-height:.95;color:var(--paper);position:relative;display:inline-block}
-.hero h1 .halo-ring{position:absolute;top:-.24em;left:.02em;width:.92em;height:.3em;border:3px solid var(--teal-bright);border-radius:50%;opacity:.9}
-.hero .subtitle{font-family:var(--serif-display);font-weight:400;font-style:italic;font-size:clamp(1.25rem,2.4vw,1.6rem);color:rgba(252,251,247,.92);margin-top:1.1rem}
-.hero .tagline{font-family:var(--mono);font-size:.8rem;letter-spacing:.18em;text-transform:uppercase;color:var(--teal-bright);margin-top:1rem}
-.hero p.lede{color:rgba(252,251,247,.78);max-width:46ch;margin-top:1.6rem;font-size:1.05rem}
-.hero-ctas{display:flex;gap:.9rem;margin-top:2.2rem;flex-wrap:wrap}
-.btn{display:inline-block;font-family:var(--mono);font-size:.78rem;letter-spacing:.14em;text-transform:uppercase;text-decoration:none;padding:.9rem 1.5rem;border-radius:3px;transition:transform .12s,background .15s}
-.btn:active{transform:translateY(1px)}
-.btn-primary{background:var(--paper);color:var(--evergreen);font-weight:600}
-.btn-primary:hover{background:#fff}
-.btn-ghost{border:1px solid rgba(252,251,247,.35);color:var(--paper)}
-.btn-ghost:hover{border-color:var(--paper)}
-
-/* -- The index card -- */
-.card-stage{perspective:1200px}
-.index-card{position:relative;width:100%;max-width:430px;aspect-ratio:5/3.1;margin:0 auto;transform-style:preserve-3d;transition:transform .7s cubic-bezier(.2,.7,.2,1);cursor:pointer}
-.index-card.flipped{transform:rotateY(180deg)}
-.card-face{position:absolute;inset:0;backface-visibility:hidden;background:var(--paper);border-radius:6px;box-shadow:0 24px 60px rgba(0,0,0,.45),0 2px 6px rgba(0,0,0,.3);padding:1.4rem 1.6rem;overflow:hidden}
-.card-face::before{content:"";position:absolute;left:0;right:0;top:2.6rem;height:2px;background:var(--card-headrule);opacity:.75}
-.card-face .rules{position:absolute;left:0;right:0;top:4.4rem;bottom:1rem;background:repeating-linear-gradient(to bottom,transparent 0,transparent 27px,var(--card-rule) 27px,var(--card-rule) 28px)}
-.card-back{transform:rotateY(180deg)}
-.card-label{position:relative;z-index:2;font-family:var(--mono);font-size:.62rem;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-soft)}
-.card-line{position:relative;z-index:2;margin-top:2.6rem;font-family:var(--serif-body);font-size:1.28rem;color:var(--ink)}
-.card-line .written{font-family:var(--hand);font-size:1.85rem;font-weight:600;color:var(--pen);border-bottom:1.5px solid var(--card-rule);padding:0 .15em;min-width:8ch;display:inline-block;white-space:nowrap}
-.caret{display:inline-block;width:2px;height:1.15em;background:var(--pen);vertical-align:-0.18em;animation:blink 1s steps(1) infinite}
-@keyframes blink{50%{opacity:0}}
-.card-footer{position:absolute;z-index:2;bottom:1rem;left:1.6rem;right:1.6rem;display:flex;justify-content:space-between;font-family:var(--mono);font-size:.6rem;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-soft)}
-.card-back .card-question{position:relative;z-index:2;margin-top:2.9rem;font-family:var(--hand);font-size:1.7rem;font-weight:600;color:var(--pen);line-height:1.35}
-.card-hint{text-align:center;margin-top:1.1rem;font-family:var(--mono);font-size:.65rem;letter-spacing:.16em;text-transform:uppercase;color:rgba(252,251,247,.5)}
-
-/* -- Acronym strip -- */
-.acronym{background:var(--evergreen-deep);border-top:1px solid rgba(252,251,247,.08);border-bottom:1px solid rgba(252,251,247,.08)}
-.acronym-inner{max-width:1120px;margin:0 auto;padding:2.4rem 1.5rem;display:flex;justify-content:center;gap:clamp(1.2rem,4vw,3.5rem);flex-wrap:wrap}
-.acronym span{font-family:var(--serif-display);font-size:clamp(1rem,2.2vw,1.45rem);color:var(--paper);letter-spacing:.02em}
-.acronym b{color:var(--teal-bright);font-weight:600}
-
-/* -- Paper sections -- */
-.paper{background:var(--paper);color:var(--ink)}
-.section{max-width:1120px;margin:0 auto;padding:5.5rem 1.5rem}
-.kicker{font-family:var(--mono);font-size:.72rem;letter-spacing:.22em;text-transform:uppercase;color:var(--teal);margin-bottom:1rem}
-.section h2{font-family:var(--serif-display);font-weight:600;font-size:clamp(1.9rem,4vw,2.7rem);line-height:1.15;max-width:22ch}
-.section .intro{max-width:60ch;margin-top:1.2rem;color:var(--ink-soft);font-size:1.05rem}
-
-/* Two lives */
-.lives{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin-top:3rem}
-@media(max-width:760px){.lives{grid-template-columns:1fr}}
-.life{border-radius:6px;padding:2rem 1.9rem}
-.life h3{font-family:var(--serif-display);font-size:1.35rem;font-weight:600;margin-bottom:1.1rem}
-.life ul{list-style:none}
-.life li{padding:.55rem 0;border-bottom:1px solid rgba(0,0,0,.07);font-size:1rem}
-.life li:last-child{border-bottom:none}
-.life-trying{background:var(--paper-shade);color:var(--ink-soft)}
-.life-trying h3{color:var(--ink-soft)}
-.life-decided{background:var(--evergreen);color:var(--paper)}
-.life-decided li{border-bottom-color:rgba(252,251,247,.14)}
-.life-decided .mark{color:var(--teal-bright)}
-.life .mark{display:inline-block;width:1.4em;font-family:var(--mono)}
-
-/* Four rules - index cards */
-.rules-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1.5rem;margin-top:3rem}
-@media(max-width:760px){.rules-grid{grid-template-columns:1fr}}
-.rule-card{position:relative;background:#fff;border:1px solid #E5E1D6;border-radius:6px;padding:1.5rem 1.6rem 1.7rem;box-shadow:0 3px 14px rgba(32,48,43,.06);overflow:hidden;transition:transform .18s,box-shadow .18s}
-.rule-card:hover{transform:translateY(-3px);box-shadow:0 10px 26px rgba(32,48,43,.12)}
-.rule-card::before{content:"";position:absolute;left:0;right:0;top:2.4rem;height:2px;background:var(--card-headrule);opacity:.55}
-.rule-num{font-family:var(--mono);font-size:.65rem;letter-spacing:.2em;color:var(--ink-soft);text-transform:uppercase}
-.rule-card h3{font-family:var(--hand);font-size:1.9rem;font-weight:600;color:var(--pen);margin-top:1.15rem}
-.rule-card p{color:var(--ink-soft);font-size:.97rem;margin-top:.5rem}
-
-/* Path / timeline */
-.path{border-left:2px solid var(--teal);margin:3rem 0 0 .4rem;padding-left:2rem;display:grid;gap:2.4rem}
-.step{position:relative}
-.step::before{content:"";position:absolute;left:calc(-2rem - 7px);top:.4em;width:12px;height:12px;border-radius:50%;background:var(--teal);box-shadow:0 0 0 4px var(--paper)}
-.step .when{font-family:var(--mono);font-size:.7rem;letter-spacing:.18em;text-transform:uppercase;color:var(--teal)}
-.step h3{font-family:var(--serif-display);font-size:1.3rem;font-weight:600;margin-top:.3rem}
-.step p{color:var(--ink-soft);max-width:56ch;margin-top:.35rem;font-size:.98rem}
-
-/* Patricia */
-.origin{background:var(--paper-shade)}
-.origin-quote{font-family:var(--serif-display);font-style:italic;font-weight:400;font-size:clamp(1.4rem,3vw,2rem);line-height:1.4;max-width:26ch;color:var(--ink)}
-.origin-attr{margin-top:1.6rem;font-family:var(--mono);font-size:.72rem;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-soft)}
-.origin-body{max-width:58ch;margin-top:1.6rem;color:var(--ink-soft)}
-
-/* Inside the book */
-.inside-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;margin-top:3rem}
-@media(max-width:860px){.inside-grid{grid-template-columns:1fr}}
-.inside{border-top:3px solid var(--teal);background:#fff;border-radius:0 0 6px 6px;padding:1.7rem 1.6rem;border-left:1px solid #E5E1D6;border-right:1px solid #E5E1D6;border-bottom:1px solid #E5E1D6}
-.inside h3{font-family:var(--serif-display);font-size:1.2rem;font-weight:600}
-.inside p{color:var(--ink-soft);font-size:.95rem;margin-top:.55rem}
-.inside .tag{font-family:var(--mono);font-size:.62rem;letter-spacing:.18em;text-transform:uppercase;color:var(--teal);display:block;margin-bottom:.7rem}
-
-/* Epigraph */
-.epigraph{background:var(--evergreen);color:var(--paper);text-align:center}
-.epigraph .section{padding:4.5rem 1.5rem}
-.epigraph p{font-family:var(--serif-display);font-style:italic;font-size:clamp(1.5rem,3.4vw,2.3rem);line-height:1.35}
-.epigraph .attr{font-family:var(--mono);font-size:.7rem;letter-spacing:.2em;text-transform:uppercase;color:var(--teal-bright);margin-top:1.4rem}
-
-/* Author */
-.author-grid{display:grid;grid-template-columns:auto 1fr;gap:2.5rem;align-items:start;margin-top:2.6rem}
-@media(max-width:700px){.author-grid{grid-template-columns:1fr}}
-.author-mark{width:110px;height:110px;border-radius:50%;background:var(--evergreen);color:var(--paper);display:flex;align-items:center;justify-content:center;font-family:var(--serif-display);font-size:2rem;font-weight:600;letter-spacing:.05em}
-.author-grid p{max-width:62ch;color:var(--ink-soft)}
-.author-grid p+p{margin-top:1rem}
-
-/* Waitlist */
-.waitlist{background:var(--evergreen-deep);color:var(--paper)}
-.wl-card{max-width:640px;margin:0 auto;background:var(--paper);color:var(--ink);border-radius:6px;padding:2.6rem 2.4rem;position:relative;overflow:hidden;box-shadow:0 30px 70px rgba(0,0,0,.5)}
-.wl-card::before{content:"";position:absolute;left:0;right:0;top:3rem;height:2px;background:var(--card-headrule);opacity:.6}
-.wl-card h2{font-family:var(--serif-display);font-size:1.7rem;font-weight:600}
-.wl-card p{color:var(--ink-soft);margin-top:2rem;font-size:.98rem}
-.wl-form{display:flex;gap:.7rem;margin-top:1.5rem;flex-wrap:wrap}
-.wl-form input{flex:1;min-width:220px;font-family:var(--serif-body);font-size:1rem;padding:.85rem 1rem;border:1.5px solid #D8D3C6;border-radius:3px;background:#fff;color:var(--ink)}
-.wl-form input:focus{outline:2px solid var(--teal);outline-offset:1px;border-color:var(--teal)}
-.wl-form button{font-family:var(--mono);font-size:.75rem;letter-spacing:.14em;text-transform:uppercase;font-weight:600;background:var(--evergreen);color:var(--paper);border:none;border-radius:3px;padding:.9rem 1.5rem;cursor:pointer;transition:background .15s}
-.wl-form button:hover{background:var(--teal)}
-.wl-note{font-family:var(--mono);font-size:.68rem;letter-spacing:.08em;color:var(--ink-soft);margin-top:1rem!important}
-.wl-confirm{display:none;margin-top:1.5rem;font-family:var(--hand);font-size:1.6rem;font-weight:600;color:var(--pen)}
-.comp-line{text-align:center;max-width:56ch;margin:3rem auto 0;color:rgba(252,251,247,.7);font-size:1rem}
-.comp-line b{color:var(--paper);font-weight:600}
-
-/* Footer */
-footer{background:var(--evergreen-deep);border-top:1px solid rgba(252,251,247,.1)}
-.footer-inner{max-width:1120px;margin:0 auto;padding:2.2rem 1.5rem;display:flex;justify-content:space-between;align-items:center;gap:1rem;flex-wrap:wrap}
-.footer-inner p{font-family:var(--mono);font-size:.68rem;letter-spacing:.12em;color:rgba(252,251,247,.5)}
-.footer-inner .fm{color:rgba(252,251,247,.75);font-family:var(--serif-display);letter-spacing:.14em}
-
-.reveal{opacity:0;transform:translateY(18px);transition:opacity .6s ease,transform .6s ease}
-.reveal.in{opacity:1;transform:none}
-@media(prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none}}
-:focus-visible{outline:2px solid var(--teal-bright);outline-offset:2px}
+.nav-inner{max-width:1120px;margin:0 auto;padding:.9rem 1.5rem;display:flex;align-items:center;justify-content:space-between}.wordmark{font-family:var(--serif-display);font-weight:600;font-size:1.35rem;letter-spacing:.16em;color:var(--paper);text-decoration:none;position:relative}.wordmark .ring{position:absolute;top:-.34em;left:50%;transform:translateX(-50%);width:1.15em;height:.38em;border:1.5px solid var(--teal-bright);border-radius:50%;opacity:.85}.nav-links{display:flex;gap:1.25rem;align-items:center;list-style:none}.nav-links a{font-family:var(--mono);font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:rgba(252,251,247,.75);text-decoration:none;transition:color .15s}.nav-links a:hover,.nav-links a:focus-visible{color:var(--paper)}.nav-cta{background:var(--paper);color:var(--evergreen)!important;padding:.5rem .95rem;border-radius:3px;font-weight:600}.nav-cta:hover{background:#fff}@media(max-width:760px){.nav-links li:not(:last-child){display:none}}
+.hero{max-width:1120px;margin:0 auto;padding:5rem 1.5rem 5.5rem;display:grid;grid-template-columns:.92fr 1.08fr;gap:3rem;align-items:center}@media(max-width:980px){.hero{grid-template-columns:1fr;padding-top:3.5rem}}
+.eyebrow,.kicker{font-family:var(--mono);font-size:.72rem;letter-spacing:.22em;text-transform:uppercase;color:var(--teal-bright);margin-bottom:1.1rem}.hero h1{font-family:var(--serif-display);font-weight:600;font-size:clamp(4.2rem,9vw,6.8rem);letter-spacing:.06em;line-height:.95;color:var(--paper);position:relative;display:inline-block}.hero h1 .halo-ring{position:absolute;top:-.24em;left:.02em;width:.92em;height:.3em;border:3px solid var(--teal-bright);border-radius:50%;opacity:.9}.hero .subtitle{font-family:var(--serif-display);font-weight:400;font-style:italic;font-size:clamp(1.25rem,2.4vw,1.6rem);color:rgba(252,251,247,.92);margin-top:1.1rem}.hero .tagline{font-family:var(--mono);font-size:.8rem;letter-spacing:.18em;text-transform:uppercase;color:var(--teal-bright);margin-top:1rem}.lede{color:rgba(252,251,247,.78);max-width:48ch;margin-top:1.6rem;font-size:1.08rem}.hero-ctas{display:flex;gap:.9rem;margin-top:2.2rem;flex-wrap:wrap}.btn{display:inline-block;font-family:var(--mono);font-size:.76rem;letter-spacing:.13em;text-transform:uppercase;text-decoration:none;padding:.9rem 1.35rem;border-radius:3px;transition:transform .12s,background .15s;border:0;cursor:pointer}.btn:active{transform:translateY(1px)}.btn-primary{background:var(--paper);color:var(--evergreen);font-weight:700}.btn-primary:hover{background:#fff}.btn-ghost{border:1px solid rgba(252,251,247,.35);color:var(--paper);background:transparent}.btn-ghost:hover{border-color:var(--paper)}.btn-ghost-dark{border:1px solid rgba(32,48,43,.28);color:var(--ink);background:transparent}.btn:disabled{opacity:.48;cursor:not-allowed}
+.acronym{background:var(--evergreen-deep);border-top:1px solid rgba(252,251,247,.08);border-bottom:1px solid rgba(252,251,247,.08)}.acronym-inner{max-width:1120px;margin:0 auto;padding:2.4rem 1.5rem;display:flex;justify-content:center;gap:clamp(1.2rem,4vw,3.5rem);flex-wrap:wrap}.acronym span{font-family:var(--serif-display);font-size:clamp(1rem,2.2vw,1.45rem);color:var(--paper);letter-spacing:.02em}.acronym b{color:var(--teal-bright);font-weight:600}
+.paper{background:var(--paper);color:var(--ink)}.paper-shade,.origin{background:var(--paper-shade)}.section{max-width:1120px;margin:0 auto;padding:5.5rem 1.5rem}.section h2{font-family:var(--serif-display);font-weight:600;font-size:clamp(1.9rem,4vw,2.7rem);line-height:1.15;max-width:24ch}.section .intro{max-width:62ch;margin-top:1.2rem;color:var(--ink-soft);font-size:1.05rem}
+.lives{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin-top:3rem}@media(max-width:760px){.lives{grid-template-columns:1fr}}.life{border-radius:6px;padding:2rem 1.9rem}.life h3{font-family:var(--serif-display);font-size:1.35rem;font-weight:600;margin-bottom:1.1rem}.life ul{list-style:none}.life li{padding:.55rem 0;border-bottom:1px solid rgba(0,0,0,.07);font-size:1rem}.life li:last-child{border-bottom:none}.life-trying{background:var(--paper-shade);color:var(--ink-soft)}.life-decided{background:var(--evergreen);color:var(--paper)}.life-decided li{border-bottom-color:rgba(252,251,247,.14)}.life-decided .mark{color:var(--teal-bright)}.life .mark{display:inline-block;width:1.4em;font-family:var(--mono)}
+.rules-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1.5rem;margin-top:3rem}@media(max-width:760px){.rules-grid{grid-template-columns:1fr}}.rule-card{position:relative;background:#fff;border:1px solid #E5E1D6;border-radius:6px;padding:1.5rem 1.6rem 1.7rem;box-shadow:0 3px 14px rgba(32,48,43,.06);overflow:hidden}.rule-card::before{content:"";position:absolute;left:0;right:0;top:2.4rem;height:2px;background:var(--card-headrule);opacity:.55}.rule-num{font-family:var(--mono);font-size:.65rem;letter-spacing:.2em;color:var(--ink-soft);text-transform:uppercase}.rule-card h3{font-family:var(--hand);font-size:1.9rem;font-weight:600;color:var(--pen);margin-top:1.15rem}.rule-card p{color:var(--ink-soft);font-size:.97rem;margin-top:.5rem}
+.path{border-left:2px solid var(--teal);margin:3rem 0 0 .4rem;padding-left:2rem;display:grid;gap:2.4rem}.step{position:relative}.step::before{content:"";position:absolute;left:calc(-2rem - 7px);top:.4em;width:12px;height:12px;border-radius:50%;background:var(--teal);box-shadow:0 0 0 4px var(--paper)}.step .when,.inside .tag{font-family:var(--mono);font-size:.7rem;letter-spacing:.18em;text-transform:uppercase;color:var(--teal)}.step h3{font-family:var(--serif-display);font-size:1.3rem;font-weight:600;margin-top:.3rem}.step p{color:var(--ink-soft);max-width:56ch;margin-top:.35rem;font-size:.98rem}
+.inside-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;margin-top:3rem}@media(max-width:860px){.inside-grid{grid-template-columns:1fr}}.inside{border-top:3px solid var(--teal);background:#fff;border-radius:0 0 6px 6px;padding:1.7rem 1.6rem;border-left:1px solid #E5E1D6;border-right:1px solid #E5E1D6;border-bottom:1px solid #E5E1D6}.inside h3{font-family:var(--serif-display);font-size:1.2rem;font-weight:600}.inside p{color:var(--ink-soft);font-size:.95rem;margin-top:.55rem}.inside .tag{display:block;margin-bottom:.7rem}
+.origin-quote{font-family:var(--serif-display);font-style:italic;font-weight:400;font-size:clamp(1.4rem,3vw,2rem);line-height:1.4;max-width:26ch;color:var(--ink)}.origin-attr{margin-top:1.6rem;font-family:var(--mono);font-size:.72rem;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-soft)}.origin-body{max-width:58ch;margin-top:1.6rem;color:var(--ink-soft)}
+.epigraph{background:var(--evergreen);color:var(--paper);text-align:center}.epigraph .section{padding:4.5rem 1.5rem}.epigraph p{font-family:var(--serif-display);font-style:italic;font-size:clamp(1.5rem,3.4vw,2.3rem);line-height:1.35}.epigraph .attr{font-family:var(--mono);font-size:.7rem;letter-spacing:.2em;text-transform:uppercase;color:var(--teal-bright);margin-top:1.4rem}
+.author-grid{display:grid;grid-template-columns:auto 1fr;gap:2.5rem;align-items:start;margin-top:2.6rem}@media(max-width:700px){.author-grid{grid-template-columns:1fr}}.author-mark{width:110px;height:110px;border-radius:50%;background:var(--evergreen);color:var(--paper);display:flex;align-items:center;justify-content:center;font-family:var(--serif-display);font-size:2rem;font-weight:600;letter-spacing:.05em}.author-grid p{max-width:62ch;color:var(--ink-soft)}.author-grid p+p{margin-top:1rem}
+.waitlist{background:var(--evergreen-deep);color:var(--paper)}.final-cta{text-align:center}.final-cta h2{margin:0 auto;color:var(--paper)}.final-cta .hero-ctas{justify-content:center}
+footer{background:var(--evergreen-deep);border-top:1px solid rgba(252,251,247,.1)}.footer-inner{max-width:1120px;margin:0 auto;padding:2.2rem 1.5rem;display:flex;justify-content:space-between;align-items:center;gap:1rem;flex-wrap:wrap}.footer-inner p{font-family:var(--mono);font-size:.68rem;letter-spacing:.12em;color:rgba(252,251,247,.5)}.footer-inner .fm{color:rgba(252,251,247,.75);font-family:var(--serif-display);letter-spacing:.14em}
+.reveal{opacity:0;transform:translateY(18px);transition:opacity .6s ease,transform .6s ease}.reveal.in{opacity:1;transform:none}@media(prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none}}
 </style>
 </head>
 <body>
-
 <nav aria-label="Main">
   <div class="nav-inner">
     <a class="wordmark" href="#top">H<span style="position:relative">A<span class="ring" aria-hidden="true"></span></span>LO</a>
     <ul class="nav-links">
+      <li><a href="#try">Try 1607</a></li>
       <li><a href="#method">The Method</a></li>
-      <li><a href="#path">The Path</a></li>
+      <li><a href="#app">HALO NOW</a></li>
       <li><a href="#origin">Origin</a></li>
-      <li><a href="#inside">Inside</a></li>
       <li><a href="/app/">Open App</a></li>
-      <li><a href="#waitlist" class="nav-cta">Join the Waitlist</a></li>
+      <li><a href="#try" class="nav-cta">Try HALO Now</a></li>
     </ul>
   </div>
 </nav>
 
 <header class="hero" id="top">
   <div>
-    <p class="eyebrow">The Identity Method for Lasting Change</p>
+    <p class="eyebrow">THE 1-60-7 TEST</p>
     <h1>H<span style="position:relative">A<span class="halo-ring" aria-hidden="true"></span></span>LO</h1>
-    <p class="subtitle">The Identity Method for Lasting Change</p>
-    <p class="tagline">Install once. Live from there.</p>
-    <p class="lede">Most change fails because you keep trying to force new behavior from an old identity. HALO ends the negotiation: decide who you are first, prove it in the next sixty seconds, and let repetition make it permanent.</p>
+    <p class="subtitle">Identity for Lasting Change</p>
+    <p class="tagline">1 card. 60 seconds. 7 days.</p>
+    <p class="lede">Stop trying to become the person you want to be. Decide who you are, prove it with one action in the next 60 seconds, then live from the decision for seven days.</p>
     <div class="hero-ctas">
-      <a class="btn btn-primary" href="#waitlist">Join the Waitlist</a>
-      <a class="btn btn-ghost" href="/app/">Open the App</a>
+      <a class="btn btn-primary" href="#try">Try HALO Now</a>
+      <a class="btn btn-ghost" href="/1607/">Open the 1607 Test</a>
       <a class="btn btn-ghost" href="#method">See the Method</a>
     </div>
   </div>
-  <div>
-    <div class="card-stage">
-      <div class="index-card" id="heroCard" role="button" tabindex="0" aria-label="The HALO index card. Click to flip.">
-        <div class="card-face card-front">
-          <span class="card-label">The Card &mdash; Side One</span>
-          <div class="rules" aria-hidden="true"></div>
-          <p class="card-line">I am <span class="written"><span id="typed"></span><span class="caret" aria-hidden="true"></span></span></p>
-          <div class="card-footer"><span>Present tense</span><span>It already happened</span></div>
-        </div>
-        <div class="card-face card-back">
-          <span class="card-label">The Card &mdash; Side Two</span>
-          <div class="rules" aria-hidden="true"></div>
-          <p class="card-question">What would the person I&rsquo;ve decided to be do right now?</p>
-          <div class="card-footer"><span>One question</span><span>Sixty seconds</span></div>
-        </div>
-      </div>
-      <p class="card-hint">Tap the card to flip it</p>
-    </div>
-  </div>
+  <Halo1607Experience compact={true} />
 </header>
 
 <div class="acronym" aria-label="What HALO stands for">
-  <div class="acronym-inner">
-    <span><b>H</b>appened</span><span><b>A</b>lready.</span><span><b>L</b>ive</span><span><b>O</b>n.</span>
-  </div>
+  <div class="acronym-inner"><span><b>H</b>appened</span><span><b>A</b>lready.</span><span><b>L</b>ive</span><span><b>O</b>n.</span></div>
 </div>
 
 <main>
 <section class="paper" id="method">
   <div class="section">
     <p class="kicker reveal">The Problem</p>
-    <h2 class="reveal">You&rsquo;ve been negotiating with yourself for years. The negotiation is the problem.</h2>
-    <p class="intro reveal">Every morning the debate reopens: should I? can I? am I really the kind of person who&hellip;? That debate is the Trying Life, and it burns your energy before the day begins. There is another way to wake up.</p>
+    <h2 class="reveal">You do not need more negotiation. You need proof.</h2>
+    <p class="intro reveal">Every morning the debate reopens: should I, can I, am I really the kind of person who does this? HALO closes the debate with a present-tense decision and one visible action.</p>
     <div class="lives">
-      <div class="life life-trying reveal">
-        <h3>The Trying Life</h3>
-        <ul>
-          <li><span class="mark">&times;</span>Exhaustion from constant restarts</li>
-          <li><span class="mark">&times;</span>Future-tense promises &mdash; &ldquo;I&rsquo;ll become&hellip;&rdquo;</li>
-          <li><span class="mark">&times;</span>Every choice relitigated daily</li>
-          <li><span class="mark">&times;</span>Wasted energy on the inner debate</li>
-        </ul>
-      </div>
-      <div class="life life-decided reveal">
-        <h3>The Decided Life</h3>
-        <ul>
-          <li><span class="mark">&check;</span>Present tense &mdash; &ldquo;I am&hellip;&rdquo;</li>
-          <li><span class="mark">&check;</span>Energy spent on outcomes, not arguments</li>
-          <li><span class="mark">&check;</span>Slips are noise, not verdicts</li>
-          <li><span class="mark">&check;</span>Calmer, because the question is closed</li>
-        </ul>
-      </div>
+      <div class="life life-trying reveal"><h3>The Trying Life</h3><ul><li><span class="mark">&times;</span>Constant restarts</li><li><span class="mark">&times;</span>Future-tense promises</li><li><span class="mark">&times;</span>Every choice relitigated</li><li><span class="mark">&times;</span>Energy spent on the inner debate</li></ul></div>
+      <div class="life life-decided reveal"><h3>The Decided Life</h3><ul><li><span class="mark">&check;</span>Present tense: I am</li><li><span class="mark">&check;</span>One action creates evidence</li><li><span class="mark">&check;</span>Slips become noise, not verdicts</li><li><span class="mark">&check;</span>The next action is clearer</li></ul></div>
     </div>
   </div>
 </section>
 
-<section class="paper" style="background:var(--paper-shade)">
+<section class="paper paper-shade">
   <div class="section">
     <p class="kicker reveal">The Method</p>
     <h2 class="reveal">Four rules. One card. Written by hand.</h2>
     <p class="intro reveal">HALO is not affirmations, and it is not manifestation. It is a conduct system: a decision made once, backed by immediate action, protected from renegotiation.</p>
     <div class="rules-grid">
-      <div class="rule-card reveal">
-        <span class="rule-num">Rule 01</span>
-        <h3>Choose now.</h3>
-        <p>Name the identity in the present tense. Not a goal, not a wish &mdash; a sentence that is already true the moment you write it.</p>
-      </div>
-      <div class="rule-card reveal">
-        <span class="rule-num">Rule 02</span>
-        <h3>Prove it through action.</h3>
-        <p>Take one aligned step within sixty seconds. The brain updates on evidence, and the first evidence arrives immediately.</p>
-      </div>
-      <div class="rule-card reveal">
-        <span class="rule-num">Rule 03</span>
-        <h3>Stop negotiating.</h3>
-        <p>The decision is closed. You don&rsquo;t retry the case every morning. The question is no longer whether &mdash; only what comes next.</p>
-      </div>
-      <div class="rule-card reveal">
-        <span class="rule-num">Rule 04</span>
-        <h3>Treat slips as noise. Reset quickly.</h3>
-        <p>A slip is a single event. A relapse is a story. Return at the next scheduled opportunity, and the signal holds.</p>
-      </div>
+      <div class="rule-card reveal"><span class="rule-num">Rule 01</span><h3>Choose now.</h3><p>Name the identity in the present tense. Not a goal, not a wish.</p></div>
+      <div class="rule-card reveal"><span class="rule-num">Rule 02</span><h3>Prove it through action.</h3><p>Take one aligned action within sixty seconds. Every aligned action adds evidence.</p></div>
+      <div class="rule-card reveal"><span class="rule-num">Rule 03</span><h3>Stop negotiating.</h3><p>The question is no longer whether you are this person. It is what this person does next.</p></div>
+      <div class="rule-card reveal"><span class="rule-num">Rule 04</span><h3>Reset quickly.</h3><p>A slip is a single event. Return at the next opportunity and the signal holds.</p></div>
     </div>
   </div>
 </section>
 
-<section class="paper" id="path">
+<section class="paper" id="app">
   <div class="section">
-    <p class="kicker reveal">The Path</p>
-    <h2 class="reveal">From one sentence to a new default</h2>
-    <div class="path">
-      <div class="step reveal">
-        <span class="when">Minute one</span>
-        <h3>Sixty seconds</h3>
-        <p>Write the card. Take one aligned action before the minute ends. The installation begins with proof, not preparation.</p>
-      </div>
-      <div class="step reveal">
-        <span class="when">Week one</span>
-        <h3>The 7-Day Test</h3>
-        <p>Each day, ask the card&rsquo;s question and act on the answer once. Record the proof. Seven days tells you whether the identity fits.</p>
-      </div>
-      <div class="step reveal">
-        <span class="when">Weeks two to twelve</span>
-        <h3>The quiet stretch</h3>
-        <p>The world declines to comment while the identity transfers from decision to default. Boredom here isn&rsquo;t failure &mdash; it&rsquo;s the installer running.</p>
-      </div>
-      <div class="step reveal">
-        <span class="when">Day ninety</span>
-        <h3>The 90-Day Build</h3>
-        <p>The debate has gone quiet. The conduct happens without a preceding act of will. You&rsquo;re not maintaining a change anymore. You&rsquo;re living from it.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="origin paper" id="origin">
-  <div class="section">
-    <p class="kicker reveal">The Origin</p>
-    <p class="origin-quote reveal">It began with a single sentence, spoken by a gym class instructor in Manhattan.</p>
-    <p class="origin-attr reveal">For Patricia, who planted the seed</p>
-    <p class="origin-body reveal">Patricia Moreno saw something most people couldn&rsquo;t see, and she said it in a way that couldn&rsquo;t be forgotten. Gordon Ebanks spent the next two decades testing what she showed him &mdash; on himself first, then watching the same pattern move through friends, colleagues, and strangers stuck in the Trying Life. The science arrived after the experience. This book is what the journals became.</p>
-  </div>
-</section>
-
-<section class="paper" id="inside">
-  <div class="section">
-    <p class="kicker reveal">Inside the Book</p>
-    <h2 class="reveal">A field manual, not a philosophy</h2>
+    <p class="kicker reveal">HALO NOW</p>
+    <h2 class="reveal">Take HALO with you.</h2>
+    <p class="intro reveal">The app keeps the decision visible, captures proof, tracks your return after slips, and carries 1607 into the 90-Day Build.</p>
     <div class="inside-grid">
-      <div class="inside reveal">
-        <span class="tag">Parts I&ndash;III</span>
-        <h3>The problem, the method, the mechanism</h3>
-        <p>Why willpower loses to identity, the four rules and the card, and the research &mdash; from William James&rsquo;s 1870 diary to quantum change &mdash; that explains why deciding first works.</p>
-      </div>
-      <div class="inside reveal">
-        <span class="tag">Parts IV&ndash;V</span>
-        <h3>Stabilize, then apply</h3>
-        <p>The Signal Law, momentum, the quiet stretch, and thirteen domain blueprints &mdash; money, body, relationships, career, entrepreneurship, and more &mdash; plus a template to build your own.</p>
-      </div>
-      <div class="inside reveal">
-        <span class="tag">Reader Tools</span>
-        <h3>Everything you need to run it</h3>
-        <p>Fifty identity statements, the Installation worksheet, the 7-Day Test tracker, the Evidence Sheet, and the HALO Board &mdash; a vision board grounded in a decision, not a wish.</p>
-      </div>
+      <div class="inside reveal"><span class="tag">Today</span><h3>Your card and next proof</h3><p>Keep the identity and immediate action where you can see them.</p></div>
+      <div class="inside reveal"><span class="tag">Evidence</span><h3>What you actually did</h3><p>Record observable proof instead of relying on motivation.</p></div>
+      <div class="inside reveal"><span class="tag">Reset</span><h3>Return quickly</h3><p>Recover after slips without turning one miss into a story.</p></div>
+    </div>
+    <div class="path"><div class="step reveal"><span class="when">7 days</span><h3>The first test</h3><p>Live from the decision long enough to gather real evidence.</p></div><div class="step reveal"><span class="when">90 days</span><h3>The build</h3><p>The decision moves from event to default through repetition.</p></div></div>
+  </div>
+</section>
+
+<section class="paper paper-shade" id="inside">
+  <div class="section">
+    <p class="kicker reveal">The Book</p>
+    <h2 class="reveal">The test lets you experience HALO. The book explains why it works.</h2>
+    <p class="intro reveal">HALO Identity for Lasting Change explains why identity changes the behavior underneath goals and habits, and how to make the change durable.</p>
+    <div class="inside-grid">
+      <div class="inside reveal"><span class="tag">Method</span><h3>Happened Already. Live On.</h3><p>The four rules and the card that make the decision concrete.</p></div>
+      <div class="inside reveal"><span class="tag">Mechanism</span><h3>Identity before behavior</h3><p>Why the person performing the habit matters more than the habit alone.</p></div>
+      <div class="inside reveal"><span class="tag">Practice</span><h3>7 days to 90 days</h3><p>How to move from first proof into a durable default.</p></div>
     </div>
   </div>
 </section>
 
-<section class="epigraph">
-  <div class="section">
-    <p class="reveal">&ldquo;What you settle repeats.<br>What repeats compounds.&rdquo;</p>
-    <p class="attr reveal">The premise of HALO</p>
-  </div>
-</section>
+<section class="epigraph"><div class="section"><p class="reveal">&ldquo;What you settle repeats.<br>What repeats compounds.&rdquo;</p><p class="attr reveal">The premise of HALO</p></div></section>
 
-<section class="paper" id="author">
-  <div class="section">
-    <p class="kicker reveal">The Author</p>
-    <h2 class="reveal">Gordon Ebanks</h2>
-    <div class="author-grid">
-      <div class="author-mark reveal" aria-hidden="true">GE</div>
-      <div class="reveal">
-        <p>Born and raised in England, Gordon has built businesses across industries &mdash; from technology ventures to the stand-up comedy stage, where he learned something this book keeps returning to: the audience believes the person you decide to be before you do.</p>
-        <p>He has spent two decades testing the identity-first method on himself and watching it reorganize the lives of the people around him. HALO is the field report.</p>
-      </div>
-    </div>
-  </div>
-</section>
+<section class="origin paper" id="origin"><div class="section"><p class="kicker reveal">The Origin</p><p class="origin-quote reveal">It began with a single sentence, spoken by a gym class instructor in Manhattan.</p><p class="origin-attr reveal">For Patricia, who planted the seed</p><p class="origin-body reveal">Patricia Moreno saw something most people could not see, and she said it in a way that could not be forgotten. Gordon Ebanks spent the next two decades testing what she showed him: decide first, prove it now, live from there.</p></div></section>
 
-<section class="waitlist" id="waitlist">
-  <div class="section">
-    <div class="wl-card reveal">
-      <h2>Be first when HALO launches</h2>
-      <p>Early excerpts, the launch date, and the reader tools &mdash; straight to your inbox. No noise. That would be off-brand.</p>
-      <form class="wl-form" id="wlForm" aria-label="Join the waitlist" action="https://formspree.io/f/xreyqoab" method="POST">
-        <input type="email" id="wlEmail" name="email" placeholder="you@example.com" aria-label="Email address" required>
-        <button type="submit">Join the Waitlist</button>
-      </form>
-      <p class="wl-confirm" id="wlConfirm">It already happened. You&rsquo;re on the list.</p>
-      <p class="wl-note">One email at launch. A few worth reading before it. Unsubscribe anytime.</p>
-    </div>
-    <p class="comp-line reveal">Habit systems show us how behavior becomes automatic. <b>HALO begins one layer earlier</b> &mdash; with the decision about who is performing it.</p>
-  </div>
-</section>
+<section class="paper" id="author"><div class="section"><p class="kicker reveal">The Author</p><h2 class="reveal">Gordon Ebanks</h2><div class="author-grid"><div class="author-mark reveal" aria-hidden="true">GE</div><div class="reveal"><p>Born and raised in England, Gordon has built businesses across industries and spent two decades testing the identity-first method on himself and the people around him.</p><p>HALO is the field report.</p></div></div></div></section>
+
+<section class="waitlist" id="final"><div class="section final-cta"><p class="kicker reveal">Try HALO Now</p><h2 class="reveal">One card. One action. Seven days.</h2><div class="hero-ctas reveal"><a class="btn btn-primary" href="#try">Take the 1-60-7 Test</a><a class="btn btn-ghost" href="/1607/">Open /1607</a><a class="btn btn-ghost" href="#inside">Get HALO at launch</a></div></div></section>
 </main>
 
-<footer>
-  <div class="footer-inner">
-    <p class="fm">HALO</p>
-    <p>&copy; 2026 Install Once &middot; installonce.ai &middot; All rights reserved</p>
-  </div>
-</footer>
+<footer><div class="footer-inner"><p class="fm">HALO</p><p>&copy; 2026 Install Once &middot; installonce.ai &middot; All rights reserved</p></div></footer>
 
 <script>
-// Typing loop on the hero card
-(function(){
-  var identities = ["a healthy person.", "a wealth builder.", "a present parent.", "a writer.", "a business owner.", "calm under pressure."];
-  var el = document.getElementById('typed');
-  var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  if (reduced) { el.textContent = identities[0]; return; }
-  var i = 0, ch = 0, deleting = false;
-  function tick(){
-    var word = identities[i];
-    if (!deleting) {
-      ch++;
-      el.textContent = word.slice(0, ch);
-      if (ch === word.length) { deleting = true; return setTimeout(tick, 2200); }
-      return setTimeout(tick, 65 + Math.random()*70);
-    } else {
-      ch--;
-      el.textContent = word.slice(0, ch);
-      if (ch === 0) { deleting = false; i = (i+1) % identities.length; return setTimeout(tick, 500); }
-      return setTimeout(tick, 30);
-    }
-  }
-  setTimeout(tick, 900);
-})();
-
-// Card flip
-(function(){
-  var card = document.getElementById('heroCard');
-  function flip(){ card.classList.toggle('flipped'); }
-  card.addEventListener('click', flip);
-  card.addEventListener('keydown', function(e){ if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); flip(); } });
-})();
-
-// Scroll reveals
-(function(){
-  var els = document.querySelectorAll('.reveal');
-  if (!('IntersectionObserver' in window)) { els.forEach(function(el){ el.classList.add('in'); }); return; }
-  var io = new IntersectionObserver(function(entries){
-    entries.forEach(function(en){ if (en.isIntersecting) { en.target.classList.add('in'); io.unobserve(en.target); } });
+(() => {
+  const els = document.querySelectorAll(".reveal");
+  if (!("IntersectionObserver" in window)) { els.forEach((el) => el.classList.add("in")); return; }
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add("in");
+        io.unobserve(entry.target);
+      }
+    });
   }, { threshold: 0.12 });
-  els.forEach(function(el){ io.observe(el); });
-})();
-
-// Waitlist
-(function(){
-  var form = document.getElementById('wlForm');
-  var confirm = document.getElementById('wlConfirm');
-  form.addEventListener('submit', async function(e){
-    e.preventDefault();
-    var email = document.getElementById('wlEmail').value.trim();
-    if (!email) return;
-    var button = form.querySelector('button');
-    var originalText = button.textContent;
-    button.textContent = 'Joining...';
-    button.disabled = true;
-    try {
-      var response = await fetch(form.action, {
-        method: 'POST',
-        body: new FormData(form),
-        headers: { 'Accept': 'application/json' }
-      });
-      if (!response.ok) throw new Error('Waitlist signup failed');
-      form.style.display = 'none';
-      confirm.style.display = 'block';
-      form.reset();
-    } catch (error) {
-      button.textContent = originalText;
-      button.disabled = false;
-      confirm.textContent = 'Something went wrong. Please try again.';
-      confirm.style.display = 'block';
-      confirm.style.color = '#B94A55';
-    }
-  });
+  els.forEach((el) => io.observe(el));
 })();
 </script>
 </body>

@@ -1,0 +1,29 @@
+---
+import Halo1607Experience from "../components/Halo1607Experience.astro";
+import "../styles/global.css";
+---
+
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The 1-60-7 Test - Try HALO Now</title>
+<meta name="description" content="Take the 1-60-7 Test: one card, one action in sixty seconds, seven days living from the decision.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&family=Caveat:wght@500;600&display=swap" rel="stylesheet">
+<style>
+:root{--evergreen:#0B3D30;--evergreen-deep:#082E24;--teal:#0F6E56;--teal-bright:#2E9C7C;--paper:#FCFBF7;--paper-shade:#F3F0E8;--card-rule:#C6D9E7;--card-headrule:#E2707A;--ink:#20302B;--ink-soft:#54655F;--pen:#17355F;--serif-display:'Fraunces',Georgia,serif;--serif-body:'Source Serif 4',Georgia,serif;--hand:'Caveat',cursive;--mono:ui-monospace,'SF Mono',Menlo,monospace}
+*{margin:0;padding:0;box-sizing:border-box}body{min-height:100vh;background:var(--evergreen);color:var(--paper);font-family:var(--serif-body);font-size:17px;line-height:1.65}.single-test{max-width:900px;margin:0 auto;padding:2rem 1.5rem 4rem}.wordmark{display:inline-block;margin-bottom:3rem;font-family:var(--serif-display);font-weight:600;font-size:1.35rem;letter-spacing:.16em;color:var(--paper);text-decoration:none;position:relative}.wordmark .ring{position:absolute;top:-.34em;left:50%;transform:translateX(-50%);width:1.15em;height:.38em;border:1.5px solid var(--teal-bright);border-radius:50%;opacity:.85}.eyebrow,.kicker{font-family:var(--mono);font-size:.72rem;letter-spacing:.22em;text-transform:uppercase;color:var(--teal-bright);margin-bottom:1rem}h1{font-family:var(--serif-display);font-size:clamp(2.7rem,8vw,5rem);line-height:.98;max-width:10ch}.lede{margin:1.2rem 0 2.5rem;max-width:48ch;color:rgba(252,251,247,.76);font-size:1.08rem}.btn{display:inline-block;font-family:var(--mono);font-size:.76rem;letter-spacing:.13em;text-transform:uppercase;text-decoration:none;padding:.9rem 1.35rem;border-radius:3px;transition:transform .12s,background .15s;border:0;cursor:pointer}.btn-primary{background:var(--paper);color:var(--evergreen);font-weight:700}.btn-ghost-dark{border:1px solid rgba(32,48,43,.28);color:var(--ink);background:transparent}.btn:disabled{opacity:.48;cursor:not-allowed}@media(max-width:720px){.single-test{padding-top:1.2rem}}
+</style>
+</head>
+<body>
+  <main class="single-test">
+    <a class="wordmark" href="/">H<span style="position:relative">A<span class="ring" aria-hidden="true"></span></span>LO</a>
+    <p class="eyebrow">THE 1-60-7 TEST</p>
+    <h1>1 card. 60 seconds. 7 days.</h1>
+    <p class="lede">Decide who you are. Prove it with one tiny action now. Live from it for seven days.</p>
+    <Halo1607Experience compact={true} />
+  </main>
+</body>
+</html>
