@@ -168,9 +168,11 @@ const { compact = false } = Astro.props;
   .card-stage{perspective:1200px}
   .index-card{position:relative;width:100%;max-width:520px;aspect-ratio:5/3.15;margin:0 auto;transform-style:preserve-3d;-webkit-transform-style:preserve-3d;transition:transform .65s cubic-bezier(.2,.7,.2,1)}
   .index-card.flipped{transform:rotateY(180deg)}
-  .index-card.flipped .card-front{visibility:hidden}
-  .card-face{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;background:var(--paper);border-radius:6px;box-shadow:0 20px 48px rgba(0,0,0,.35),0 2px 6px rgba(0,0,0,.18);padding:1.3rem 1.45rem;overflow:hidden;transform:translateZ(0)}
-  .card-back{transform:rotateY(180deg) translateZ(1px)}
+  .index-card.flipped .card-front{opacity:0;visibility:hidden;pointer-events:none}
+  .index-card.flipped .card-back{opacity:1;visibility:visible;pointer-events:auto}
+  .card-face{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;background:var(--paper);border-radius:6px;box-shadow:0 20px 48px rgba(0,0,0,.35),0 2px 6px rgba(0,0,0,.18);padding:1.3rem 1.45rem;overflow:hidden;transform:translateZ(0);transition:opacity .2s ease,visibility .2s ease}
+  .card-front{opacity:1;visibility:visible;pointer-events:auto}
+  .card-back{opacity:0;visibility:hidden;pointer-events:none;transform:rotateY(180deg) translateZ(1px)}
   .card-face::before{content:"";position:absolute;left:0;right:0;top:2.55rem;height:2px;background:var(--card-headrule);opacity:.72}
   .rules{position:absolute;left:0;right:0;top:4.25rem;bottom:1rem;background:repeating-linear-gradient(to bottom,transparent 0,transparent 27px,var(--card-rule) 27px,var(--card-rule) 28px)}
   .card-label,.card-prompt,.card-question,.card-input,.card-footer{position:relative;z-index:2}
