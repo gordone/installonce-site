@@ -64,6 +64,9 @@ const { compact = false } = Astro.props;
     <div class="test-panel" data-panel="card">
       <p class="panel-label">1 - The card</p>
       <p>Finish the sentence on the card. Make it present-tense and decided.</p>
+      <p class="panel-error" data-identity-error>
+        Enter the identity first.
+      </p>
       <button class="btn btn-primary" type="button" data-next-proof>
         Start the 60-second proof
       </button>
@@ -72,6 +75,9 @@ const { compact = false } = Astro.props;
     <div class="test-panel hidden" data-panel="proof">
       <p class="panel-label">60 - The proof</p>
       <p>Enter one tiny action you can do now. Then start the timer and do it.</p>
+      <p class="panel-error" data-proof-error>
+        Enter the action first.
+      </p>
       <div class="timer" aria-live="polite">
         <span data-timer>60</span><small>seconds</small>
       </div>
@@ -80,7 +86,7 @@ const { compact = false } = Astro.props;
           Start timer
         </button>
         <button class="btn btn-ghost-dark" type="button" data-did-it disabled>
-          I did it
+          I did it - stop timer
         </button>
       </div>
     </div>
@@ -92,6 +98,22 @@ const { compact = false } = Astro.props;
         HALO NOW keeps the card visible, captures evidence, and helps you reset
         quickly when the old pattern tries to come back.
       </p>
+      <div class="seven-day-card" aria-label="Seven day tracker preview">
+        <div>
+          <strong>7-day tracker</strong>
+          <span>Day 1 starts now. Mark one proof each day.</span>
+        </div>
+        <div class="day-dots" data-day-dots>
+          <span class="done">1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span>
+        </div>
+      </div>
+      <div class="reset-card">
+        <strong>Reset tracker</strong>
+        <span>If you miss, log the slip and the return. A reset keeps the signal alive.</span>
+      </div>
+      <a class="btn btn-primary app-link" href="/app/">
+        Open HALO NOW tracker
+      </a>
       <form
         class="signup-form"
         data-halo-form
@@ -144,10 +166,11 @@ const { compact = false } = Astro.props;
   .step-tabs .active{background:var(--paper);color:var(--evergreen);border-color:var(--paper)}
   .paper .step-tabs .active{background:var(--evergreen);color:var(--paper);border-color:var(--evergreen)}
   .card-stage{perspective:1200px}
-  .index-card{position:relative;width:100%;max-width:520px;aspect-ratio:5/3.15;margin:0 auto;transform-style:preserve-3d;transition:transform .65s cubic-bezier(.2,.7,.2,1)}
+  .index-card{position:relative;width:100%;max-width:520px;aspect-ratio:5/3.15;margin:0 auto;transform-style:preserve-3d;-webkit-transform-style:preserve-3d;transition:transform .65s cubic-bezier(.2,.7,.2,1)}
   .index-card.flipped{transform:rotateY(180deg)}
-  .card-face{position:absolute;inset:0;backface-visibility:hidden;background:var(--paper);border-radius:6px;box-shadow:0 20px 48px rgba(0,0,0,.35),0 2px 6px rgba(0,0,0,.18);padding:1.3rem 1.45rem;overflow:hidden}
-  .card-back{transform:rotateY(180deg)}
+  .index-card.flipped .card-front{visibility:hidden}
+  .card-face{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;background:var(--paper);border-radius:6px;box-shadow:0 20px 48px rgba(0,0,0,.35),0 2px 6px rgba(0,0,0,.18);padding:1.3rem 1.45rem;overflow:hidden;transform:translateZ(0)}
+  .card-back{transform:rotateY(180deg) translateZ(1px)}
   .card-face::before{content:"";position:absolute;left:0;right:0;top:2.55rem;height:2px;background:var(--card-headrule);opacity:.72}
   .rules{position:absolute;left:0;right:0;top:4.25rem;bottom:1rem;background:repeating-linear-gradient(to bottom,transparent 0,transparent 27px,var(--card-rule) 27px,var(--card-rule) 28px)}
   .card-label,.card-prompt,.card-question,.card-input,.card-footer{position:relative;z-index:2}
@@ -161,14 +184,27 @@ const { compact = false } = Astro.props;
   .paper .test-panel{border-color:#e5e1d6;background:#fff;color:var(--ink)}
   .test-panel.hidden,.hidden{display:none}
   .panel-label{font-family:var(--mono);font-size:.66rem;letter-spacing:.16em;text-transform:uppercase;color:var(--teal-bright);margin-bottom:.35rem}
+  .panel-error{display:none;margin:.45rem 0 0;color:#B94A55!important;font-family:var(--mono);font-size:.64rem;letter-spacing:.08em;text-transform:uppercase}
+  .panel-error.visible{display:block}
   .test-panel h3{font-family:var(--serif-display);font-size:1.45rem;line-height:1.15;margin-bottom:.45rem}
-  .test-panel p:not(.panel-label):not(.privacy-note):not(.share-copy):not(.wl-confirm){color:rgba(252,251,247,.72)}
-  .paper .test-panel p:not(.panel-label):not(.privacy-note):not(.share-copy):not(.wl-confirm){color:var(--ink-soft)}
+  .test-panel p:not(.panel-label):not(.panel-error):not(.privacy-note):not(.share-copy):not(.wl-confirm){color:rgba(252,251,247,.72)}
+  .paper .test-panel p:not(.panel-label):not(.panel-error):not(.privacy-note):not(.share-copy):not(.wl-confirm){color:var(--ink-soft)}
   .timer{display:flex;align-items:baseline;gap:.4rem;margin:1rem 0;font-family:var(--serif-display);color:var(--paper)}
   .paper .timer{color:var(--ink)}
   .timer span{font-size:3rem;line-height:1}
   .timer small{font-family:var(--mono);font-size:.66rem;letter-spacing:.14em;text-transform:uppercase}
   .panel-actions,.signup-form{display:flex;gap:.7rem;flex-wrap:wrap;margin-top:1rem}
+  .panel-actions .btn{flex:1;min-width:170px}
+  .seven-day-card,.reset-card{margin-top:1rem;border:1px solid rgba(252,251,247,.14);border-radius:6px;padding:.85rem .9rem;background:rgba(255,255,255,.06)}
+  .paper .seven-day-card,.paper .reset-card{border-color:#e5e1d6;background:var(--paper-shade)}
+  .seven-day-card strong,.reset-card strong{display:block;font-family:var(--serif-display);font-size:1.05rem;color:inherit}
+  .seven-day-card span,.reset-card span{display:block;color:rgba(252,251,247,.7);font-size:.9rem;margin-top:.2rem}
+  .paper .seven-day-card span,.paper .reset-card span{color:var(--ink-soft)}
+  .day-dots{display:grid;grid-template-columns:repeat(7,1fr);gap:.4rem;margin-top:.75rem}
+  .day-dots span{display:flex;align-items:center;justify-content:center;aspect-ratio:1;border:1px solid rgba(252,251,247,.22);border-radius:999px;font-family:var(--mono);font-size:.62rem;color:rgba(252,251,247,.72)}
+  .paper .day-dots span{border-color:#d8d3c6;color:var(--ink-soft)}
+  .day-dots span.done{background:var(--teal);border-color:var(--teal);color:#fff}
+  .app-link{display:block;text-align:center;margin-top:1rem}
   .signup-form input{flex:1;min-width:210px;border:1.5px solid #d8d3c6;border-radius:3px;padding:.85rem 1rem;font-family:var(--serif-body);font-size:1rem}
   .signup-form button{border:0;border-radius:3px;background:var(--evergreen);color:var(--paper);cursor:pointer;font-family:var(--mono);font-size:.72rem;font-weight:700;letter-spacing:.12em;padding:.9rem 1rem;text-transform:uppercase}
   .share-copy{margin-top:1rem;color:var(--pen);font-family:var(--hand);font-size:1.45rem;font-weight:600}
@@ -184,6 +220,8 @@ const { compact = false } = Astro.props;
     const proofInput = root.querySelector("[data-proof-input]");
     const timerEl = root.querySelector("[data-timer]");
     const didIt = root.querySelector("[data-did-it]");
+    const identityError = root.querySelector("[data-identity-error]");
+    const proofError = root.querySelector("[data-proof-error]");
     const panels = root.querySelectorAll("[data-panel]");
     const pills = root.querySelectorAll("[data-step-pill]");
     const form = root.querySelector("[data-halo-form]");
@@ -196,14 +234,25 @@ const { compact = false } = Astro.props;
       card.classList.toggle("flipped", step !== "card");
     }
     root.querySelector("[data-next-proof]").addEventListener("click", () => {
-      if (!identityInput.value.trim()) { identityInput.focus(); return; }
+      if (!identityInput.value.trim()) {
+        identityError.classList.add("visible");
+        identityInput.focus();
+        return;
+      }
+      identityError.classList.remove("visible");
       show("proof");
       proofInput.focus();
     });
     root.querySelector("[data-start-timer]").addEventListener("click", (event) => {
-      if (!proofInput.value.trim()) { proofInput.focus(); return; }
+      if (!proofInput.value.trim()) {
+        proofError.classList.add("visible");
+        proofInput.focus();
+        return;
+      }
+      proofError.classList.remove("visible");
       event.currentTarget.disabled = true;
       didIt.disabled = false;
+      didIt.focus();
       clearInterval(interval);
       remaining = 60;
       timerEl.textContent = String(remaining);
@@ -215,6 +264,7 @@ const { compact = false } = Astro.props;
     });
     didIt.addEventListener("click", () => {
       clearInterval(interval);
+      timerEl.textContent = "done";
       root.querySelector("[data-identity-hidden]").value = identityInput.value.trim();
       root.querySelector("[data-proof-hidden]").value = proofInput.value.trim();
       show("live");

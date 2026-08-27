@@ -69,6 +69,8 @@ h1.today{font-family:var(--display);font-weight:600;font-size:1.6rem;color:var(-
 .field-grid input{width:100%;border:1px solid rgba(252,251,247,.22);border-radius:8px;background:rgba(252,251,247,.09);color:var(--paper);padding:.72rem .8rem;outline:none}
 .field-grid input::placeholder{color:rgba(252,251,247,.42)}
 .field-grid input:focus{border-color:var(--teal-bright);box-shadow:0 0 0 2px rgba(46,156,124,.18)}
+.form-error{display:none;margin-top:.7rem!important;color:#F2A3AA!important;font-family:var(--mono);font-size:.62rem;letter-spacing:.1em;text-transform:uppercase}
+.form-error.visible{display:block}
 .mini-panel{margin-top:1rem;background:var(--paper-shade);border-radius:10px;padding:.9rem 1rem;color:var(--ink-soft);font-size:.88rem}
 .mini-panel b{color:var(--teal)}
 .segmented{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-top:.6rem}
@@ -143,6 +145,12 @@ h1.today{font-family:var(--display);font-weight:600;font-size:1.6rem;color:var(-
 .ob-btn{margin-top:1.6rem;background:var(--paper);color:var(--evergreen)}
 .ob-timer .timer-ring .num{color:var(--paper)}
 .installed{font-family:var(--hand);font-size:2.1rem;font-weight:600;color:var(--teal-bright)}
+.onboard-tracker{margin-top:1rem;border:1px solid rgba(252,251,247,.22);border-radius:10px;padding:.95rem;background:rgba(252,251,247,.08)}
+.onboard-tracker strong{display:block;font-family:var(--display);font-size:1.05rem;color:var(--paper)}
+.onboard-tracker span{display:block;color:rgba(252,251,247,.7);font-size:.88rem;margin-top:.2rem}
+.onboard-dots{display:grid;grid-template-columns:repeat(7,1fr);gap:.4rem;margin-top:.75rem}
+.onboard-dots i{display:flex;align-items:center;justify-content:center;aspect-ratio:1;border:1px solid rgba(252,251,247,.25);border-radius:999px;color:rgba(252,251,247,.72);font-family:var(--mono);font-size:.58rem;font-style:normal}
+.onboard-dots i:first-child{background:var(--teal-bright);border-color:var(--teal-bright);color:var(--evergreen-deep);font-weight:700}
 .base-hero{background:var(--evergreen);border-radius:14px;padding:1rem;color:var(--paper);margin-top:1rem;position:relative;overflow:hidden}
 .base-hero::after{content:"";position:absolute;width:130px;height:130px;border:1px solid rgba(46,156,124,.25);border-radius:50%;right:-55px;top:-55px}
 .base-hero .day-label{color:var(--teal-bright)}
@@ -183,6 +191,7 @@ h1.today{font-family:var(--display);font-weight:600;font-size:1.6rem;color:var(-
         <div><label for="obReset">Reset rule</label><input id="obReset" placeholder="What protects the return after a slip?"></div>
         <div><label for="obReview">Review date</label><input id="obReview" placeholder="Day 90 review" value="Day 90 review"></div>
       </div>
+      <p class="form-error" id="obError">Enter your identity and the action you will take now.</p>
       <button class="btn btn-primary ob-btn" onclick="obNext()">Begin 1607</button>
     </div>
 
@@ -198,9 +207,10 @@ h1.today{font-family:var(--display);font-weight:600;font-size:1.6rem;color:var(-
           </svg>
           <div class="num" id="obNum">60</div>
         </div>
+        <p class="timer-note">Action: <span id="obActionText">the first proof</span></p>
         <p class="timer-note" style="color:rgba(252,251,247,.6)">Acting now, not preparing</p>
       </div>
-      <button class="btn btn-primary ob-btn" onclick="obDone()">I did it</button>
+      <button class="btn btn-primary ob-btn" onclick="obDone()">I did it - stop timer</button>
     </div>
 
     <div class="ob-step" id="ob3">
@@ -208,6 +218,11 @@ h1.today{font-family:var(--display);font-weight:600;font-size:1.6rem;color:var(-
       <h1 class="installed" id="obConfirm">That's proof.</h1>
       <p id="obSummary"></p><p id="obProtocol"></p>
       <p>Now live from it for seven days. HALO NOW keeps the card visible, captures evidence, and helps you reset quickly when the old pattern tries to come back.</p>
+      <div class="onboard-tracker">
+        <strong>7-day tracker starts next</strong>
+        <span>Day 1 is ready. Each day you can log proof or log a slip and reset.</span>
+        <div class="onboard-dots" aria-label="Seven day tracker preview"><i>1</i><i>2</i><i>3</i><i>4</i><i>5</i><i>6</i><i>7</i></div>
+      </div>
       <button class="btn btn-primary ob-btn" onclick="enterApp()">Start the 7-day test</button>
     </div>
   </div>
@@ -244,6 +259,7 @@ h1.today{font-family:var(--display);font-weight:600;font-size:1.6rem;color:var(-
           <div class="num" id="dayNum">60</div>
         </div>
         <p class="timer-note">Act, then log the proof below</p>
+        <button class="btn btn-primary" type="button" onclick="stopSixty()">I did it - stop timer</button>
       </div>
 
       <div class="proof">
@@ -255,6 +271,7 @@ h1.today{font-family:var(--display);font-weight:600;font-size:1.6rem;color:var(-
           <button type="button" data-neg="Heavy">Heavy</button>
         </div>
       </div>
+      <p class="form-error" id="proofError" style="color:#B94A55!important">Enter the proof before marking today complete.</p>
       <button class="btn btn-primary" onclick="logDay(1)">I lived from the card today</button>
       <button class="btn btn-slip" onclick="logDay(2)">I slipped - protect the return</button>
     </section>
@@ -427,17 +444,29 @@ document.querySelectorAll('[data-neg]').forEach(function(btn){
 });
 
 function obNext(){
-  state.identity = valueOr('obIdentity', state.identity);
-  state.firstProof = valueOr('obProof', state.firstProof);
+  var identity = document.getElementById('obIdentity').value.trim();
+  var proof = document.getElementById('obProof').value.trim();
+  var error = document.getElementById('obError');
+  if (!identity || !proof) {
+    error.classList.add('visible');
+    document.getElementById(!identity ? 'obIdentity' : 'obProof').focus();
+    return;
+  }
+  error.classList.remove('visible');
+  state.identity = identity;
+  state.firstProof = proof;
   state.minimum = valueOr('obMinimum', state.minimum);
   state.resetRule = valueOr('obReset', state.resetRule);
   state.reviewDate = valueOr('obReview', state.reviewDate);
   saveState();
   document.getElementById('ob1').classList.remove('active');
   document.getElementById('ob2').classList.add('active');
+  setText('obActionText', state.firstProof);
   runRing('obRing','obNum',60);
 }
 function obDone(){
+  clearInterval(ringTimers.obRing);
+  setText('obNum', 'done');
   document.getElementById('ob2').classList.remove('active');
   document.getElementById('ob3').classList.add('active');
   setText('obSummary', 'I am ' + state.identity + ' - declared, and backed by one act inside the first minute.');
@@ -470,17 +499,35 @@ function runRing(ringId, numId, secs){
   }, 1000);
 }
 function startSixty(){
+  var proof = document.getElementById('proofInput').value.trim();
+  var error = document.getElementById('proofError');
+  if (!proof) {
+    error.classList.add('visible');
+    document.getElementById('proofInput').focus();
+    return;
+  }
+  error.classList.remove('visible');
   document.getElementById('sixtyWrap').style.display = 'block';
   document.getElementById('btnSixty').style.display = 'none';
   runRing('dayRing','dayNum',60);
 }
+function stopSixty(){
+  clearInterval(ringTimers.dayRing);
+  setText('dayNum', 'done');
+}
 
 function logDay(kind){
+  var proof = document.getElementById('proofInput').value.trim();
+  var error = document.getElementById('proofError');
+  if (!proof && kind === 1) {
+    error.classList.add('visible');
+    document.getElementById('proofInput').focus();
+    return;
+  }
+  error.classList.remove('visible');
   var idx = state.day - 1;
   if (idx >= 0 && idx < 30) state.days[idx] = kind;
-  var proof = document.getElementById('proofInput').value.trim();
   if (!proof && kind === 2) proof = state.resetRule;
-  if (!proof && kind === 1) proof = state.firstProof;
   state.proofs[state.day] = proof;
   state.negotiation[state.day] = state.selectedNegotiation;
   if (kind === 2) {
