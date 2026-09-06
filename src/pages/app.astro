@@ -207,7 +207,7 @@ h1.today{font-family:var(--display);font-weight:250;font-size:1.95rem;color:var(
         <div><label for="obProof">First proof</label><input id="obProof" placeholder="One action that can begin within sixty seconds."></div>
         <div><label for="obMinimum">Hard-day minimum</label><input id="obMinimum" placeholder="The smallest version that still counts."></div>
         <div><label for="obReset">Reset rule</label><input id="obReset" placeholder="What protects the return after a slip?"></div>
-        <div><label for="obReview">Review date</label><input id="obReview" placeholder="Day 90 review" value="Day 90 review"></div>
+        <div><label for="obReview">Report date</label><input id="obReview" placeholder="Day 7 report" value="Day 7 report"></div>
       </div>
       <p class="form-error" id="obError">Enter your identity and the action you will take now.</p>
       <button class="btn btn-primary ob-btn" onclick="obNext()">Begin 1 • 60 • 7</button>
@@ -302,14 +302,14 @@ h1.today{font-family:var(--display);font-weight:250;font-size:1.95rem;color:var(
 
     <section class="screen" id="scr-evidence">
       <p class="day-label">Evidence Sheet</p>
-      <h2 class="sec">Thirty days of signal</h2>
-      <p class="sub">Keep the required entry small: one proof line, one optional negotiation tap, and a computed return signal.</p>
+      <h2 class="sec">Seven days of signal</h2>
+      <p class="sub">Keep the required entry small: one proof line, one optional negotiation tap, and a computed return signal for the seven-day test.</p>
       <div class="metrics">
         <div class="metric"><strong id="conductRate">0%</strong><span>Conduct rate</span></div>
         <div class="metric"><strong id="returnSpeed">-</strong><span>Return speed</span></div>
         <div class="metric"><strong id="phaseName">Test</strong><span>Phase</span></div>
       </div>
-      <div class="ev-head"><h2 style="font-size:.95rem;font-family:var(--mono);font-weight:400;letter-spacing:.12em;color:var(--ink-soft)">SIGNAL</h2><span class="ev-count" id="evCount">0 / 30</span></div>
+      <div class="ev-head"><h2 style="font-size:.95rem;font-family:var(--mono);font-weight:400;letter-spacing:.12em;color:var(--ink-soft)">SIGNAL</h2><span class="ev-count" id="evCount">0 / 7</span></div>
       <div class="ev-bar"><i id="evBar" style="width:0%"></i></div>
       <div class="coach-card" aria-live="polite">
         <span>Tomorrow&apos;s adjustment</span>
@@ -349,14 +349,14 @@ h1.today{font-family:var(--display);font-weight:250;font-size:1.95rem;color:var(
       <div class="law"><b>Signal Law.</b> Single events are noise. Repeated conduct is signal. Slips remain data when the return is protected.</div>
       <div class="treaty">
         <p class="t1">Review-date treaty</p>
-        <p class="t2" id="treatyLine">No verdicts before Day 90.</p>
+        <p class="t2" id="treatyLine">No verdicts before Day 7.</p>
       </div>
     </section>
 
     <section class="screen" id="scr-board">
       <p class="day-label">The Base</p>
-      <h2 class="sec">Calm command center</h2>
-      <p class="sub">The Base shows whether the installation is producing conduct without turning the identity into a score.</p>
+      <h2 class="sec">Seven-day command center</h2>
+      <p class="sub">The Base shows whether this seven-day installation is producing conduct without turning the identity into a score.</p>
       <div class="base-hero">
         <p class="day-label">Active identity</p>
         <p class="base-identity" id="baseIdentity">I am a healthy person.</p>
@@ -366,7 +366,7 @@ h1.today{font-family:var(--display);font-weight:250;font-size:1.95rem;color:var(
       <div class="metrics">
         <div class="metric"><strong id="baseProofCount">0</strong><span>Proofs</span></div>
         <div class="metric"><strong id="baseReturnSpeed">-</strong><span>Return speed</span></div>
-        <div class="metric"><strong id="baseReview">Day 90</strong><span>Review</span></div>
+        <div class="metric"><strong id="baseReview">Day 7</strong><span>Report</span></div>
       </div>
       <div class="mini-panel"><b>Reset rule:</b> <span id="baseReset">Stand up and take one breath.</span></div>
       <p class="day-label" style="margin-top:1.3rem">HALO Board</p>
@@ -377,14 +377,14 @@ h1.today{font-family:var(--display);font-weight:250;font-size:1.95rem;color:var(
 
     <section class="screen" id="scr-method">
       <p class="day-label">HALO NOW</p>
-      <h2 class="sec">1 • 60 • 7 now, the 90-Day Build next</h2>
-      <p class="sub">Start with one card, one action, and seven days. The app keeps the proof close without turning the identity into a score.</p>
+      <h2 class="sec">The 1 • 60 • 7 test</h2>
+      <p class="sub">One card, one action, seven days. This module stays focused on the first test and the report it creates.</p>
       <button class="btn btn-slip" type="button" onclick="resetTest()">Reset local 1 • 60 • 7 test</button>
       <div class="tool-grid">
-        <button class="tool-card" type="button" onclick="showTool('worksheet')"><i>1 Card</i><strong>The decision</strong><span>Identity, first proof, hard-day minimum, reset rule, and review date.</span></button>
+        <button class="tool-card" type="button" onclick="showTool('worksheet')"><i>1 Card</i><strong>The decision</strong><span>Identity, first proof, hard-day minimum, reset rule, and day-seven report.</span></button>
         <button class="tool-card" type="button" onclick="showTool('signal')"><i>60 Seconds</i><strong>The proof</strong><span>Evidence from the aligned action you already took.</span></button>
         <button class="tool-card locked" type="button" onclick="showTool('audit')"><i>7 Days</i><strong>Live from it</strong><span>Seven days tells you whether the identity fits.</span></button>
-        <button class="tool-card locked" type="button" onclick="showTool('integrity')"><i>90 Days</i><strong>The build</strong><span>Move from first proof into a durable default.</span></button>
+        <button class="tool-card locked" type="button" onclick="showTool('integrity')"><i>Report</i><strong>The pattern</strong><span>Use the seven-day signal to decide what to repeat, shrink, or reset.</span></button>
       </div>
       <div class="icard"><span class="lbl">Rule 01</span><p class="q">Choose now.</p><p class="sub" style="position:relative;z-index:2">Name the identity in the present tense.</p></div>
       <div class="icard"><span class="lbl">Rule 02</span><p class="q">Prove it through action.</p><p class="sub" style="position:relative;z-index:2">Take one aligned action within sixty seconds. Every aligned action adds evidence.</p></div>
@@ -410,16 +410,17 @@ h1.today{font-family:var(--display);font-weight:250;font-size:1.95rem;color:var(
 
 <script is:inline>
 var STORAGE_KEY = 'halo.now.1607.state.v1';
+var TEST_DAYS = 7;
 function defaultState(){
   return {
     identity:"a healthy person.",
     firstProof:"Walk for sixty seconds.",
     minimum:"Put on walking shoes.",
     resetRule:"Stand up and take one breath.",
-    reviewDate:"Day 90 review",
+    reviewDate:"Day 7 report",
     onboarded:false,
     day:1,
-    days:Array(30).fill(0),
+    days:Array(TEST_DAYS).fill(0),
     proofs:{},
     negotiation:{},
     dailyAdjustments:{},
@@ -447,7 +448,9 @@ function restoreState(){
     if (!raw) return;
     var saved = JSON.parse(raw);
     if (saved && saved.state) state = Object.assign(defaultState(), saved.state);
-    if (!Array.isArray(state.days) || state.days.length !== 30) state.days = Array(30).fill(0);
+    if (!Array.isArray(state.days)) state.days = Array(TEST_DAYS).fill(0);
+    if (state.days.length !== TEST_DAYS) state.days = state.days.slice(0, TEST_DAYS).concat(Array(Math.max(0, TEST_DAYS - state.days.length)).fill(0));
+    state.day = Math.max(1, Math.min(Number(state.day) || 1, TEST_DAYS));
     state.proofs = state.proofs || {};
     state.negotiation = state.negotiation || {};
     state.dailyAdjustments = state.dailyAdjustments || {};
@@ -583,7 +586,7 @@ function logDay(kind){
   }
   error.classList.remove('visible');
   var idx = state.day - 1;
-  if (idx >= 0 && idx < 30) state.days[idx] = kind;
+  if (idx >= 0 && idx < TEST_DAYS) state.days[idx] = kind;
   if (!proof && kind === 2) proof = state.resetRule;
   state.proofs[state.day] = proof;
   state.negotiation[state.day] = state.selectedNegotiation;
@@ -591,26 +594,25 @@ function logDay(kind){
   if (kind === 2) {
     state.slips.push({ day: state.day, acknowledgedAt: Date.now() - 45000, resetAt: Date.now(), action: proof });
   }
-  state.day = Math.min(state.day + 1, 30);
+  state.day = Math.min(state.day + 1, TEST_DAYS);
   saveState();
   document.getElementById('proofInput').value = '';
   updateStatus(); renderEvidence(); renderBase();
   go('evidence', document.querySelector('[data-scr="evidence"]'));
 }
 function phaseLabel(){
-  var d = state.day;
-  if (d <= 7) return 'Test';
-  if (d <= 30) return 'Quiet';
-  return 'Build';
+  return 'Test';
 }
 function updateStatus(){
   var d = state.day;
-  var phase = d <= 7 ? '1 • 60 • 7' : d <= 30 ? 'THE QUIET STRETCH' : 'THE 90-DAY BUILD';
+  var logged = state.days.filter(function(x){ return x === 1 || x === 2; }).length;
+  var phase = logged >= TEST_DAYS ? '7-DAY REPORT READY' : '1 • 60 • 7';
   setText('statusDay', 'DAY ' + d + ' - ' + phase);
   var done = state.days.filter(function(x){return x===1}).length;
   var chip = document.getElementById('signalChip');
-  chip.textContent = d <= 7 ? ('1 • 60 • 7 - Day ' + d + ' of 7')
-    : (done + ' aligned days - HALO NOW is running');
+  chip.textContent = logged >= TEST_DAYS
+    ? '1 • 60 • 7 - report ready'
+    : '1 • 60 • 7 - Day ' + d + ' of 7';
 }
 function averageReturnSpeed(){
   if (!state.slips.length) return '-';
@@ -686,31 +688,31 @@ function setBar(id, percent){
   if (el) el.style.width = Math.max(0, Math.min(100, percent)) + '%';
 }
 function renderSevenDayReport(){
-  var firstSeven = state.days.slice(0,7);
+  var firstSeven = state.days.slice(0, TEST_DAYS);
   var proofDays = firstSeven.filter(function(x){ return x === 1; }).length;
   var resetDays = firstSeven.filter(function(x){ return x === 2; }).length;
   var loggedDays = proofDays + resetDays;
   var heavyDays = Object.keys(state.negotiation)
-    .filter(function(day){ return Number(day) <= 7; })
+    .filter(function(day){ return Number(day) <= TEST_DAYS; })
     .filter(function(day){ return state.negotiation[day] === 'Heavy'; }).length;
   var shrinkDays = Object.keys(state.dailyAdjustments)
-    .filter(function(day){ return Number(day) <= 7; })
+    .filter(function(day){ return Number(day) <= TEST_DAYS; })
     .filter(function(day){ return /shrink/i.test(state.dailyAdjustments[day].title); }).length;
-  var proofScore = Math.round(proofDays / 7 * 100);
-  var returnScore = loggedDays ? Math.round((proofDays + resetDays * .65) / 7 * 100) : 0;
-  var resistanceScore = Math.max(0, Math.round(100 - heavyDays / 7 * 100));
+  var proofScore = Math.round(proofDays / TEST_DAYS * 100);
+  var returnScore = loggedDays ? Math.round((proofDays + resetDays * .65) / TEST_DAYS * 100) : 0;
+  var resistanceScore = Math.max(0, Math.round(100 - heavyDays / TEST_DAYS * 100));
   var score = Math.round(proofScore * .55 + returnScore * .3 + resistanceScore * .15);
-  var title = loggedDays < 7 ? 'Building the signal' : score >= 82 ? 'Strong signal' : score >= 58 ? 'Useful pattern' : 'Shrink the action';
-  var insight = loggedDays < 7
+  var title = loggedDays < TEST_DAYS ? 'Building the signal' : score >= 82 ? 'Strong signal' : score >= 58 ? 'Useful pattern' : 'Shrink the action';
+  var insight = loggedDays < TEST_DAYS
     ? loggedDays + ' of 7 days logged. Keep the entry to one proof line so the diagnostic has enough signal.'
     : proofDays + ' proof days, ' + resetDays + ' reset days, and ' + heavyDays + ' heavy-negotiation days. The pattern is now visible.';
-  if (loggedDays >= 7 && shrinkDays) {
+  if (loggedDays >= TEST_DAYS && shrinkDays) {
     insight += ' HALO recommended shrinking the action ' + shrinkDays + ' time' + (shrinkDays > 1 ? 's' : '') + ' to keep the trajectory alive.';
   }
-  var next = loggedDays < 7
+  var next = loggedDays < TEST_DAYS
     ? 'Next: complete today with one observable line.'
     : score >= 82
-      ? 'Next: extend the identity into the 30-day quiet stretch.'
+      ? 'Next: repeat the same identity and keep the action small.'
       : score >= 58
         ? 'Next: keep the identity, but fine-tune the hard-day minimum.'
         : 'Next: make the action smaller until it can survive a difficult day.';
@@ -739,13 +741,13 @@ function renderEvidence(){
   var slips = state.days.filter(function(x){return x===2}).length;
   var logged = done + slips;
   var conductRate = logged ? Math.round(done / logged * 100) : 0;
-  setText('evCount', done + ' / 30');
+  setText('evCount', done + ' / 7');
   setText('conductRate', conductRate + '%');
   setText('returnSpeed', averageReturnSpeed());
   setText('phaseName', phaseLabel());
-  document.getElementById('evBar').style.width = (done/30*100)+'%';
+  document.getElementById('evBar').style.width = (done/TEST_DAYS*100)+'%';
   var t = document.getElementById('signalTimeline'); t.innerHTML = '';
-  state.days.slice(0,14).forEach(function(v,i){
+  state.days.slice(0, TEST_DAYS).forEach(function(v,i){
     var dot = document.createElement('span');
     dot.className = v===1 ? 'done' : v===2 ? 'slip' : '';
     dot.textContent = i + 1;
@@ -753,11 +755,11 @@ function renderEvidence(){
   });
   var v = '';
   if (done===0 && slips===0) v = 'Day one is small on purpose. You are recruiting proof, not impressing anyone.';
-  else if (done>0 && done<7) v = done + ' of 30 - noise until seven. Keep voting.';
-  else if (done>=7 && slips===0) v = 'Seven or more, no slips. That is signal.';
+  else if (logged>0 && logged<TEST_DAYS) v = logged + ' of 7 days logged. Keep voting.';
+  else if (done>=TEST_DAYS && slips===0) v = 'Seven days, no slips. That is signal.';
   else if (slips>0 && done>=slips) v = slips + ' slip' + (slips>1?'s':'') + ', reset each time. The signal holds.';
   else if (slips>done) v = 'More slips than aligned days - protect the return before making a verdict.';
-  if (done>=30) v = 'Thirty days of signal. The default has taken root.';
+  if (logged>=TEST_DAYS) v = 'Seven days logged. Your report is ready.';
   setText('evVerdict', v);
   renderSevenDayReport();
   renderDailyCoach();
@@ -800,17 +802,17 @@ function renderBase(){
   setText('baseProof', state.firstProof);
   setText('baseProofCount', String(done));
   setText('baseReturnSpeed', averageReturnSpeed());
-  setText('baseReview', state.reviewDate.replace(' review',''));
+  setText('baseReview', state.reviewDate.replace(' review','').replace(' report',''));
   setText('baseReset', state.resetRule);
   var strips = document.querySelectorAll('.phase-strip span');
   strips.forEach(function(s,i){ s.classList.toggle('on', i < Math.min(state.day, 7)); });
 }
 function showTool(name){
   var messages = {
-    worksheet:'The 1-card step is already merged into onboarding: identity, first proof, hard-day minimum, reset rule, and review date.',
+    worksheet:'The 1-card step is already merged into onboarding: identity, first proof, hard-day minimum, reset rule, and day-seven report.',
     signal:'The 60-second proof gives the decision evidence before motivation can turn it into a debate.',
     audit:'The 7-day test unlocks the first useful verdict: whether the identity fits when lived, not imagined.',
-    integrity:'The 90-Day Build moves the decision from first proof into a durable default.'
+    integrity:'The seven-day report shows what to repeat, shrink, or reset before the next test.'
   };
   alert(messages[name]);
 }
