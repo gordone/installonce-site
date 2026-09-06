@@ -74,6 +74,11 @@ h1.today{font-family:var(--display);font-weight:250;font-size:1.95rem;color:var(
 .form-error.visible{display:block}
 .mini-panel{margin-top:1rem;background:var(--paper-shade);border-radius:20px;padding:.9rem 1rem;color:var(--ink-soft);font-size:.88rem}
 .mini-panel b{color:var(--teal)}
+.coach-card{margin-top:1rem;background:var(--black);color:var(--white);border-radius:24px;padding:1rem;overflow:hidden}
+.coach-card span{display:block;font-family:var(--mono);font-size:.58rem;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.58)}
+.coach-card strong{display:block;margin-top:.45rem;font-family:var(--display);font-weight:300;font-size:1.15rem;line-height:1.12}
+.coach-card p{margin-top:.55rem;color:rgba(255,255,255,.72);font-size:.9rem}
+.coach-card i{display:block;margin-top:.75rem;border-top:1px solid rgba(255,255,255,.14);padding-top:.75rem;font-family:var(--mono);font-size:.58rem;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.68);font-style:normal}
 .segmented{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-top:.6rem}
 .segmented button{border:1px solid var(--line);background:#fff;border-radius:999px;padding:.7rem .35rem;font-family:var(--mono);font-size:.58rem;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-soft)}
 .segmented button.active{border-color:var(--black);background:var(--black);color:var(--white);font-weight:700}
@@ -259,6 +264,12 @@ h1.today{font-family:var(--display);font-weight:250;font-size:1.95rem;color:var(
       </div>
 
       <div class="mini-panel"><b>First proof:</b> <span id="todayProof">Walk for sixty seconds.</span><br><b>Hard-day minimum:</b> <span id="todayMinimum">Put on walking shoes.</span></div>
+      <div class="coach-card" aria-live="polite">
+        <span>Today&apos;s adjustment</span>
+        <strong id="coachTitle">Keep the entry tiny.</strong>
+        <p id="coachBody">One proof line is enough. The app will tune tomorrow from what you log today.</p>
+        <i id="coachNext">Next: make the action observable.</i>
+      </div>
       <button class="btn btn-primary" id="btnSixty" onclick="startSixty()">Start 60-second proof</button>
       <div class="timer-wrap" id="sixtyWrap" style="display:none">
         <div class="timer-ring">
@@ -297,6 +308,12 @@ h1.today{font-family:var(--display);font-weight:250;font-size:1.95rem;color:var(
       </div>
       <div class="ev-head"><h2 style="font-size:.95rem;font-family:var(--mono);font-weight:400;letter-spacing:.12em;color:var(--ink-soft)">SIGNAL</h2><span class="ev-count" id="evCount">0 / 30</span></div>
       <div class="ev-bar"><i id="evBar" style="width:0%"></i></div>
+      <div class="coach-card" aria-live="polite">
+        <span>Tomorrow&apos;s adjustment</span>
+        <strong id="evidenceCoachTitle">Keep the entry tiny.</strong>
+        <p id="evidenceCoachBody">The next adjustment appears after today&apos;s proof or reset is logged.</p>
+        <i id="evidenceCoachNext">Next: complete one observable action.</i>
+      </div>
       <div class="timeline" id="signalTimeline" aria-label="Signal Law timeline"></div>
       <div class="ev-grid" id="evGrid"></div>
       <p class="ev-verdict" id="evVerdict"></p>
@@ -402,6 +419,7 @@ function defaultState(){
     days:Array(30).fill(0),
     proofs:{},
     negotiation:{},
+    dailyAdjustments:{},
     slips:[],
     selectedNegotiation:"Low"
   };
@@ -429,6 +447,7 @@ function restoreState(){
     if (!Array.isArray(state.days) || state.days.length !== 30) state.days = Array(30).fill(0);
     state.proofs = state.proofs || {};
     state.negotiation = state.negotiation || {};
+    state.dailyAdjustments = state.dailyAdjustments || {};
     state.slips = Array.isArray(state.slips) ? state.slips : [];
     state.selectedNegotiation = state.selectedNegotiation || 'Low';
     caps = saved && saved.caps && typeof saved.caps === 'object' ? saved.caps : {};
@@ -565,6 +584,7 @@ function logDay(kind){
   if (!proof && kind === 2) proof = state.resetRule;
   state.proofs[state.day] = proof;
   state.negotiation[state.day] = state.selectedNegotiation;
+  state.dailyAdjustments[state.day] = buildDailyAdjustment(kind, proof, state.selectedNegotiation);
   if (kind === 2) {
     state.slips.push({ day: state.day, acknowledgedAt: Date.now() - 45000, resetAt: Date.now(), action: proof });
   }
@@ -595,6 +615,69 @@ function averageReturnSpeed(){
   var avg = Math.round(mins.reduce(function(a,b){return a+b;},0) / mins.length);
   return avg + 'm';
 }
+function recentNegotiationDays(count){
+  var start = Math.max(1, state.day - count);
+  return Object.keys(state.negotiation)
+    .filter(function(day){ return Number(day) >= start && Number(day) < state.day; })
+    .map(function(day){ return state.negotiation[day]; });
+}
+function proofLooksConcrete(proof){
+  return /\b(sent|called|walked|wrote|opened|moved|paid|scheduled|emailed|texted|read|cleaned|asked|reviewed|logged|finished|started)\b/i.test(proof)
+    || proof.trim().split(/\s+/).length >= 4;
+}
+function buildDailyAdjustment(kind, proof, negotiation){
+  var heavyRecently = recentNegotiationDays(2).filter(function(v){ return v === 'Heavy'; }).length;
+  if (kind === 2) {
+    return {
+      title:'Protect the return.',
+      body:'The reset is data, not a verdict. Tomorrow should use the hard-day minimum exactly as written.',
+      next:'Next: ' + state.minimum
+    };
+  }
+  if (!proofLooksConcrete(proof)) {
+    return {
+      title:'Make proof more observable.',
+      body:'The identity is easier to live when the proof can be seen or counted.',
+      next:'Next: rewrite tomorrow as one visible action.'
+    };
+  }
+  if (negotiation === 'Heavy' || heavyRecently >= 2) {
+    return {
+      title:'Shrink tomorrow.',
+      body:'You completed the proof, but resistance is high. Keep the identity and lower the action size.',
+      next:'Next: use the hard-day minimum before adding anything.'
+    };
+  }
+  if (negotiation === 'Some') {
+    return {
+      title:'Repeat before you raise.',
+      body:'Some negotiation means the proof is working, but it is not automatic yet.',
+      next:'Next: repeat the same action once more.'
+    };
+  }
+  return {
+    title:'Hold the line.',
+    body:'Low negotiation plus proof means the action is sized correctly. Do not improve it yet.',
+    next:'Next: repeat exactly tomorrow.'
+  };
+}
+function latestAdjustment(){
+  var days = Object.keys(state.dailyAdjustments).map(Number).sort(function(a,b){ return b - a; });
+  return days.length ? state.dailyAdjustments[days[0]] : null;
+}
+function renderDailyCoach(){
+  var adjustment = latestAdjustment() || {
+    title:'Keep the entry tiny.',
+    body:'One proof line is enough. The app will tune tomorrow from what you log today.',
+    next:'Next: make the action observable.'
+  };
+  setText('coachTitle', adjustment.title);
+  setText('coachBody', adjustment.body);
+  setText('coachNext', adjustment.next);
+  setText('evidenceCoachTitle', adjustment.title);
+  setText('evidenceCoachBody', adjustment.body);
+  setText('evidenceCoachNext', adjustment.next);
+}
 function setBar(id, percent){
   var el = document.getElementById(id);
   if (el) el.style.width = Math.max(0, Math.min(100, percent)) + '%';
@@ -607,6 +690,9 @@ function renderSevenDayReport(){
   var heavyDays = Object.keys(state.negotiation)
     .filter(function(day){ return Number(day) <= 7; })
     .filter(function(day){ return state.negotiation[day] === 'Heavy'; }).length;
+  var shrinkDays = Object.keys(state.dailyAdjustments)
+    .filter(function(day){ return Number(day) <= 7; })
+    .filter(function(day){ return /shrink/i.test(state.dailyAdjustments[day].title); }).length;
   var proofScore = Math.round(proofDays / 7 * 100);
   var returnScore = loggedDays ? Math.round((proofDays + resetDays * .65) / 7 * 100) : 0;
   var resistanceScore = Math.max(0, Math.round(100 - heavyDays / 7 * 100));
@@ -615,6 +701,9 @@ function renderSevenDayReport(){
   var insight = loggedDays < 7
     ? loggedDays + ' of 7 days logged. Keep the entry to one proof line so the diagnostic has enough signal.'
     : proofDays + ' proof days, ' + resetDays + ' reset days, and ' + heavyDays + ' heavy-negotiation days. The pattern is now visible.';
+  if (loggedDays >= 7 && shrinkDays) {
+    insight += ' HALO recommended shrinking the action ' + shrinkDays + ' time' + (shrinkDays > 1 ? 's' : '') + ' to keep the trajectory alive.';
+  }
   var next = loggedDays < 7
     ? 'Next: complete today with one observable line.'
     : score >= 82
@@ -668,6 +757,7 @@ function renderEvidence(){
   if (done>=30) v = 'Thirty days of signal. The default has taken root.';
   setText('evVerdict', v);
   renderSevenDayReport();
+  renderDailyCoach();
   var log = document.getElementById('proofLog'); log.innerHTML = '';
   Object.keys(state.proofs).slice(-3).reverse().forEach(function(day){
     var item = document.createElement('article');
