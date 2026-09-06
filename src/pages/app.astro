@@ -1,12 +1,12 @@
 ---
-const appTitle = 'HALO NOW - 1607';
+const appTitle = 'HALO NOW - 1 • 60 • 7';
 ---
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>{appTitle}</title>
-<meta name="description" content="Run the 1-60-7 Test in HALO NOW: one card, one action in sixty seconds, and seven days living from the decision.">
+<meta name="description" content="Run the 1 • 60 • 7 Test in HALO NOW: one card, one action in sixty seconds, and seven days living from the decision.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&family=Caveat:wght@500;600&display=swap" rel="stylesheet">
@@ -186,7 +186,7 @@ h1.today{font-family:var(--display);font-weight:250;font-size:1.95rem;color:var(
 <div class="phone">
   <div class="onboard" id="onboard">
     <div class="ob-step active" id="ob1">
-      <p class="ob-kicker">THE 1-60-7 TEST</p>
+      <p class="ob-kicker">THE 1 • 60 • 7 TEST</p>
       <h1><b>H</b>appen <b>A</b>lready. <b>L</b>ive <b>O</b>n.</h1>
       <p>Stop trying to become the person you want to be. Decide who you are, prove it with one action in the next 60 seconds, then live from the decision for seven days.</p>
       <div class="ob-card">
@@ -200,14 +200,14 @@ h1.today{font-family:var(--display);font-weight:250;font-size:1.95rem;color:var(
         <button class="chip" data-id="a writer." data-proof="Write one honest sentence." data-min="Open the draft." data-reset="Write the next bad sentence.">a writer.</button>
         <button class="chip" data-id="a business owner." data-proof="Send one useful follow-up." data-min="Open the pipeline." data-reset="Name the next customer action.">a business owner.</button>
       </div>
-      <div class="field-grid" aria-label="1607 setup">
+      <div class="field-grid" aria-label="1 • 60 • 7 setup">
         <div><label for="obProof">First proof</label><input id="obProof" placeholder="One action that can begin within sixty seconds."></div>
         <div><label for="obMinimum">Hard-day minimum</label><input id="obMinimum" placeholder="The smallest version that still counts."></div>
         <div><label for="obReset">Reset rule</label><input id="obReset" placeholder="What protects the return after a slip?"></div>
         <div><label for="obReview">Review date</label><input id="obReview" placeholder="Day 90 review" value="Day 90 review"></div>
       </div>
       <p class="form-error" id="obError">Enter your identity and the action you will take now.</p>
-      <button class="btn btn-primary ob-btn" onclick="obNext()">Begin 1607</button>
+      <button class="btn btn-primary ob-btn" onclick="obNext()">Begin 1 • 60 • 7</button>
     </div>
 
     <div class="ob-step" id="ob2">
@@ -244,14 +244,14 @@ h1.today{font-family:var(--display);font-weight:250;font-size:1.95rem;color:var(
 
   <div class="status">
     <span class="brand">H<span style="position:relative">A<i></i></span>LO NOW</span>
-    <span id="statusDay">DAY 1 &middot; 1607</span>
+    <span id="statusDay">DAY 1 &middot; 1 • 60 • 7</span>
   </div>
 
   <div class="screens">
     <section class="screen active" id="scr-today">
       <p class="day-label" id="todayDate">Today</p>
       <h1 class="today">Live from the decision today.</h1>
-      <span class="signal-chip" id="signalChip">1607 &middot; Day 1 of 7</span>
+      <span class="signal-chip" id="signalChip">1 • 60 • 7 &middot; Day 1 of 7</span>
 
       <div class="icard" id="todayCard">
         <span class="lbl">Your card</span>
@@ -374,9 +374,9 @@ h1.today{font-family:var(--display);font-weight:250;font-size:1.95rem;color:var(
 
     <section class="screen" id="scr-method">
       <p class="day-label">HALO NOW</p>
-      <h2 class="sec">1607 now, the 90-Day Build next</h2>
+      <h2 class="sec">1 • 60 • 7 now, the 90-Day Build next</h2>
       <p class="sub">Start with one card, one action, and seven days. The app keeps the proof close without turning the identity into a score.</p>
-      <button class="btn btn-slip" type="button" onclick="resetTest()">Reset local 1607 test</button>
+      <button class="btn btn-slip" type="button" onclick="resetTest()">Reset local 1 • 60 • 7 test</button>
       <div class="tool-grid">
         <button class="tool-card" type="button" onclick="showTool('worksheet')"><i>1 Card</i><strong>The decision</strong><span>Identity, first proof, hard-day minimum, reset rule, and review date.</span></button>
         <button class="tool-card" type="button" onclick="showTool('signal')"><i>60 Seconds</i><strong>The proof</strong><span>Evidence from the aligned action you already took.</span></button>
@@ -472,7 +472,7 @@ function hydrateFromState(){
   document.querySelectorAll('[data-neg]').forEach(function(btn){ btn.classList.toggle('active', btn.dataset.neg === state.selectedNegotiation); });
 }
 function resetTest(){
-  if (!confirm('Reset this local 1607 test on this device?')) return;
+  if (!confirm('Reset this local 1 • 60 • 7 test on this device?')) return;
   try { localStorage.removeItem(STORAGE_KEY); } catch (error) {}
   state = defaultState();
   caps = {};
@@ -602,11 +602,11 @@ function phaseLabel(){
 }
 function updateStatus(){
   var d = state.day;
-  var phase = d <= 7 ? '1607' : d <= 30 ? 'THE QUIET STRETCH' : 'THE 90-DAY BUILD';
+  var phase = d <= 7 ? '1 • 60 • 7' : d <= 30 ? 'THE QUIET STRETCH' : 'THE 90-DAY BUILD';
   setText('statusDay', 'DAY ' + d + ' - ' + phase);
   var done = state.days.filter(function(x){return x===1}).length;
   var chip = document.getElementById('signalChip');
-  chip.textContent = d <= 7 ? ('1607 - Day ' + d + ' of 7')
+  chip.textContent = d <= 7 ? ('1 • 60 • 7 - Day ' + d + ' of 7')
     : (done + ' aligned days - HALO NOW is running');
 }
 function averageReturnSpeed(){
