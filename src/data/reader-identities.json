@@ -1,0 +1,682 @@
+[
+  {
+    "id": 1,
+    "domain": "Money",
+    "statement": "I am financially stable.",
+    "attributes": "Solvent, Secure, Grounded, Liquid, Resourceful, Prudent",
+    "degrees": [
+      "Aware",
+      "Budgeting",
+      "Saving",
+      "Investing",
+      "Wealth-building"
+    ],
+    "question": "Would a financially stable person make this purchase?"
+  },
+  {
+    "id": 2,
+    "domain": "Money",
+    "statement": "I am a wealth builder.",
+    "attributes": "Abundant, Prosperous, Asset-rich, Generational, Strategic",
+    "degrees": [
+      "Saver",
+      "Investor",
+      "Portfolio owner",
+      "Wealth architect"
+    ],
+    "question": "Is this decision building or burning?"
+  },
+  {
+    "id": 3,
+    "domain": "Money",
+    "statement": "I am debt-free.",
+    "attributes": "Unburdened, Clear, Sovereign, Unencumbered, Liberated",
+    "degrees": [
+      "Aware of debt",
+      "Plan in place",
+      "Paying down",
+      "Final payment",
+      "Zero balance"
+    ],
+    "question": "Would a debt-free person finance this?"
+  },
+  {
+    "id": 4,
+    "domain": "Money",
+    "statement": "I am generous.",
+    "attributes": "Giving, Abundant, Open-handed, Philanthropic, Tithe-minded",
+    "degrees": [
+      "Occasional giver",
+      "Consistent donor",
+      "Strategic philanthropist"
+    ],
+    "question": "What would a generous person do with this surplus?"
+  },
+  {
+    "id": 5,
+    "domain": "Body",
+    "statement": "I am fit and healthy.",
+    "attributes": "Strong, Vital, Energetic, Resilient, Conditioned, Athletic",
+    "degrees": [
+      "Moving",
+      "Consistent",
+      "Training",
+      "Peak",
+      "Maintaining for life"
+    ],
+    "question": "What would a fit person eat/do right now?"
+  },
+  {
+    "id": 6,
+    "domain": "Body",
+    "statement": "I am a morning person.",
+    "attributes": "Early riser, Dawn-ready, First-light, Disciplined sleeper",
+    "degrees": [
+      "Alarm-dependent",
+      "Waking naturally",
+      "Energized by 6am",
+      "Owning the first hour"
+    ],
+    "question": "What would a morning person do at 9pm?"
+  },
+  {
+    "id": 7,
+    "domain": "Body",
+    "statement": "I am sober.",
+    "attributes": "Clean, Clear-headed, Non-drinker, Substance-free, Present",
+    "degrees": [
+      "Questioning",
+      "Dry-curious",
+      "Committed",
+      "Settled",
+      "Advocate"
+    ],
+    "question": "Would a sober person debate this?"
+  },
+  {
+    "id": 8,
+    "domain": "Body",
+    "statement": "I sleep well.",
+    "attributes": "Rested, Recovered, Regulated, Recharged, Sleep-disciplined",
+    "degrees": [
+      "Aware of deficit",
+      "Wind-down routine",
+      "7+ hours",
+      "Deep sleeper"
+    ],
+    "question": "What would a well-rested person do at 10pm?"
+  },
+  {
+    "id": 9,
+    "domain": "Body",
+    "statement": "I nourish my body.",
+    "attributes": "Clean eater, Fuel-conscious, Intuitive eater, Whole-food, Mindful",
+    "degrees": [
+      "Aware",
+      "Label-reader",
+      "Meal-prepper",
+      "Intuitive",
+      "Effortless"
+    ],
+    "question": "Would this fuel me or just fill me?"
+  },
+  {
+    "id": 10,
+    "domain": "Relationships",
+    "statement": "I am a present partner.",
+    "attributes": "Attentive, Devoted, Engaged, Connected, Reliable, Loving",
+    "degrees": [
+      "Trying",
+      "Showing up",
+      "Initiating",
+      "Deeply attuned"
+    ],
+    "question": "Did I show up today?"
+  },
+  {
+    "id": 11,
+    "domain": "Relationships",
+    "statement": "I am a calm parent.",
+    "attributes": "Patient, Steady, Regulated, Grounded, Safe, Unshakable",
+    "degrees": [
+      "Reactive",
+      "Pausing",
+      "Responding",
+      "Naturally calm"
+    ],
+    "question": "How will they remember this moment?"
+  },
+  {
+    "id": 12,
+    "domain": "Relationships",
+    "statement": "I communicate clearly.",
+    "attributes": "Direct, Honest, Transparent, Articulate, Boundaried, Open",
+    "degrees": [
+      "Hinting",
+      "Stating",
+      "Requesting",
+      "Naturally direct"
+    ],
+    "question": "Am I saying what I actually mean?"
+  },
+  {
+    "id": 13,
+    "domain": "Relationships",
+    "statement": "I am a loyal friend.",
+    "attributes": "Dependable, Trustworthy, Consistent, Genuine, Available",
+    "degrees": [
+      "Responsive",
+      "Initiating",
+      "Prioritizing",
+      "Anchoring"
+    ],
+    "question": "What would a loyal friend do right now?"
+  },
+  {
+    "id": 14,
+    "domain": "Relationships",
+    "statement": "I forgive.",
+    "attributes": "Unburdened, Released, Free, Compassionate, Resolved",
+    "degrees": [
+      "Acknowledging",
+      "Processing",
+      "Releasing",
+      "Living without the weight"
+    ],
+    "question": "Am I carrying this or have I put it down?"
+  },
+  {
+    "id": 15,
+    "domain": "Career",
+    "statement": "I am a leader.",
+    "attributes": "Decisive, Authoritative, Visionary, Accountable, Steady, Clear",
+    "degrees": [
+      "Contributing",
+      "Influencing",
+      "Deciding",
+      "Carrying the room"
+    ],
+    "question": "Did I create clarity or confusion?"
+  },
+  {
+    "id": 16,
+    "domain": "Career",
+    "statement": "I operate at the next level.",
+    "attributes": "Executive, Strategic, Senior, Elevated, Scope-expanded",
+    "degrees": [
+      "Performing",
+      "Exceeding",
+      "Operating above",
+      "Title catches up"
+    ],
+    "question": "Would someone at that level handle it this way?"
+  },
+  {
+    "id": 17,
+    "domain": "Career",
+    "statement": "I am indispensable.",
+    "attributes": "Essential, High-value, Irreplaceable, Go-to, Trusted",
+    "degrees": [
+      "Competent",
+      "Reliable",
+      "Sought-after",
+      "Irreplaceable"
+    ],
+    "question": "Am I doing work only I can do?"
+  },
+  {
+    "id": 18,
+    "domain": "Career",
+    "statement": "I am a professional.",
+    "attributes": "Polished, Punctual, Prepared, Reliable, Consistent, Composed",
+    "degrees": [
+      "Showing up",
+      "Delivering",
+      "Exceeding",
+      "Setting the standard"
+    ],
+    "question": "Would a professional cut this corner?"
+  },
+  {
+    "id": 19,
+    "domain": "Entrepreneurship",
+    "statement": "I build companies.",
+    "attributes": "Founder, Builder, Creator, Maker, Architect, Launcher",
+    "degrees": [
+      "Ideating",
+      "Building",
+      "Shipping",
+      "Scaling",
+      "Exiting"
+    ],
+    "question": "Am I building or just planning?"
+  },
+  {
+    "id": 20,
+    "domain": "Entrepreneurship",
+    "statement": "I am a business owner.",
+    "attributes": "Operator, Principal, CEO, Proprietor, Revenue-generator",
+    "degrees": [
+      "Side project",
+      "Revenue",
+      "Profit",
+      "Team",
+      "Enterprise"
+    ],
+    "question": "Am I running it or hiding from it?"
+  },
+  {
+    "id": 21,
+    "domain": "Entrepreneurship",
+    "statement": "I build without permission.",
+    "attributes": "Self-authorized, Autonomous, Ungated, Independent, Sovereign",
+    "degrees": [
+      "Waiting",
+      "Asking",
+      "Doing anyway",
+      "Never asking again"
+    ],
+    "question": "Am I waiting for someone else’s yes?"
+  },
+  {
+    "id": 22,
+    "domain": "Entrepreneurship",
+    "statement": "I sell.",
+    "attributes": "Revenue-driven, Commercial, Value-exchanger, Closer",
+    "degrees": [
+      "Afraid to ask",
+      "Asking",
+      "Charging",
+      "Pricing with authority"
+    ],
+    "question": "Have I offered value today?"
+  },
+  {
+    "id": 23,
+    "domain": "Confidence",
+    "statement": "I am confident.",
+    "attributes": "Self-assured, Poised, Certain, Bold, Unshakable, Grounded",
+    "degrees": [
+      "Aware",
+      "Speaking up",
+      "Leading rooms",
+      "Naturally settled"
+    ],
+    "question": "Would a confident person hesitate here?"
+  },
+  {
+    "id": 24,
+    "domain": "Confidence",
+    "statement": "I belong in every room I enter.",
+    "attributes": "Worthy, Qualified, Enough, Present, Equal, Legitimate",
+    "degrees": [
+      "Questioning",
+      "Entering",
+      "Contributing",
+      "Owning the space"
+    ],
+    "question": "Am I shrinking or standing?"
+  },
+  {
+    "id": 25,
+    "domain": "Confidence",
+    "statement": "I am enough.",
+    "attributes": "Whole, Complete, Sufficient, Worthy, Settled, Accepting",
+    "degrees": [
+      "Doubting",
+      "Questioning less",
+      "Accepting",
+      "Knowing"
+    ],
+    "question": "Am I performing or just being?"
+  },
+  {
+    "id": 26,
+    "domain": "Confidence",
+    "statement": "I speak my mind.",
+    "attributes": "Vocal, Assertive, Outspoken, Honest, Forthright, Brave",
+    "degrees": [
+      "Thinking it",
+      "Hinting",
+      "Saying it",
+      "Leading with it"
+    ],
+    "question": "Am I holding back right now?"
+  },
+  {
+    "id": 27,
+    "domain": "Creativity",
+    "statement": "I am a creator.",
+    "attributes": "Artist, Maker, Producer, Craftsman, Writer, Designer",
+    "degrees": [
+      "Consuming",
+      "Sketching",
+      "Producing",
+      "Shipping",
+      "Prolific"
+    ],
+    "question": "Did I make something today?"
+  },
+  {
+    "id": 28,
+    "domain": "Creativity",
+    "statement": "I am a writer.",
+    "attributes": "Author, Storyteller, Wordsmith, Essayist, Chronicler",
+    "degrees": [
+      "Thinking about writing",
+      "Drafting",
+      "Finishing",
+      "Publishing",
+      "Writing daily"
+    ],
+    "question": "Did I write today?"
+  },
+  {
+    "id": 29,
+    "domain": "Creativity",
+    "statement": "I ship.",
+    "attributes": "Prolific, Productive, Output-driven, Finisher, Launcher",
+    "degrees": [
+      "Planning",
+      "Drafting",
+      "Editing",
+      "Publishing",
+      "Iterating"
+    ],
+    "question": "Did I ship this week?"
+  },
+  {
+    "id": 30,
+    "domain": "Creativity",
+    "statement": "I am a musician.",
+    "attributes": "Instrumentalist, Composer, Performer, Practitioner, Player",
+    "degrees": [
+      "Listening",
+      "Learning",
+      "Practicing daily",
+      "Performing",
+      "Composing"
+    ],
+    "question": "Did I practice today?"
+  },
+  {
+    "id": 31,
+    "domain": "Discipline",
+    "statement": "I am organized.",
+    "attributes": "Systematic, Tidy, Structured, Orderly, Processed, Clear",
+    "degrees": [
+      "Aware of mess",
+      "Clearing",
+      "Maintaining",
+      "Effortlessly organized"
+    ],
+    "question": "Would an organized person let this sit?"
+  },
+  {
+    "id": 32,
+    "domain": "Discipline",
+    "statement": "I am punctual.",
+    "attributes": "On-time, Reliable, Early, Respectful of time, Clock-aware",
+    "degrees": [
+      "Usually late",
+      "On time",
+      "Early",
+      "Setting the standard"
+    ],
+    "question": "What time would a punctual person leave?"
+  },
+  {
+    "id": 33,
+    "domain": "Discipline",
+    "statement": "I follow through.",
+    "attributes": "Dependable, Finisher, Completionist, Accountable, Reliable",
+    "degrees": [
+      "Intending",
+      "Starting",
+      "Continuing",
+      "Completing",
+      "Never dropping"
+    ],
+    "question": "Did I finish what I started?"
+  },
+  {
+    "id": 34,
+    "domain": "Discipline",
+    "statement": "I am disciplined.",
+    "attributes": "Consistent, Regimented, Self-governing, Controlled, Structured",
+    "degrees": [
+      "Motivated sometimes",
+      "Routine",
+      "Automatic",
+      "Identity-level"
+    ],
+    "question": "Would a disciplined person negotiate this?"
+  },
+  {
+    "id": 35,
+    "domain": "Emotional",
+    "statement": "I am calm under pressure.",
+    "attributes": "Steady, Composed, Unflappable, Regulated, Cool, Centered",
+    "degrees": [
+      "Reactive",
+      "Pausing",
+      "Steady",
+      "Naturally calm",
+      "The calm one"
+    ],
+    "question": "Would a calm person escalate this?"
+  },
+  {
+    "id": 36,
+    "domain": "Emotional",
+    "statement": "I am resilient.",
+    "attributes": "Tough, Durable, Adaptable, Bounce-back, Unbreakable, Elastic",
+    "degrees": [
+      "Surviving",
+      "Recovering",
+      "Adapting",
+      "Thriving after",
+      "Antifragile"
+    ],
+    "question": "How fast am I getting back up?"
+  },
+  {
+    "id": 37,
+    "domain": "Emotional",
+    "statement": "I regulate my emotions.",
+    "attributes": "Self-aware, Tempered, Measured, Grounded, Even-keeled",
+    "degrees": [
+      "Identifying feelings",
+      "Pausing",
+      "Choosing response",
+      "Automatic regulation"
+    ],
+    "question": "Am I responding or reacting?"
+  },
+  {
+    "id": 38,
+    "domain": "Emotional",
+    "statement": "I am grateful.",
+    "attributes": "Appreciative, Thankful, Content, Abundant-minded, Present",
+    "degrees": [
+      "Noticing occasionally",
+      "Daily practice",
+      "Automatic",
+      "Radiating"
+    ],
+    "question": "What am I grateful for right now?"
+  },
+  {
+    "id": 39,
+    "domain": "Emotional",
+    "statement": "I am happy.",
+    "attributes": "Content, Joyful, Fulfilled, Satisfied, At peace, Light",
+    "degrees": [
+      "Surviving",
+      "Stable",
+      "Content",
+      "Joyful",
+      "Radiating"
+    ],
+    "question": "Am I choosing happiness or waiting for it?"
+  },
+  {
+    "id": 40,
+    "domain": "Growth",
+    "statement": "I am a learner.",
+    "attributes": "Curious, Student, Growing, Developing, Evolving, Coachable",
+    "degrees": [
+      "Passive consumer",
+      "Active learner",
+      "Practitioner",
+      "Teacher"
+    ],
+    "question": "What did I learn today?"
+  },
+  {
+    "id": 41,
+    "domain": "Growth",
+    "statement": "I am coachable.",
+    "attributes": "Teachable, Humble, Open, Receptive, Feedback-driven, Moldable",
+    "degrees": [
+      "Defensive",
+      "Listening",
+      "Applying",
+      "Seeking feedback"
+    ],
+    "question": "Am I defending or learning right now?"
+  },
+  {
+    "id": 42,
+    "domain": "Growth",
+    "statement": "I invest in myself.",
+    "attributes": "Self-developing, Growing, Upgrading, Future-focused, Committed",
+    "degrees": [
+      "Wishing",
+      "Reading",
+      "Courses",
+      "Mentors",
+      "Continuous development"
+    ],
+    "question": "What am I doing today that makes tomorrow easier?"
+  },
+  {
+    "id": 43,
+    "domain": "Social",
+    "statement": "I am a connector.",
+    "attributes": "Networker, Bridge-builder, Introducer, Community-minded",
+    "degrees": [
+      "Attending",
+      "Meeting",
+      "Introducing others",
+      "Building ecosystems"
+    ],
+    "question": "Who should know each other?"
+  },
+  {
+    "id": 44,
+    "domain": "Social",
+    "statement": "I am kind.",
+    "attributes": "Compassionate, Empathetic, Considerate, Warm, Gentle, Caring",
+    "degrees": [
+      "Polite",
+      "Thoughtful",
+      "Proactively kind",
+      "Radiating warmth"
+    ],
+    "question": "What would a kind person do right now?"
+  },
+  {
+    "id": 45,
+    "domain": "Social",
+    "statement": "I am a good neighbor.",
+    "attributes": "Community-minded, Helpful, Present, Considerate, Engaged",
+    "degrees": [
+      "Nodding hello",
+      "Helping",
+      "Initiating",
+      "Anchoring the community"
+    ],
+    "question": "Would a good neighbor ignore this?"
+  },
+  {
+    "id": 46,
+    "domain": "Purpose",
+    "statement": "I live with intention.",
+    "attributes": "Purposeful, Deliberate, Directed, Conscious, Aligned, Designed",
+    "degrees": [
+      "Drifting",
+      "Aware",
+      "Choosing",
+      "Designing",
+      "Operating from purpose"
+    ],
+    "question": "Is this intentional or accidental?"
+  },
+  {
+    "id": 47,
+    "domain": "Purpose",
+    "statement": "I am a person of integrity.",
+    "attributes": "Honest, Principled, Ethical, Trustworthy, Consistent, Solid",
+    "degrees": [
+      "Mostly honest",
+      "Reliably honest",
+      "Integrity under pressure",
+      "Unquestionable"
+    ],
+    "question": "Would I be comfortable if everyone could see this?"
+  },
+  {
+    "id": 48,
+    "domain": "Purpose",
+    "statement": "I leave things better than I found them.",
+    "attributes": "Contributor, Improver, Steward, Builder, Elevator",
+    "degrees": [
+      "Noticing",
+      "Tidying",
+      "Improving",
+      "Transforming",
+      "Legacy-building"
+    ],
+    "question": "Is this better because I was here?"
+  },
+  {
+    "id": 49,
+    "domain": "Purpose",
+    "statement": "I am a mentor.",
+    "attributes": "Guide, Teacher, Coach, Advisor, Elder, Sponsor",
+    "degrees": [
+      "Sharing when asked",
+      "Offering",
+      "Seeking mentees",
+      "Building others systematically"
+    ],
+    "question": "Who am I developing right now?"
+  },
+  {
+    "id": 50,
+    "domain": "Independence",
+    "statement": "I am self-reliant.",
+    "attributes": "Independent, Resourceful, Capable, Self-sufficient, Autonomous",
+    "degrees": [
+      "Asking for help",
+      "Doing it myself",
+      "Teaching myself",
+      "Building systems"
+    ],
+    "question": "Can I solve this without waiting for someone?"
+  },
+  {
+    "id": 51,
+    "domain": "Independence",
+    "statement": "I make decisions quickly.",
+    "attributes": "Decisive, Resolute, Action-oriented, Clear, Unhesitating",
+    "degrees": [
+      "Overthinking",
+      "Deciding in hours",
+      "Deciding in minutes",
+      "Instant clarity"
+    ],
+    "question": "Am I deciding or deliberating?"
+  }
+]
