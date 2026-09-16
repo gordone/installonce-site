@@ -26,7 +26,7 @@ function testOverview() {
     message: '🎯 ZenBid Integration Test Suite',
     businessProfile: {
       name: 'The HALO Method - Identity Coaching',
-      businessId: 'installonce_ai',
+      businessId: 'halo_method',
       status: 'active',
       integrationEndpoints: [
         'https://thehalomethod.co/api/zenbid/business-register',
@@ -148,7 +148,7 @@ function testBookingFlow() {
   };
 
   const bookingResponse = {
-    bookingId: 'IO_1730160000_TEST123',
+    bookingId: 'HALO_1730160000_TEST123',
     status: 'confirmed',
     finalPrice: 60,
     scheduledDateTime: '2026-04-29T10:00:00.000Z',
@@ -164,7 +164,7 @@ function testBookingFlow() {
     ],
     businessContact: {
       email: 'hello@thehalomethod.co',
-      phone: '+1-555-INSTALL'
+      phone: '+1-555-HALO'
     },
     pricingBreakdown: {
       basePrice: 75,
@@ -265,7 +265,7 @@ function testWebhookFlow() {
       event: 'booking.created',
       timestamp: '2026-04-28T22:30:00Z',
       data: {
-        bookingId: 'IO_1730160000_WH001',
+        bookingId: 'HALO_1730160000_WH001',
         serviceId: 'habit_diagnostic',
         serviceName: 'Habit Diagnostic Consultation',
         customerInfo: { name: 'Mike R.', email: 'mike.r@example.com' },
@@ -278,7 +278,7 @@ function testWebhookFlow() {
       event: 'payment.completed',
       timestamp: '2026-04-29T10:00:00Z',
       data: {
-        bookingId: 'IO_1730160000_WH001',
+        bookingId: 'HALO_1730160000_WH001',
         amount: 60,
         currency: 'USD',
         paymentMethod: 'agent_wallet'
@@ -289,7 +289,7 @@ function testWebhookFlow() {
       event: 'review.created', 
       timestamp: '2026-04-29T15:30:00Z',
       data: {
-        bookingId: 'IO_1730160000_WH001',
+        bookingId: 'HALO_1730160000_WH001',
         rating: 5,
         reviewText: 'Incredible session! Gordon helped me identify the exact habit loops keeping me stuck. The personalized installation strategy is already working.',
         customerInfo: { name: 'Mike R.' }

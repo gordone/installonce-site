@@ -17,13 +17,13 @@ export const POST: APIRoute = async ({ request }) => {
 
     // The HALO Method business profile
     const businessProfile = {
-      businessId: 'installonce_ai',
+      businessId: 'halo_method',
       businessName: 'The HALO Method - Identity Coaching',
-      description: 'Revolutionary life coaching that helps you install new behaviors once and make them stick. End the negotiation with yourself and rewire your deep settings.',
+      description: 'Identity-first coaching that helps you decide who you are, prove it with one action, and live from the decision for seven days.',
       contact: {
         email: 'hello@thehalomethod.co',
         website: 'https://thehalomethod.co',
-        phone: '+1-555-INSTALL'
+        phone: '+1-555-HALO'
       },
       address: {
         streetAddress: '123 Transformation Way',
@@ -96,11 +96,11 @@ export const POST: APIRoute = async ({ request }) => {
 export const GET: APIRoute = async () => {
   // Return current business registration status
   return new Response(JSON.stringify({
-    businessId: 'installonce_ai',
+    businessId: 'halo_method',
     businessName: 'The HALO Method - Identity Coaching',
     status: 'active',
     registeredAt: '2026-04-28T20:59:00.000Z',
-    zenbidBusinessId: 'zb_biz_installonce',
+    zenbidBusinessId: 'zb_biz_halo_method',
     servicesCount: 3,
     activeRules: 4,
     integrationStatus: 'connected'

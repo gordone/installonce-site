@@ -225,7 +225,7 @@ export const GET: APIRoute = async ({ url }) => {
       services: filteredServices,
       metadata: {
         provider: 'The HALO Method - Identity Coaching',
-        businessId: 'installonce_ai',
+        businessId: 'halo_method',
         location: 'New York, NY',
         timezone: 'America/New_York',
         dynamicPricingActive: true,
