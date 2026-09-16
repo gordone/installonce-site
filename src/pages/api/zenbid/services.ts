@@ -86,7 +86,7 @@ export const GET: APIRoute = async ({ url }) => {
         duration: 90,
         basePrice: 150,
         category: 'transformation',
-        provider: 'Install Once - Life Transformation Coaching',
+        provider: 'The HALO Method - Identity Coaching',
         location: 'New York, NY (Virtual available)',
         rating: 4.9,
         reviewCount: 127,
@@ -108,7 +108,7 @@ export const GET: APIRoute = async ({ url }) => {
         duration: 45,
         basePrice: 75,
         category: 'diagnostic',
-        provider: 'Install Once - Life Transformation Coaching',
+        provider: 'The HALO Method - Identity Coaching',
         location: 'New York, NY (Virtual available)',
         rating: 4.8,
         reviewCount: 89,
@@ -130,7 +130,7 @@ export const GET: APIRoute = async ({ url }) => {
         duration: 120,
         basePrice: 200,
         category: 'intensive',
-        provider: 'Install Once - Life Transformation Coaching',
+        provider: 'The HALO Method - Identity Coaching',
         location: 'New York, NY (Virtual available)',
         rating: 5.0,
         reviewCount: 42,
@@ -183,7 +183,7 @@ export const GET: APIRoute = async ({ url }) => {
           cancellationPolicy: '24 hours notice required'
         },
         booking: {
-          url: `https://installonce.ai/api/zenbid/bookings`,
+          url: `https://thehalomethod.co/api/zenbid/bookings`,
           method: 'POST',
           requiresAuth: false,
           estimatedResponseTime: '< 30 seconds'
@@ -224,7 +224,7 @@ export const GET: APIRoute = async ({ url }) => {
       },
       services: filteredServices,
       metadata: {
-        provider: 'Install Once - Life Transformation Coaching',
+        provider: 'The HALO Method - Identity Coaching',
         businessId: 'installonce_ai',
         location: 'New York, NY',
         timezone: 'America/New_York',

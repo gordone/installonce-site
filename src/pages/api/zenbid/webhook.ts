@@ -96,7 +96,7 @@ export const POST: APIRoute = async ({ request }) => {
 export const GET: APIRoute = async () => {
   return new Response(JSON.stringify({
     success: true,
-    service: 'Install Once - ZenBid Webhook Endpoint',
+    service: 'The HALO Method - ZenBid Webhook Endpoint',
     status: 'active',
     supportedEvents: [
       'booking.created',
@@ -109,7 +109,7 @@ export const GET: APIRoute = async () => {
     ],
     lastPing: new Date().toISOString(),
     businessInfo: {
-      name: 'Install Once - Life Transformation Coaching',
+      name: 'The HALO Method - Identity Coaching',
       businessId: 'installonce_ai',
       integration: 'active'
     }
@@ -138,7 +138,7 @@ async function handleBookingCreated(data: any) {
     type: 'booking_created',
     title: '🎉 New Transformation Session Booked!',
     message: `${data.customerInfo?.name} booked ${data.serviceName} for ${formatDateTime(data.scheduledDateTime)}`,
-    action: `View Details: https://installonce.ai/business-dashboard/bookings?id=${data.bookingId}`
+    action: `View Details: https://thehalomethod.co/business-dashboard/bookings?id=${data.bookingId}`
   });
 }
 

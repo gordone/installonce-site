@@ -162,9 +162,9 @@ export const POST: APIRoute = async ({ request }) => {
       paymentRequired: true,
       nextSteps: generateNextSteps(bookingStatus, service, finalPrice),
       businessContact: {
-        email: 'coaching@installonce.ai',
+        email: 'hello@thehalomethod.co',
         phone: '+1-555-INSTALL',
-        calendar: 'https://installonce.ai/calendar'
+        calendar: 'https://thehalomethod.co/calendar'
       }
     };
 
@@ -195,7 +195,7 @@ export const POST: APIRoute = async ({ request }) => {
         : 'Booking pending - please respond to our pricing adjustment.',
       metadata: {
         bookedAt: new Date().toISOString(),
-        businessName: 'Install Once - Life Transformation Coaching',
+        businessName: 'The HALO Method - Identity Coaching',
         serviceName: service.name,
         coachAssigned: 'Gordon Ebanks - Master Transformation Coach'
       }

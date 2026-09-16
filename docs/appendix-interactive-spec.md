@@ -2,7 +2,7 @@
 
 ## Purpose
 
-Turn the appendix diagrams into interactive product surfaces for the Install Once website and the HALO NOW app.
+Turn the appendix diagrams into interactive product surfaces for the HALO Method website and the OneSixtySeven app.
 
 The website should help a visitor understand the method, choose an identity, and preview the seven-day test without friction. The app should capture the actual seven-day data and produce a useful diagnostic report.
 

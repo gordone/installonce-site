@@ -25,15 +25,15 @@ function testOverview() {
     success: true,
     message: '🎯 ZenBid Integration Test Suite',
     businessProfile: {
-      name: 'Install Once - Life Transformation Coaching',
+      name: 'The HALO Method - Identity Coaching',
       businessId: 'installonce_ai',
       status: 'active',
       integrationEndpoints: [
-        'https://installonce.ai/api/zenbid/business-register',
-        'https://installonce.ai/api/zenbid/services',
-        'https://installonce.ai/api/zenbid/bookings',
-        'https://installonce.ai/api/zenbid/availability',
-        'https://installonce.ai/api/zenbid/webhook'
+        'https://thehalomethod.co/api/zenbid/business-register',
+        'https://thehalomethod.co/api/zenbid/services',
+        'https://thehalomethod.co/api/zenbid/bookings',
+        'https://thehalomethod.co/api/zenbid/availability',
+        'https://thehalomethod.co/api/zenbid/webhook'
       ]
     },
     availableTests: {
@@ -68,14 +68,14 @@ function testAgentSearch() {
 
   const simulatedResults = {
     searchPerformed: searchQuery,
-    apiCall: 'GET https://installonce.ai/api/zenbid/services',
+    apiCall: 'GET https://thehalomethod.co/api/zenbid/services',
     responseTime: '245ms',
     resultsFound: 3,
     services: [
       {
         id: 'habit_diagnostic',
         name: 'Habit Diagnostic Consultation',
-        provider: 'Install Once - Life Transformation Coaching',
+        provider: 'The HALO Method - Identity Coaching',
         originalPrice: 75,
         currentPrice: 60, // 20% Tuesday discount
         savings: 15,
@@ -87,7 +87,7 @@ function testAgentSearch() {
       {
         id: 'identity_installation',
         name: 'Identity Installation Session',
-        provider: 'Install Once - Life Transformation Coaching', 
+        provider: 'The HALO Method - Identity Coaching',
         originalPrice: 150,
         currentPrice: 120,
         savings: 30,
@@ -99,7 +99,7 @@ function testAgentSearch() {
       {
         id: 'deep_settings',
         name: 'Deep Settings Reconfiguration',
-        provider: 'Install Once - Life Transformation Coaching',
+        provider: 'The HALO Method - Identity Coaching',
         originalPrice: 200,
         currentPrice: 160,
         savings: 40,
@@ -119,7 +119,7 @@ function testAgentSearch() {
   return new Response(JSON.stringify({
     success: true,
     testType: 'agent_search',
-    scenario: 'AI Agent discovers Install Once services via ZenBid marketplace',
+    scenario: 'AI Agent discovers The HALO Method services via ZenBid marketplace',
     simulation: simulatedResults,
     nextStep: 'Agent would now call /bookings endpoint with chosen service'
   }), {
@@ -163,7 +163,7 @@ function testBookingFlow() {
       'Prepare specific questions about your morning routine and procrastination'
     ],
     businessContact: {
-      email: 'coaching@installonce.ai',
+      email: 'hello@thehalomethod.co',
       phone: '+1-555-INSTALL'
     },
     pricingBreakdown: {
@@ -185,7 +185,7 @@ function testBookingFlow() {
     scenario: 'Complete booking from agent request to confirmation',
     simulation: {
       request: bookingRequest,
-      apiCall: 'POST https://installonce.ai/api/zenbid/bookings',
+      apiCall: 'POST https://thehalomethod.co/api/zenbid/bookings',
       responseTime: '380ms',
       response: bookingResponse
     },
@@ -314,7 +314,7 @@ function testWebhookFlow() {
       ]
     },
     integrationHealth: {
-      webhookEndpoint: 'https://installonce.ai/api/zenbid/webhook',
+      webhookEndpoint: 'https://thehalomethod.co/api/zenbid/webhook',
       status: 'active',
       averageResponseTime: '120ms',
       successRate: '99.8%'

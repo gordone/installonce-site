@@ -153,7 +153,7 @@ export const GET: APIRoute = async ({ url }) => {
       },
       recommendations,
       metadata: {
-        businessName: 'Install Once - Life Transformation Coaching',
+        businessName: 'The HALO Method - Identity Coaching',
         timezone: 'America/New_York',
         currency: 'USD',
         bookingAdvanceRequired: '24 hours',
@@ -234,7 +234,7 @@ function generateTimeSlots(
         available,
         price: pricing.price,
         appliedRules: pricing.appliedRules,
-        bookingUrl: available ? 'https://installonce.ai/api/zenbid/bookings' : undefined
+        bookingUrl: available ? 'https://thehalomethod.co/api/zenbid/bookings' : undefined
       });
     }
   }

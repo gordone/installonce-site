@@ -15,14 +15,14 @@ export const POST: APIRoute = async ({ request }) => {
       });
     }
 
-    // Install Once business profile
+    // The HALO Method business profile
     const businessProfile = {
       businessId: 'installonce_ai',
-      businessName: 'Install Once - Life Transformation Coaching',
+      businessName: 'The HALO Method - Identity Coaching',
       description: 'Revolutionary life coaching that helps you install new behaviors once and make them stick. End the negotiation with yourself and rewire your deep settings.',
       contact: {
-        email: 'business@installonce.ai',
-        website: 'https://installonce.ai',
+        email: 'hello@thehalomethod.co',
+        website: 'https://thehalomethod.co',
         phone: '+1-555-INSTALL'
       },
       address: {
@@ -46,10 +46,10 @@ export const POST: APIRoute = async ({ request }) => {
       registeredAt: new Date().toISOString(),
       status: 'active',
       integrationEndpoints: {
-        servicesUrl: 'https://installonce.ai/api/zenbid/services',
-        bookingsUrl: 'https://installonce.ai/api/zenbid/bookings',
-        availabilityUrl: 'https://installonce.ai/api/zenbid/availability',
-        webhookUrl: 'https://installonce.ai/api/zenbid/webhook'
+        servicesUrl: 'https://thehalomethod.co/api/zenbid/services',
+        bookingsUrl: 'https://thehalomethod.co/api/zenbid/bookings',
+        availabilityUrl: 'https://thehalomethod.co/api/zenbid/availability',
+        webhookUrl: 'https://thehalomethod.co/api/zenbid/webhook'
       }
     };
 
@@ -72,7 +72,7 @@ export const POST: APIRoute = async ({ request }) => {
           'Services automatically synced to ZenBid marketplace',
           'Pricing rules activated for dynamic pricing',
           'Business is now discoverable by AI agents',
-          'Dashboard available at https://installonce.ai/business-dashboard'
+          'Dashboard available at https://thehalomethod.co/business-dashboard'
         ]
       }
     }), {
@@ -97,7 +97,7 @@ export const GET: APIRoute = async () => {
   // Return current business registration status
   return new Response(JSON.stringify({
     businessId: 'installonce_ai',
-    businessName: 'Install Once - Life Transformation Coaching',
+    businessName: 'The HALO Method - Identity Coaching',
     status: 'active',
     registeredAt: '2026-04-28T20:59:00.000Z',
     zenbidBusinessId: 'zb_biz_installonce',
