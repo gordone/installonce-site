@@ -123,7 +123,7 @@ const publicSupabaseAnonKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY ?? "";
           <strong>Your first identity card is ready.</strong>
           <span data-artifact-summary></span>
         </div>
-        <a class="btn btn-primary" href="/i/demo/" data-share-link>
+        <a class="btn btn-primary" href="/i/?code=demo" data-share-link>
           View share card
         </a>
       </div>
@@ -336,7 +336,7 @@ const publicSupabaseAnonKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY ?? "";
         proof: session.proof,
         source: "artifact",
       });
-      return `/i/demo/?${params.toString()}`;
+      return `/i/?${params.toString()}`;
     }
 
     function hasSupabase(){
