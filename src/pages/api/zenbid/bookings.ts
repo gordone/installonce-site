@@ -122,7 +122,7 @@ export const POST: APIRoute = async ({ request }) => {
     }
 
     // Generate booking details
-    const bookingId = `IO_${Date.now()}_${Math.random().toString(36).substring(7).toUpperCase()}`;
+    const bookingId = `HALO_${Date.now()}_${Math.random().toString(36).substring(7).toUpperCase()}`;
     const confirmationCode = Math.random().toString(36).substring(2, 8).toUpperCase();
     
     // Simulate availability check (in real system, would check actual calendar)
@@ -163,7 +163,7 @@ export const POST: APIRoute = async ({ request }) => {
       nextSteps: generateNextSteps(bookingStatus, service, finalPrice),
       businessContact: {
         email: 'hello@thehalomethod.co',
-        phone: '+1-555-INSTALL',
+        phone: '+1-555-HALO',
         calendar: 'https://thehalomethod.co/calendar'
       }
     };
@@ -231,7 +231,7 @@ export const GET: APIRoute = async ({ url }) => {
   // Simulate booking data (in real system, would fetch from database)
   const bookings = [
     {
-      bookingId: 'IO_1730160000_ABC123',
+      bookingId: 'HALO_1730160000_ABC123',
       serviceId: 'habit_diagnostic',
       serviceName: 'Habit Diagnostic Consultation',
       customerName: 'Sarah M.',
@@ -248,7 +248,7 @@ export const GET: APIRoute = async ({ url }) => {
       agentId: 'openai_agent_gpt4'
     },
     {
-      bookingId: 'IO_1730163600_DEF456',
+      bookingId: 'HALO_1730163600_DEF456',
       serviceId: 'identity_installation',
       serviceName: 'Identity Installation Session',
       customerName: 'Mike R.',

@@ -1,6 +1,6 @@
 services:
   - type: web
-    name: installonce
+    name: the-halo-method
     runtime: static
     buildCommand: npm install && npm run build
     staticPublishPath: ./dist

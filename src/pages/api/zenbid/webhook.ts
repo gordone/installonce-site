@@ -110,7 +110,7 @@ export const GET: APIRoute = async () => {
     lastPing: new Date().toISOString(),
     businessInfo: {
       name: 'The HALO Method - Identity Coaching',
-      businessId: 'installonce_ai',
+      businessId: 'halo_method',
       integration: 'active'
     }
   }), {
