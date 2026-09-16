@@ -1,0 +1,130 @@
+---
+import HaloLogo from "../../components/HaloLogo.astro";
+const publicSupabaseUrl = import.meta.env.PUBLIC_SUPABASE_URL ?? "";
+const publicSupabaseAnonKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY ?? "";
+
+export function getStaticPaths() {
+  return [{ params: { code: "demo" } }];
+}
+
+const code = Astro.params.code ?? "demo";
+---
+
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Shared 1-60-7 Identity - The HALO Method</title>
+    <meta
+      name="description"
+      content="See a shared 1-60-7 identity artifact and choose your own identity to prove for seven days."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&family=Caveat:wght@600&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root{--black:#010101;--white:#fff;--line:#e5e5df;--muted:#747474;--ink:#0c0c0c;--ink-soft:#616161;--mono:ui-monospace,'SF Mono',Menlo,monospace;--body:'Source Serif 4',Georgia,serif;--hand:'Caveat',cursive}
+      *{box-sizing:border-box;margin:0;padding:0}
+      body{min-height:100vh;background:var(--white);color:var(--ink);font-family:var(--body);display:grid;place-items:center;padding:1.5rem}
+      .share{width:min(100%,820px);display:grid;grid-template-columns:.92fr 1.08fr;gap:1.5rem;align-items:center}
+      .card{background:var(--black);color:var(--white);border-radius:34px;padding:2rem;min-height:520px;display:flex;flex-direction:column;justify-content:space-between}
+      .card small,.copy small{font-family:var(--mono);font-size:.68rem;letter-spacing:.22em;text-transform:uppercase;color:rgba(255,255,255,.62)}
+      .identity{font-family:var(--hand);font-size:clamp(2.8rem,9vw,5.6rem);line-height:.9;margin:3rem 0}
+      .proof{border-top:1px solid rgba(255,255,255,.18);padding-top:1rem;color:rgba(255,255,255,.74);font-size:1rem;line-height:1.45}
+      .proof[hidden]{display:none}
+      .code{font-family:var(--mono);font-size:.68rem;letter-spacing:.14em;color:rgba(255,255,255,.6)}
+      .copy small{color:var(--muted)}
+      h1{font-family:Arial,sans-serif;font-size:clamp(2.2rem,6vw,4.8rem);line-height:.95;letter-spacing:-.03em;font-weight:500}
+      p{margin-top:1rem;color:var(--ink-soft);font-size:1.08rem;line-height:1.65}
+      .button{display:inline-flex;margin-top:1.6rem;background:var(--black);color:var(--white);border-radius:999px;padding:.9rem 1.15rem;text-decoration:none;font-family:var(--mono);font-size:.72rem;letter-spacing:.14em;text-transform:uppercase}
+      @media(max-width:760px){.share{grid-template-columns:1fr}.card{min-height:420px}}
+    </style>
+  </head>
+  <body>
+    <main class="share">
+      <section class="card" aria-label="Shared identity card">
+        <div><HaloLogo /><small>1-60-7 evidence</small></div>
+        <div class="identity" data-shared-identity>
+          I am someone who finishes what I start.
+        </div>
+        <div class="proof" data-shared-proof hidden></div>
+        <div class="code" data-shared-code>Shared card: {code}</div>
+      </section>
+      <section class="copy">
+        <small>Shared identity</small>
+        <h1>What would you change in seven days?</h1>
+        <p>
+          Someone used 1-60-7 to choose one identity and create proof. Start
+          your own: one identity, one action within 60 seconds, seven days of
+          evidence.
+        </p>
+        <a class="button" href="/start/">Choose my identity</a>
+      </section>
+    </main>
+    <script define:vars={{ publicSupabaseUrl, publicSupabaseAnonKey }}>
+      (() => {
+        const params = new URLSearchParams(window.location.search);
+        const code = params.get("code") || window.location.pathname.split("/").filter(Boolean).pop() || "demo";
+        const identity = params.get("identity");
+        const proof = params.get("proof");
+        const identityEl = document.querySelector("[data-shared-identity]");
+        const proofEl = document.querySelector("[data-shared-proof]");
+        const codeEl = document.querySelector("[data-shared-code]");
+
+        if (identity && identityEl) {
+          identityEl.textContent = `I am ${identity}.`;
+        }
+
+        if (proof && proofEl) {
+          proofEl.textContent = `Proof #1: ${proof}`;
+          proofEl.hidden = false;
+        }
+
+        if (codeEl) {
+          codeEl.textContent = `Shared card: ${code}`;
+        }
+
+        async function loadPersistedCard(){
+          if (!publicSupabaseUrl || !publicSupabaseAnonKey || !code) return;
+          try {
+            const response = await fetch(`${publicSupabaseUrl}/rest/v1/share_cards?share_code=eq.${encodeURIComponent(code)}&select=identity,first_proof`, {
+              headers: {
+                apikey: publicSupabaseAnonKey,
+                authorization: `Bearer ${publicSupabaseAnonKey}`,
+              },
+            });
+            if (!response.ok) return;
+            const rows = await response.json();
+            const card = Array.isArray(rows) ? rows[0] : null;
+            if (!card) return;
+            if (card.identity && identityEl) identityEl.textContent = card.identity;
+            if (card.first_proof && proofEl) {
+              proofEl.textContent = `Proof #1: ${card.first_proof}`;
+              proofEl.hidden = false;
+            }
+          } catch {
+            // Query params remain the no-backend fallback.
+          }
+        }
+
+        loadPersistedCard();
+
+        try {
+          const events = JSON.parse(window.localStorage.getItem("halo.1607.events") || "[]");
+          events.push({
+            event: "share_visit",
+            code,
+            timestamp: new Date().toISOString(),
+          });
+          window.localStorage.setItem("halo.1607.events", JSON.stringify(events.slice(-100)));
+        } catch {
+          // Tracking is best-effort on the static V1 share page.
+        }
+      })();
+    </script>
+  </body>
+</html>

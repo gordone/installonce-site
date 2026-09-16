@@ -1,10 +1,12 @@
 ---
 import ReaderTools from '../components/ReaderTools.astro';
+import HaloLogo from '../components/HaloLogo.astro';
 const appTitle = 'HALO NOW - 1 • 60 • 7';
 ---
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>{appTitle}</title>
 <meta name="description" content="Run the 1 • 60 • 7 Test in HALO NOW: one card, one action in sixty seconds, and seven days living from the decision.">
@@ -183,6 +185,13 @@ h1.today{font-family:var(--display);font-weight:250;font-size:1.95rem;color:var(
 .tool-card span{display:block;color:var(--ink-soft);font-size:.76rem;line-height:1.35;margin-top:.4rem}
 .tool-card i{display:inline-block;font-style:normal;font-family:var(--mono);font-size:.55rem;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:.55rem}
 .tool-card.locked{background:var(--paper-shade)}
+.onboard h1.app-logo-heading{display:flex;flex-direction:column;align-items:flex-start;gap:16px;font-size:24px;line-height:1;letter-spacing:0;max-width:100%}
+.app-logo-now{font-size:16px;font-weight:300;letter-spacing:0}
+.status .brand.app-logo{display:inline-flex;align-items:center;gap:12px;font-size:12px;line-height:1;letter-spacing:0}
+.status{gap:16px}
+.status .app-logo{flex-shrink:0}
+.status > :last-child{min-width:0;text-align:right;line-height:1.5;letter-spacing:0}
+@media(max-width:350px){.status{flex-wrap:wrap;gap:8px}.status > :last-child{flex-basis:100%;text-align:left}}
 </style>
 </head>
 <body>
@@ -190,7 +199,7 @@ h1.today{font-family:var(--display);font-weight:250;font-size:1.95rem;color:var(
   <div class="onboard" id="onboard">
     <div class="ob-step active" id="ob1">
       <p class="ob-kicker">THE 1 • 60 • 7 TEST</p>
-      <h1>HALO NOW</h1>
+      <h1 class="app-logo-heading"><HaloLogo size="large" /><span class="app-logo-now">NOW</span></h1>
       <p class="halo-phrase"><b>H</b>appened <b>A</b>lready. <b>L</b>ive <b>O</b>n.</p>
       <p>Stop trying to become the person you want to be. Decide who you are, prove it with one action in the next 60 seconds, then live from the decision for seven days.</p>
       <div class="ob-card">
@@ -247,7 +256,7 @@ h1.today{font-family:var(--display);font-weight:250;font-size:1.95rem;color:var(
   </div>
 
   <div class="status">
-    <span class="brand">H<span style="position:relative">A<i></i></span>LO NOW</span>
+    <span class="brand app-logo"><HaloLogo size="small" /><span>NOW</span></span>
     <span id="statusDay">DAY 1 &middot; 1 • 60 • 7</span>
   </div>
 
@@ -377,6 +386,7 @@ h1.today{font-family:var(--display);font-weight:250;font-size:1.95rem;color:var(
     </section>
 
     <section class="screen" id="scr-method">
+      <a href="/book/" style="display:inline-flex;align-items:center;min-height:44px;margin-bottom:16px;color:inherit">Chapter reader materials</a>
       <ReaderTools />
       <p class="day-label">HALO NOW</p>
       <h2 class="sec">The 1 • 60 • 7 test</h2>

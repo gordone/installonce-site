@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 740 160" fill="none">
+  <title>HALO</title>
+  <g stroke="#000" stroke-width="5" stroke-linecap="butt" stroke-linejoin="miter">
+    <path d="M12 15V145M132 15V145M12 75H132"/>
+    <path d="M197 145L260 15L325 145M218 101H303"/>
+    <path d="M393 15V145H468"/>
+  </g>
+  <path d="M608 112A116 32 0 1 1 647.67 110.07" transform="rotate(-25 608 80)" stroke="#000" stroke-width="7" stroke-linecap="butt"/>
+</svg>

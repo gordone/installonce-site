@@ -1,0 +1,11 @@
+---
+interface Props { size?: 'small' | 'standard' | 'large' | 'hero'; }
+const { size = 'standard' } = Astro.props;
+---
+<span class:list={['halo-logo', `halo-logo--${size}`]} role="img" aria-label="HALO"></span>
+<style>
+  .halo-logo{display:inline-block;flex-shrink:0;width:116px;max-width:100%;aspect-ratio:740/160;vertical-align:middle;background:currentColor;mask:url('/halo-logo.svg') center/contain no-repeat;-webkit-mask:url('/halo-logo.svg') center/contain no-repeat}
+  .halo-logo--small{width:90px}
+  .halo-logo--large{width:260px}
+  .halo-logo--hero{width:740px;display:block}
+</style>

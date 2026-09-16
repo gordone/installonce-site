@@ -1,12 +1,14 @@
 ---
 import Halo1607Experience from "../components/Halo1607Experience.astro";
 import ReaderTools from "../components/ReaderTools.astro";
+import HaloLogo from "../components/HaloLogo.astro";
 import "../styles/global.css";
 ---
 
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>HALO - Identity for Lasting Change</title>
 <meta name="description" content="Take the 1 • 60 • 7 Test. Decide who you are, prove it with one action in the next 60 seconds, then live from the decision for seven days.">
@@ -33,12 +35,27 @@ nav{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.86);backdrop-f
 .waitlist{background:var(--black);color:var(--white)}.final-cta{text-align:center}.final-cta h2{margin:0 auto;color:var(--white)}.final-cta .hero-ctas{justify-content:center}
 footer{background:var(--black);border-top:1px solid rgba(255,255,255,.14)}.footer-inner{max-width:1120px;margin:0 auto;padding:2.2rem 1.5rem;display:flex;justify-content:space-between;align-items:center;gap:1rem;flex-wrap:wrap}.footer-inner p{font-family:var(--mono);font-size:.68rem;letter-spacing:.12em;color:rgba(255,255,255,.52)}.footer-inner .fm{color:rgba(255,255,255,.84);font-family:var(--serif-display);font-weight:200;letter-spacing:.55em}
 .reveal{opacity:0;transform:translateY(18px);transition:opacity .6s ease,transform .6s ease}.reveal.in{opacity:1;transform:none}@media(prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none}}
+.wordmark{display:inline-flex;align-items:center;line-height:1;letter-spacing:0}
+.hero h1.logo-heading{width:740px;max-width:100%;font-size:0;line-height:1;text-indent:0;letter-spacing:0}
+.footer-inner a.fm{display:inline-flex;color:inherit;text-decoration:none;letter-spacing:0}
+.inside{padding:1.7rem 1.5rem;min-width:0;overflow-wrap:anywhere}
+.hero{grid-template-columns:minmax(0,1fr)}
+.hero > div{min-width:0}
+.inside-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
+section[id]{scroll-margin-top:90px}
+.nav-links a{display:inline-flex;align-items:center;min-height:44px}
+.hero .btn,.final-cta .btn{min-height:44px;max-width:100%;white-space:normal;letter-spacing:0}
+.hero :focus-visible,.waitlist :focus-visible{outline-color:#fff}
+.section h2,.inside h3{overflow-wrap:break-word;letter-spacing:0}
+@media(max-width:860px){.inside-grid{grid-template-columns:minmax(0,1fr)}}
+@media(max-width:480px){.section{padding:3.5rem 1.5rem}.section h2{font-size:2.1rem;line-height:1.12}.hero-ctas{width:100%}.hero-ctas .btn{width:100%;text-align:center}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.reveal{opacity:1;transform:none;transition:none}}
 </style>
 </head>
 <body>
 <nav aria-label="Main">
   <div class="nav-inner">
-    <a class="wordmark" href="#top">H<span style="position:relative">A<span class="ring" aria-hidden="true"></span></span>LO</a>
+    <a class="wordmark" href="#top" aria-label="HALO home"><HaloLogo /></a>
     <ul class="nav-links">
       <li><a href="#try">Try 1 • 60 • 7</a></li>
       <li><a href="#method">The Method</a></li>
@@ -46,6 +63,7 @@ footer{background:var(--black);border-top:1px solid rgba(255,255,255,.14)}.foote
       <li><a href="#origin">Origin</a></li>
       <li><a href="/app/">Open App</a></li>
       <li><a href="#reader-tools">Reader Tools</a></li>
+      <li><a href="/book/">The Book</a></li>
       <li><a href="#try" class="nav-cta">Try HALO Now</a></li>
     </ul>
   </div>
@@ -54,7 +72,7 @@ footer{background:var(--black);border-top:1px solid rgba(255,255,255,.14)}.foote
 <header class="hero" id="top">
   <div>
     <p class="eyebrow">THE 1 • 60 • 7 TEST</p>
-    <h1>H<span style="position:relative">A<span class="halo-ring" aria-hidden="true"></span></span>LO</h1>
+    <h1 class="logo-heading"><HaloLogo size="hero" /></h1>
     <p class="subtitle"><b>H</b>appened <b>A</b>lready. <b>L</b>ive <b>O</b>n.</p>
     <p class="tagline">1 card. 60 seconds. 7 days.</p>
     <p class="lede">Stop trying to become the person you want to be. Decide who you are, prove it with one action in the next 60 seconds, then live from the decision for seven days.</p>
@@ -114,6 +132,7 @@ footer{background:var(--black);border-top:1px solid rgba(255,255,255,.14)}.foote
 </section>
 
 <section class="paper paper-shade" id="inside">
+  <div style="max-width:1120px;margin:auto;padding:24px 24px 0"><a href="/book/" style="display:inline-flex;align-items:center;min-height:44px">Open the reader library</a></div>
   <div class="section">
     <p class="kicker reveal">The Book</p>
     <h2 class="reveal">The test lets you experience HALO. The book explains why it works.</h2>
@@ -135,7 +154,7 @@ footer{background:var(--black);border-top:1px solid rgba(255,255,255,.14)}.foote
 <section class="waitlist" id="final"><div class="section final-cta"><p class="kicker reveal">Try HALO Now</p><h2 class="reveal">One card. One action. Seven days.</h2><div class="hero-ctas reveal"><a class="btn btn-primary" href="#try">Take the 1 • 60 • 7 Test</a><a class="btn btn-ghost" href="/1607/">Open the Test</a><a class="btn btn-ghost" href="#inside">Get HALO at launch</a></div></div></section>
 </main>
 
-<footer><div class="footer-inner"><p class="fm">HALO</p><p>&copy; 2026 Install Once &middot; installonce.ai &middot; All rights reserved</p></div></footer>
+<footer><div class="footer-inner"><a href="#top" class="fm" aria-label="HALO home"><HaloLogo /></a><p>&copy; 2026 Install Once &middot; installonce.ai &middot; All rights reserved</p></div></footer>
 
 <script>
 (() => {

@@ -1,0 +1,102 @@
+---
+import Halo1607Experience from "../components/Halo1607Experience.astro";
+import HaloLogo from "../components/HaloLogo.astro";
+import { haloFlywheelEvents, haloLaunchPhases } from "../data/haloFlywheel";
+---
+
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Start 1-60-7 - The HALO Method</title>
+    <meta
+      name="description"
+      content="Choose one identity, prove it with one action in the next 60 seconds, then carry the evidence for seven days."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&family=Caveat:wght@500;600&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root{--black:#010101;--white:#fff;--muted:#747474;--line:#e5e5df;--paper:#fff;--paper-shade:#f6f6f1;--evergreen:#010101;--teal:#111;--ink:#0c0c0c;--ink-soft:#616161;--pen:#111;--card-rule:#d8d8d8;--card-headrule:#111;--serif-display:Inter,Arial,sans-serif;--serif-body:'Source Serif 4',Georgia,serif;--hand:'Caveat',cursive;--mono:ui-monospace,'SF Mono',Menlo,monospace}
+      *{box-sizing:border-box;margin:0;padding:0}
+      body{background:var(--white);color:var(--ink);font-family:var(--serif-body);font-size:17px;line-height:1.65}
+      a{color:inherit}
+      .shell{max-width:1180px;margin:0 auto;padding:1.4rem 1.5rem 5rem}
+      .nav{display:flex;align-items:center;justify-content:space-between;gap:1rem;margin-bottom:3rem}
+      .brand{display:inline-flex;align-items:center;text-decoration:none}
+      .nav a:not(.brand){font-family:var(--mono);font-size:.68rem;letter-spacing:.16em;text-transform:uppercase;text-decoration:none;color:var(--ink-soft)}
+      .hero{display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);gap:3rem;align-items:start}
+      .kicker{font-family:var(--mono);font-size:.68rem;letter-spacing:.3em;text-transform:uppercase;color:var(--muted);margin-bottom:1rem}
+      h1{font-family:var(--serif-display);font-weight:250;font-size:clamp(3rem,8vw,7rem);line-height:.95;letter-spacing:.02em;max-width:8ch}
+      .lede{margin-top:1.25rem;max-width:48ch;color:var(--ink-soft);font-size:1.08rem}
+      .proof-loop{margin-top:2rem;border-top:1px solid var(--black);display:grid;gap:.9rem;padding-top:1.3rem}
+      .proof-loop span{font-family:var(--mono);font-size:.7rem;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-soft)}
+      .proof-loop strong{display:block;font-family:var(--serif-display);font-size:1.25rem;font-weight:350}
+      .plan{margin-top:4rem;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:1rem}
+      .phase{border:1px solid var(--line);border-radius:18px;padding:1rem;background:#fff}
+      .phase h2{font-family:var(--serif-display);font-size:1.15rem;font-weight:350;line-height:1.15}
+      .phase p{margin-top:.5rem;color:var(--ink-soft);font-size:.92rem}
+      .phase ul{margin-top:.85rem;padding-left:1rem;color:var(--ink-soft);font-size:.88rem}
+      .events{margin-top:3rem;background:var(--paper-shade);border-radius:24px;padding:1.3rem}
+      .events-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.65rem;margin-top:1rem}
+      .event{background:#fff;border:1px solid var(--line);border-radius:14px;padding:.8rem}
+      .event strong{display:block;font-family:var(--mono);font-size:.68rem;letter-spacing:.08em}
+      .event span{display:block;color:var(--ink-soft);font-size:.86rem;margin-top:.25rem}
+      @media(max-width:900px){.hero,.plan,.events-grid{grid-template-columns:1fr}.shell{padding-top:1rem}.nav{margin-bottom:2rem}}
+    </style>
+  </head>
+  <body>
+    <main class="shell">
+      <nav class="nav" aria-label="Start navigation">
+        <a class="brand" href="/" aria-label="HALO home"><HaloLogo /></a>
+        <a href="/book/">Read HALO</a>
+      </nav>
+
+      <section class="hero">
+        <div>
+          <p class="kicker">Start the method</p>
+          <h1>Choose one identity.</h1>
+          <p class="lede">
+            HALO gives you the method. 1-60-7 lets you prove it to yourself:
+            one identity, one action within 60 seconds, seven days of evidence.
+          </p>
+          <div class="proof-loop" aria-label="HALO growth loop">
+            <div><span>Idea</span><strong>HALO creates the decision.</strong></div>
+            <div><span>Proof</span><strong>1-60-7 turns it into evidence.</strong></div>
+            <div><span>Share</span><strong>Evidence becomes an identity artifact.</strong></div>
+          </div>
+        </div>
+        <Halo1607Experience compact={true} />
+      </section>
+
+      <section class="plan" aria-label="Launch phases">
+        {haloLaunchPhases.map((phase) => (
+          <article class="phase">
+            <h2>{phase.title}</h2>
+            <p>{phase.outcome}</p>
+            <ul>
+              {phase.items.slice(0, 3).map((item) => <li>{item}</li>)}
+            </ul>
+          </article>
+        ))}
+      </section>
+
+      <section class="events" aria-label="Initial measurement events">
+        <p class="kicker">Measurement</p>
+        <h2>Track completed identities, not downloads.</h2>
+        <div class="events-grid">
+          {haloFlywheelEvents.map((item) => (
+            <div class="event">
+              <strong>{item.event}</strong>
+              <span>{item.meaning}</span>
+            </div>
+          ))}
+        </div>
+      </section>
+    </main>
+  </body>
+</html>

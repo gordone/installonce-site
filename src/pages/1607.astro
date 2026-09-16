@@ -1,11 +1,13 @@
 ---
 import Halo1607Experience from "../components/Halo1607Experience.astro";
+import HaloLogo from "../components/HaloLogo.astro";
 import "../styles/global.css";
 ---
 
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>The 1 • 60 • 7 Test - Try HALO Now</title>
 <meta name="description" content="Take the 1 • 60 • 7 Test: one card, one action in sixty seconds, seven days living from the decision.">
@@ -15,11 +17,12 @@ import "../styles/global.css";
 <style>
 :root{--black:#010101;--white:#fff;--muted:#747474;--line:#e5e5df;--paper:#fff;--paper-shade:#f6f6f1;--evergreen:#010101;--evergreen-deep:#010101;--teal:#111;--teal-bright:#fff;--card-rule:#d8d8d8;--card-headrule:#111;--ink:#0c0c0c;--ink-soft:#616161;--pen:#111;--serif-display:Inter,Arial,sans-serif;--serif-body:'Source Serif 4',Georgia,serif;--hand:'Caveat',cursive;--mono:ui-monospace,'SF Mono',Menlo,monospace}
 *{margin:0;padding:0;box-sizing:border-box}body{min-height:100vh;background:var(--white);color:var(--ink);font-family:var(--serif-body);font-size:17px;line-height:1.65}.single-test{max-width:980px;margin:0 auto;padding:1.6rem 1.5rem 4rem}.wordmark{display:inline-block;margin-bottom:2rem;font-family:var(--serif-display);font-weight:300;font-size:1.1rem;letter-spacing:.62em;color:var(--black);text-decoration:none;position:relative}.wordmark .ring{position:absolute;top:-.3em;left:50%;transform:translateX(-50%) rotate(-8deg);width:1.25em;height:.42em;border:1.25px solid currentColor;border-radius:50%;opacity:.9}.eyebrow,.kicker{font-family:var(--mono);font-size:.68rem;letter-spacing:.3em;text-transform:uppercase;color:var(--muted);margin-bottom:1rem}h1{font-family:var(--serif-display);font-weight:200;font-size:clamp(3rem,10vw,7rem);letter-spacing:.05em;line-height:.95;max-width:9ch}.lede{margin:1.2rem 0 2.5rem;max-width:48ch;color:var(--ink-soft);font-size:1.08rem}.btn{display:inline-block;font-family:var(--mono);font-size:.72rem;letter-spacing:.16em;text-transform:uppercase;text-decoration:none;padding:.9rem 1.25rem;border-radius:999px;transition:transform .12s,background .15s,border-color .15s;border:0;cursor:pointer}.btn-primary{background:var(--paper);color:var(--evergreen);font-weight:700}.btn-ghost-dark{border:1px solid rgba(255,255,255,.32);color:var(--paper);background:transparent}.btn:disabled{opacity:.48;cursor:not-allowed}@media(max-width:720px){.single-test{padding-top:1.2rem}}
+.wordmark{line-height:1;letter-spacing:0}
 </style>
 </head>
 <body>
   <main class="single-test">
-    <a class="wordmark" href="/">H<span style="position:relative">A<span class="ring" aria-hidden="true"></span></span>LO</a>
+    <a class="wordmark" href="/" aria-label="HALO home"><HaloLogo /></a>
     <p class="eyebrow">THE 1 • 60 • 7 TEST</p>
     <h1>1 card. 60 seconds. 7 days.</h1>
     <p class="lede">Decide who you are. Prove it with one tiny action now. Live from it for seven days.</p>

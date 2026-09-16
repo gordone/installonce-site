@@ -1,5 +1,8 @@
 ---
+import HaloLogo from './HaloLogo.astro';
 const { compact = false } = Astro.props;
+const publicSupabaseUrl = import.meta.env.PUBLIC_SUPABASE_URL ?? "";
+const publicSupabaseAnonKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY ?? "";
 ---
 
 <section class:list={["experience", { compact }]} id="try">
@@ -13,6 +16,7 @@ const { compact = false } = Astro.props;
   </div>
 
   <div class="halo-test" data-halo-test>
+    <div class="test-brand"><HaloLogo /><span>1 &#8226; 60 &#8226; 7</span></div>
     <div class="step-tabs" aria-label="1 • 60 • 7 progress">
       <span class="active" data-step-pill="card">1 Card</span>
       <span data-step-pill="proof">60 Seconds</span>
@@ -114,6 +118,15 @@ const { compact = false } = Astro.props;
       <a class="btn btn-primary app-link" href="/app/">
         Open HALO NOW tracker
       </a>
+      <div class="identity-artifact" data-artifact hidden>
+        <div>
+          <strong>Your first identity card is ready.</strong>
+          <span data-artifact-summary></span>
+        </div>
+        <a class="btn btn-primary" href="/i/demo/" data-share-link>
+          View share card
+        </a>
+      </div>
       <form
         class="signup-form"
         data-halo-form
@@ -147,9 +160,9 @@ const { compact = false } = Astro.props;
 <style>
   .experience{display:grid;grid-template-columns:.82fr 1.18fr;gap:3rem;align-items:start}
   .experience.compact{grid-template-columns:1fr;max-width:820px;margin:0 auto}
-  .experience-copy h2{font-family:var(--serif-display);font-size:clamp(2rem,4vw,3.3rem);line-height:1.04;color:var(--paper);font-weight:300;letter-spacing:.04em}
+  .experience-copy h2{font-family:var(--serif-display);font-size:2.5rem;line-height:1.12;color:var(--ink);font-weight:300;letter-spacing:0}
   .paper .experience-copy h2{color:var(--ink)}
-  .experience-copy p:not(.kicker){color:rgba(255,255,255,.72);max-width:38ch;margin-top:1rem}
+  .experience-copy p:not(.kicker){color:var(--ink-soft);max-width:38ch;margin-top:1rem}
   .paper .experience-copy p:not(.kicker){color:var(--ink-soft)}
   .kicker{font-family:var(--mono);font-size:.68rem;letter-spacing:.3em;text-transform:uppercase;color:var(--muted,rgba(255,255,255,.62));margin-bottom:1.1rem}
   .btn{display:inline-block;font-family:var(--mono);font-size:.72rem;letter-spacing:.16em;text-transform:uppercase;text-decoration:none;padding:.9rem 1.25rem;border-radius:999px;transition:transform .12s,background .15s,border-color .15s;border:0;cursor:pointer}
@@ -185,6 +198,24 @@ const { compact = false } = Astro.props;
   .test-panel{margin-top:1rem;border:1px solid rgba(255,255,255,.14);border-radius:24px;padding:1rem;color:var(--paper);background:#0d0d0d}
   .paper .test-panel{border-color:rgba(255,255,255,.14);background:#0d0d0d;color:var(--paper)}
   .test-panel.hidden,.hidden{display:none}
+  .test-brand{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;color:var(--paper);padding:4px 0 20px;font-family:var(--mono);font-size:13px;letter-spacing:0}
+  .test-panel > [data-next-proof]{margin-top:1.25rem}
+  .halo-test .btn{max-width:100%;min-height:44px;white-space:normal;overflow-wrap:anywhere;letter-spacing:0}
+  .halo-test :focus-visible{outline:2px solid #fff;outline-offset:4px}
+  .halo-test .card-input:focus-visible{outline:2px solid #111;outline-offset:4px}
+  .index-card{min-height:300px;min-width:0}
+  .experience > div{min-width:0}
+  .signup-form input{max-width:100%;min-width:0;width:100%}
+  @media(max-width:480px){
+    .halo-test{padding:1rem}
+    .card-face{padding:1.1rem}
+    .card-footer{left:1.1rem;right:1.1rem;gap:.75rem;letter-spacing:0}
+    .card-prompt{font-size:1.1rem;line-height:1.4}
+    .card-question{font-size:1.45rem}
+    .card-input{font-size:1.75rem}
+    .panel-actions .btn{min-width:0;flex-basis:100%}
+  }
+  @media(prefers-reduced-motion:reduce){.index-card,.card-face{transition:none}}
   .panel-label{font-family:var(--mono);font-size:.66rem;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.6);margin-bottom:.35rem}
   .panel-error{display:none;margin:.45rem 0 0;color:#B94A55!important;font-family:var(--mono);font-size:.64rem;letter-spacing:.08em;text-transform:uppercase}
   .panel-error.visible{display:block}
@@ -207,6 +238,11 @@ const { compact = false } = Astro.props;
   .paper .day-dots span{border-color:#d8d3c6;color:var(--ink-soft)}
   .day-dots span.done{background:var(--teal);border-color:var(--teal);color:#fff}
   .app-link{display:block;text-align:center;margin-top:1rem}
+  .identity-artifact{display:grid;gap:.8rem;margin-top:1rem;border:1px solid rgba(255,255,255,.14);border-radius:18px;padding:.9rem;background:rgba(255,255,255,.06)}
+  .identity-artifact[hidden]{display:none}
+  .identity-artifact strong{display:block;font-family:var(--serif-display);font-size:1.05rem;color:inherit}
+  .identity-artifact span{display:block;color:rgba(252,251,247,.7);font-size:.9rem;margin-top:.2rem}
+  .paper .identity-artifact span{color:var(--ink-soft)}
   .signup-form input{flex:1;min-width:210px;border:1.5px solid #d8d3c6;border-radius:3px;padding:.85rem 1rem;font-family:var(--serif-body);font-size:1rem}
   .signup-form button{border:0;border-radius:3px;background:var(--evergreen);color:var(--paper);cursor:pointer;font-family:var(--mono);font-size:.72rem;font-weight:700;letter-spacing:.12em;padding:.9rem 1rem;text-transform:uppercase}
   .share-copy{margin-top:1rem;color:var(--pen);font-family:var(--hand);font-size:1.45rem;font-weight:600}
@@ -215,8 +251,10 @@ const { compact = false } = Astro.props;
   @media(max-width:900px){.experience{grid-template-columns:1fr}}
 </style>
 
-<script>
+<script define:vars={{ publicSupabaseUrl, publicSupabaseAnonKey }}>
   document.querySelectorAll("[data-halo-test]").forEach((root) => {
+    const storageKey = "halo.1607.sessions";
+    const eventKey = "halo.1607.events";
     const card = root.querySelector("[data-card]");
     const identityInput = root.querySelector("[data-identity-input]");
     const proofInput = root.querySelector("[data-proof-input]");
@@ -228,8 +266,182 @@ const { compact = false } = Astro.props;
     const pills = root.querySelectorAll("[data-step-pill]");
     const form = root.querySelector("[data-halo-form]");
     const confirm = root.querySelector("[data-confirm]");
+    const artifact = root.querySelector("[data-artifact]");
+    const artifactSummary = root.querySelector("[data-artifact-summary]");
+    const shareLink = root.querySelector("[data-share-link]");
     let remaining = 60;
     let interval;
+    let currentSessionId = "";
+    let identityStarted = false;
+
+    function readJson(key, fallback){
+      try {
+        return JSON.parse(window.localStorage.getItem(key) || "") || fallback;
+      } catch {
+        return fallback;
+      }
+    }
+
+    function writeJson(key, value){
+      try {
+        window.localStorage.setItem(key, JSON.stringify(value));
+      } catch {
+        // Local storage is best-effort in V1. The user should still be able to complete the flow.
+      }
+    }
+
+    function getSource(){
+      const params = new URLSearchParams(window.location.search);
+      return params.get("source") || params.get("utm_source") || "site";
+    }
+
+    function createSessionId(){
+      if (window.crypto?.randomUUID) return window.crypto.randomUUID();
+      return `halo-${Date.now()}-${Math.random().toString(36).slice(2, 10)}`;
+    }
+
+    function track(event, data = {}){
+      const events = readJson(eventKey, []);
+      events.push({
+        event,
+        sessionId: currentSessionId || null,
+        source: getSource(),
+        timestamp: new Date().toISOString(),
+        ...data,
+      });
+      writeJson(eventKey, events.slice(-100));
+    }
+
+    function upsertSession(patch){
+      if (!currentSessionId) currentSessionId = createSessionId();
+      const sessions = readJson(storageKey, {});
+      const existing = sessions[currentSessionId] || {
+        createdAt: new Date().toISOString(),
+        source: getSource(),
+      };
+      sessions[currentSessionId] = {
+        ...existing,
+        ...patch,
+        id: currentSessionId,
+        updatedAt: new Date().toISOString(),
+      };
+      writeJson(storageKey, sessions);
+      return sessions[currentSessionId];
+    }
+
+    function buildShareUrl(session){
+      const params = new URLSearchParams({
+        code: session.id,
+        identity: session.identity,
+        proof: session.proof,
+        source: "artifact",
+      });
+      return `/i/demo/?${params.toString()}`;
+    }
+
+    function hasSupabase(){
+      return Boolean(publicSupabaseUrl && publicSupabaseAnonKey);
+    }
+
+    async function supabaseRequest(path, init){
+      if (!hasSupabase()) return null;
+      const response = await fetch(`${publicSupabaseUrl}/rest/v1/${path}`, {
+        ...init,
+        headers: {
+          apikey: publicSupabaseAnonKey,
+          authorization: `Bearer ${publicSupabaseAnonKey}`,
+          "content-type": "application/json",
+          prefer: "return=representation",
+          ...(init?.headers || {}),
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error(`Supabase request failed: ${response.status}`);
+      }
+
+      return response.status === 204 ? null : response.json();
+    }
+
+    async function persistSession(session){
+      try {
+        const rows = await supabaseRequest("identity_sessions", {
+          method: "POST",
+          body: JSON.stringify({
+            first_proof: session.proof || null,
+            identity: session.identity || null,
+            share_code: session.id,
+            source: session.source || getSource(),
+            status: session.proofCompletedAt
+              ? "proof_completed"
+              : session.proofStartedAt
+                ? "proof_started"
+                : session.identity
+                  ? "identity_committed"
+                  : "started",
+          }),
+        });
+        const saved = Array.isArray(rows) ? rows[0] : null;
+        if (saved?.id) upsertSession({ persistedId: saved.id });
+      } catch {
+        try {
+          await supabaseRequest(`identity_sessions?share_code=eq.${encodeURIComponent(session.id)}`, {
+            method: "PATCH",
+            body: JSON.stringify({
+              first_proof: session.proof || null,
+              identity: session.identity || null,
+              status: session.proofCompletedAt
+                ? "proof_completed"
+                : session.proofStartedAt
+                  ? "proof_started"
+                  : session.identity
+                    ? "identity_committed"
+                    : "started",
+              updated_at: new Date().toISOString(),
+            }),
+          });
+        } catch {
+          // Keep the static V1 flow usable when persistence is unavailable.
+        }
+      }
+    }
+
+    async function persistEvent(event, data = {}){
+      const sessions = readJson(storageKey, {});
+      const session = sessions[currentSessionId] || {};
+      try {
+        await supabaseRequest("identity_events", {
+          method: "POST",
+          body: JSON.stringify({
+            event_name: event,
+            payload: data,
+            session_id: session.persistedId || null,
+            share_code: currentSessionId || null,
+            source: getSource(),
+          }),
+        });
+      } catch {
+        // Local event tracking remains the fallback.
+      }
+    }
+
+    async function persistShareCard(session){
+      try {
+        await supabaseRequest("share_cards", {
+          method: "POST",
+          body: JSON.stringify({
+            first_proof: session.proof || null,
+            identity: `I am ${session.identity}.`,
+            is_public: true,
+            session_id: session.persistedId || null,
+            share_code: session.id,
+          }),
+        });
+      } catch {
+        // Share URLs still work with query params when persistence is unavailable.
+      }
+    }
+
     function show(step){
       panels.forEach((panel)=>panel.classList.toggle("hidden", panel.dataset.panel !== step));
       pills.forEach((pill)=>pill.classList.toggle("active", pill.dataset.stepPill === step));
@@ -242,8 +454,20 @@ const { compact = false } = Astro.props;
         return;
       }
       identityError.classList.remove("visible");
+      const session = upsertSession({ identity: identityInput.value.trim() });
+      persistSession(session);
+      track("identity_committed", { identity: identityInput.value.trim() });
+      persistEvent("identity_committed", { identity: identityInput.value.trim() });
       show("proof");
       proofInput.focus();
+    });
+    identityInput.addEventListener("input", () => {
+      if (identityStarted || !identityInput.value.trim()) return;
+      identityStarted = true;
+      const session = upsertSession({ identity: identityInput.value.trim() });
+      persistSession(session);
+      track("identity_started", { identity: identityInput.value.trim() });
+      persistEvent("identity_started", { identity: identityInput.value.trim() });
     });
     root.querySelector("[data-start-timer]").addEventListener("click", (event) => {
       if (!proofInput.value.trim()) {
@@ -252,6 +476,10 @@ const { compact = false } = Astro.props;
         return;
       }
       proofError.classList.remove("visible");
+      const session = upsertSession({ proof: proofInput.value.trim(), proofStartedAt: new Date().toISOString() });
+      persistSession(session);
+      track("proof_1_started", { proof: proofInput.value.trim() });
+      persistEvent("proof_1_started", { proof: proofInput.value.trim() });
       event.currentTarget.disabled = true;
       didIt.disabled = false;
       didIt.focus();
@@ -269,6 +497,21 @@ const { compact = false } = Astro.props;
       timerEl.textContent = "done";
       root.querySelector("[data-identity-hidden]").value = identityInput.value.trim();
       root.querySelector("[data-proof-hidden]").value = proofInput.value.trim();
+      const session = upsertSession({
+        artifactGeneratedAt: new Date().toISOString(),
+        identity: identityInput.value.trim(),
+        proof: proofInput.value.trim(),
+        proofCompletedAt: new Date().toISOString(),
+      });
+      persistSession(session);
+      persistShareCard(session);
+      track("proof_1_completed", { identity: session.identity, proof: session.proof });
+      track("artifact_generated", { code: session.id });
+      persistEvent("proof_1_completed", { identity: session.identity, proof: session.proof });
+      persistEvent("artifact_generated", { code: session.id });
+      artifactSummary.textContent = `I am ${session.identity}. Proof #1: ${session.proof}.`;
+      shareLink.href = buildShareUrl(session);
+      artifact.hidden = false;
       show("live");
     });
     form.addEventListener("submit", async (event) => {
