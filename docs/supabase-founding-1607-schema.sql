@@ -40,18 +40,22 @@ alter table public.identity_sessions enable row level security;
 alter table public.identity_events enable row level security;
 alter table public.share_cards enable row level security;
 
+grant insert, update on public.identity_sessions to anon, authenticated;
+grant insert on public.identity_events to anon, authenticated;
+grant insert, select on public.share_cards to anon, authenticated;
+
 drop policy if exists "anon can create identity sessions" on public.identity_sessions;
 create policy "anon can create identity sessions"
 on public.identity_sessions
 for insert
-to anon
+to public
 with check (true);
 
 drop policy if exists "anon can update sessions by share code" on public.identity_sessions;
 create policy "anon can update sessions by share code"
 on public.identity_sessions
 for update
-to anon
+to public
 using (true)
 with check (true);
 
@@ -59,21 +63,21 @@ drop policy if exists "anon can create identity events" on public.identity_event
 create policy "anon can create identity events"
 on public.identity_events
 for insert
-to anon
+to public
 with check (true);
 
 drop policy if exists "anon can create share cards" on public.share_cards;
 create policy "anon can create share cards"
 on public.share_cards
 for insert
-to anon
+to public
 with check (is_public = true);
 
 drop policy if exists "anon can read public share cards" on public.share_cards;
 create policy "anon can read public share cards"
 on public.share_cards
 for select
-to anon
+to public
 using (is_public = true);
 
 create index if not exists identity_events_share_code_created_at_idx
