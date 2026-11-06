@@ -3,24 +3,54 @@ import BlueprintLayout from '../components/BlueprintLayout.astro';
 import ReaderTools from '../components/ReaderTools.astro';
 import blueprints from '../data/blueprints.json';
 const domains = [...new Set(blueprints.map(({ domain }) => domain))];
+const featured = ['rested', 'debt-free', 'creation'].flatMap((id) => blueprints.filter((item) => item.id === id));
+const steps = ['Choose now.', 'Act now.', 'Stop negotiating.', 'Learn and return.'];
 ---
 <BlueprintLayout title="How people actually change" description="Choose a Blueprint. Make it yours. Run it for seven days. See what happens.">
   <section class="hero">
-    <div class="wrap">
-      <p class="label">How people actually change</p>
-      <h1>What are you trying to change?</h1>
-      <p>Choose a Blueprint. Make it yours. Run it for seven days. See what happens.</p>
-      <nav class="actions" aria-label="Blueprint domains">
-        {domains.map((domain) => <a class="button secondary" href={`#${domain.toLowerCase()}`}>{domain}</a>)}
-      </nav>
-      <p>Something else? <a href="/build/">Build your own</a>.</p>
+    <div class="wrap hero-layout">
+      <div>
+        <p class="label">The HALO Method · A practice for change</p>
+        <h1>Better decisions.<br />A stronger you.</h1>
+        <p class="hero-lede">Stop negotiating with yourself. It never works.</p>
+        <form class="command" action="#blueprints" data-command hidden>
+          <label for="change-search">What do you want to change?</label>
+          <div class="command-input">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="5.5"/><path d="m15 15 4 4"/></svg>
+            <input id="change-search" type="search" data-search placeholder="Try sleep, debt, or writing" />
+            <button type="submit" aria-label="Show Blueprint results">↵</button>
+          </div>
+        </form>
+        <div class="actions">
+          <a href="#blueprints" data-clear-search>Explore Blueprints ↓</a>
+          <a href="/build/">Build your own</a>
+        </div>
+      </div>
+      <aside class="featured" aria-labelledby="featured-title">
+        <p class="label">The Blueprint library</p>
+        <h2 id="featured-title">Find a place to start.</h2>
+        {featured.map((item, index) => (
+          <a class="featured-row" href={`/blueprints/${item.id}/`}>
+            <span class="index">0{index + 1}</span>
+            <span><strong>{item.title}</strong><small>{item.identity}</small></span>
+            <span aria-hidden="true">↗</span>
+          </a>
+        ))}
+      </aside>
     </div>
   </section>
+  <section class="wrap method-strip" id="method" aria-labelledby="method-title">
+    <h2 id="method-title" class="label">How HALO works</h2>
+    <ol>{steps.map((step) => <li>{step}</li>)}</ol>
+    <a href="/1607/">Explore 1·60·7 →</a>
+  </section>
   <section class="wrap library" id="blueprints" aria-labelledby="library-title">
-    <p class="label">The library · 17 HALO Originals</p>
-    <h2 id="library-title">Find a Blueprint</h2>
+    <p class="label">The library · {blueprints.length} HALO Originals</p>
+    <h2 id="library-title" tabindex="-1">Find a Blueprint</h2>
     <div class="filters" hidden data-filters>
-      <label>Search Blueprints <input type="search" data-search placeholder="Try recovery or debt" /></label>
+      <nav class="actions" aria-label="Blueprint domains">
+        {domains.map((domain) => <a class="button secondary" href={`#${domain.toLowerCase()}`} data-clear-search>{domain}</a>)}
+      </nav>
       <label>Domain <select data-domain><option value="">All domains</option>{domains.map((domain) => <option>{domain}</option>)}</select></label>
     </div>
     <p role="status" data-results></p>
@@ -40,11 +70,6 @@ const domains = [...new Set(blueprints.map(({ domain }) => domain))];
       </section>
     ))}
   </section>
-  <section class="wrap more" id="method">
-    <h2>One card. Sixty seconds. Seven days.</h2>
-    <p>Choose who you are, take one action now, and collect evidence from everyday life. When you slip, return at the next opportunity.</p>
-    <a href="/1607/">Explore 1·60·7</a>
-  </section>
   <div class="wrap more"><ReaderTools /></div>
   <section class="wrap more" id="origin">
     <h2>About The HALO Method</h2>
@@ -53,10 +78,31 @@ const domains = [...new Set(blueprints.map(({ domain }) => domain))];
   </section>
 </BlueprintLayout>
 <style>
-  .hero{background:#111;color:#fff;padding:clamp(3rem,8vw,7rem) 0}
-  .hero h1{max-width:14ch}
-  .hero .actions{margin-top:1.5rem}
-  .hero :focus-visible{outline-color:#fff}
+  .hero{background:radial-gradient(ellipse at 85% 30%,#243630 0%,#14191a 46%,#111314 75%);color:#f6f7f3;padding:clamp(3rem,8vw,7.25rem) 0}
+  .hero-layout{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr);align-items:center;gap:clamp(2rem,6vw,5.5rem)}
+  .hero h1{font-size:clamp(2.9rem,6vw,5.35rem);line-height:1.1}
+  .hero .label{color:#a9c8b9}
+  .hero-lede{font-size:clamp(1.1rem,2vw,1.4rem);color:#c7d0ca}
+  .hero .actions{margin-top:1.35rem;font-weight:700}
+  .hero :focus-visible{outline-color:#b7eed9}
+  .command{margin-top:2rem;max-width:500px}
+  .command label{display:block;margin-bottom:.45rem;font-weight:700}
+  .command-input{display:flex;align-items:center;gap:.75rem;background:#212625;border:1px solid #54645d;border-radius:8px;padding:.4rem .55rem .4rem .8rem}
+  .command-input:focus-within{border-color:#a5cdbc}
+  .command-input svg{width:19px;flex:none;stroke:#a5cdbc;fill:none;stroke-width:1.7}
+  .command-input input{border:0;background:transparent;min-width:0;flex:1;color:inherit}
+  .command-input input::placeholder{color:#b3bdb7}
+  .command-input button{height:44px;min-width:44px;border:1px solid #54645d;background:#313e38;border-radius:5px;color:#fff;font:inherit;cursor:pointer}
+  .featured{border:1px solid #4a5b53;border-radius:12px;padding:clamp(1.15rem,3vw,2rem);background:#1e2724}
+  .featured .label{margin-top:0}
+  .featured h2{font-size:clamp(1.6rem,3vw,2.2rem);margin:.3em 0 .6em}
+  .featured-row{display:grid;grid-template-columns:auto minmax(0,1fr) auto;align-items:center;gap:.8rem;padding:.85rem .25rem;border-top:1px solid #42534b;text-decoration:none}
+  .featured-row:hover{background:#2b3732}
+  .featured-row small{display:block;color:#bfcac3}
+  .featured-row .index{font: .7rem ui-monospace,monospace;color:#a9c8b9}
+  .method-strip{padding:1.6rem 0;border-bottom:1px solid #ddd}
+  .method-strip ol{display:grid;grid-template-columns:repeat(4,1fr);gap:.65rem 2rem;padding-left:1.5rem;font-weight:700}
+  @media(max-width:760px){.hero-layout{grid-template-columns:1fr}.method-strip ol{grid-template-columns:repeat(2,1fr)}}
   .library,.more{margin-top:clamp(2.5rem,7vw,5rem)}
   .library h2,.more h2{font-size:clamp(1.8rem,4vw,3rem);margin:.35em 0}
   .filters{display:flex;flex-wrap:wrap;gap:1rem}
@@ -74,7 +120,9 @@ const domains = [...new Set(blueprints.map(({ domain }) => domain))];
   const filters = document.querySelector<HTMLElement>('[data-filters]');
   const status = document.querySelector<HTMLElement>('[data-results]');
   const groups = document.querySelectorAll<HTMLElement>('[data-group]');
-  if (search && domain && filters && status) {
+  const command = document.querySelector<HTMLFormElement>('[data-command]');
+  if (search && domain && filters && status && command) {
+    command.hidden = false;
     filters.hidden = false;
     const filter = () => {
       const terms = search.value.trim().toLowerCase().split(/\s+/);
@@ -91,9 +139,19 @@ const domains = [...new Set(blueprints.map(({ domain }) => domain))];
       }
       status.textContent = count ? `${count} Blueprint${count === 1 ? '' : 's'}` : 'No Blueprints match. Try another search or domain.';
     };
-    search.addEventListener('input', filter);
+    command.addEventListener('submit', (event) => {
+      event.preventDefault();
+      domain.value = '';
+      filter();
+      location.hash = 'blueprints';
+      document.getElementById('library-title')?.focus();
+    });
+    search.addEventListener('input', () => {
+      domain.value = '';
+      filter();
+    });
     domain.addEventListener('change', filter);
-    document.querySelectorAll<HTMLAnchorElement>('.hero nav a').forEach((link) => {
+    document.querySelectorAll<HTMLAnchorElement>('[data-clear-search]').forEach((link) => {
       link.addEventListener('click', () => {
         search.value = '';
         domain.value = '';
