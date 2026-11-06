@@ -11,6 +11,9 @@ const canonical = new URL(Astro.url.pathname, 'https://thehalomethod.co');
   <meta name="description" content={description} />
   <link rel="canonical" href={canonical} />
   <link rel="icon" href="/favicon.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&family=Source+Sans+3:ital,wght@0,400;0,700;1,400&display=swap" />
   <title>{title} | The HALO Method</title>
 </head>
 <body>
@@ -31,7 +34,7 @@ const canonical = new URL(Astro.url.pathname, 'https://thehalomethod.co');
 </body>
 </html>
 <style is:global>
-  :root{font-family:Arial,sans-serif;color:#111;background:#fff;line-height:1.55}
+  :root{font-family:'Source Sans 3',Arial,sans-serif;color:#111;background:#fff;line-height:1.55}
   *{box-sizing:border-box}
   body{margin:0}
   a{color:inherit;text-underline-offset:.22em}
@@ -43,7 +46,7 @@ const canonical = new URL(Astro.url.pathname, 'https://thehalomethod.co');
   .wrap{width:min(1120px,90%);margin-inline:auto}
   .reading{width:min(720px,90%);margin:clamp(2rem,6vw,5rem) auto}
   .label{font-size:.78rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase}
-  h1{font-size:clamp(2.4rem,7vw,5rem);line-height:1.02;letter-spacing:-.045em;margin:.3em 0}
+  h1{font-family:Anton,'Arial Narrow',Arial,sans-serif;font-size:clamp(2.4rem,7vw,5rem);font-weight:400;line-height:1.08;margin:.3em 0}
   h2{line-height:1.15}
   .button{display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:.5rem 1rem;border:1px solid #111;border-radius:30px;font:inherit;text-decoration:none;background:#111;color:#fff;cursor:pointer}
   .button.secondary{background:#fff;color:#111}
