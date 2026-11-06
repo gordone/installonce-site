@@ -1,0 +1,54 @@
+---
+import BlueprintLayout from '../components/BlueprintLayout.astro';
+import HaloAccount from '../components/HaloAccount.astro';
+import blueprints from '../data/blueprints.json';
+---
+<BlueprintLayout title="Community" description="Join a HALO Blueprint group to exchange experiences, adaptations, and questions.">
+  <section class="wrap community">
+    <p class="label">The HALO Method · Community</p>
+    <h1>Practice together.</h1>
+    <p>Choose a Blueprint group to share what you tried, ask a question, or describe an adaptation.</p>
+    <details open data-community-account><summary>HALO account</summary><HaloAccount /></details>
+    <label class="choose">Blueprint group
+      <select data-community-group>
+        {blueprints.map(({ id, title }) => <option value={id} selected={id === 'rested'}>{title}</option>)}
+      </select>
+    </label>
+    <p data-community-status role="status">Sign in to join a group.</p>
+    <button type="button" class="button secondary" data-membership hidden>Join group</button>
+    <section data-member-area hidden aria-label="Group posts">
+      <form data-community-compose>
+        <h2>Share with this group</h2>
+        <p>Group members can read your post. Your private practice stays in My HALO.</p>
+        <label>Post type
+          <select name="kind">
+            <option>Experience</option><option>Question</option><option>Adaptation</option>
+          </select>
+        </label>
+        <label>Title <input name="title" required maxlength="100" /></label>
+        <label>What would you like to share? <textarea name="body" required maxlength="2000" rows="4"></textarea></label>
+        <button class="button" type="submit">Post to group</button>
+      </form>
+      <h2>Latest posts</h2>
+      <div data-community-feed></div>
+      <button type="button" class="button secondary" data-community-more hidden>Load older posts</button>
+    </section>
+  </section>
+</BlueprintLayout>
+<style>
+  .community{max-width:840px;margin-top:clamp(2rem,6vw,5rem)}
+  .community details,.community form{padding:1.2rem;border:1px solid #d8e1db;border-radius:9px;background:#f7faf8}
+  .community summary{cursor:pointer;font-weight:700}
+  .community details[open] summary{margin-bottom:.8rem}
+  .community form{margin-top:1.25rem}
+  .community form h2{margin:0}
+  .community label{display:grid;gap:.3rem;margin:.7rem 0}
+  .community .choose{max-width:370px;margin-top:1.5rem}
+  [data-community-feed] :global(article){padding:1.15rem 0;border-top:1px solid #d8e1db;overflow-wrap:anywhere}
+  [data-community-feed] :global(h3){margin:.25rem 0}
+  [data-community-feed] :global(p){white-space:pre-wrap}
+  [data-community-feed] :global(button),[data-community-feed] :global(select){font:inherit;padding:.3rem .55rem;border:1px solid #83958b;border-radius:5px;background:white;color:#233a2e}
+  [data-community-feed] :global(select){margin-right:.5rem}
+  [data-community-feed] :global(small){color:#465b50}
+</style>
+<script>import '../scripts/halo-community';</script>

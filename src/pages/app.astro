@@ -1,7 +1,9 @@
 ---
 import ReaderTools from '../components/ReaderTools.astro';
+import HaloAccount from '../components/HaloAccount.astro';
 import HaloLogo from '../components/HaloLogo.astro';
 import blueprints from '../data/blueprints.json';
+const cloudConfigured = Boolean(import.meta.env.PUBLIC_SUPABASE_URL && import.meta.env.PUBLIC_SUPABASE_ANON_KEY);
 const appTitle = 'My HALO | The HALO Method';
 const originals = blueprints.map(({ id, identity, question, slipResponse }) => ({ id, identity, question, slipResponse }));
 ---
@@ -219,11 +221,17 @@ h1.today{font-size:clamp(1.9rem,4vw,3.15rem);font-weight:580;letter-spacing:-.05
   .rail-brand,.rail-label{display:none}
   .tab,.rail-link{flex:1;min-width:0;flex-direction:column;justify-content:center;gap:.2rem;font-size:.67rem;padding:.35rem .15rem}
 }
+
+.workspace-account{position:relative;font:500 .8rem var(--display)}
+.workspace-account summary{cursor:pointer;padding:.55rem;border-radius:5px}
+.workspace-account-panel{position:absolute;right:0;top:100%;z-index:25;width:min(350px,calc(100vw - 2rem));padding:1rem;background:#fff;border:1px solid #cfd8d1;border-radius:8px;box-shadow:0 12px 30px #16221c25}
+.workspace-account-panel p{margin:.5rem 0}
+.workspace-account-panel > button{padding:.4rem .6rem;border:1px solid #a0b3a7;border-radius:5px;background:#eef5ef}
 </style>
 </head>
 <body>
 <div class="workspace" id="haloApp" data-originals={JSON.stringify(originals)}>
-  <div class="onboard" id="onboard">
+  <div class="onboard" id="onboard" inert={cloudConfigured}>
     <div class="ob-step active" id="ob1">
       <p class="ob-kicker">THE 1 • 60 • 7 TEST</p>
       <h1 class="app-logo-heading"><HaloLogo size="large" /><span class="app-logo-now">My HALO</span></h1>
@@ -286,13 +294,22 @@ h1.today{font-size:clamp(1.9rem,4vw,3.15rem);font-weight:580;letter-spacing:-.05
   <div class="status">
     <span class="breadcrumb">My HALO / <span id="workspaceView">1·60·7</span></span>
     <span id="statusDay">DAY 1 &middot; 1 • 60 • 7</span>
+    <details class="workspace-account">
+      <summary>Account</summary>
+      <div class="workspace-account-panel">
+        <HaloAccount />
+        <p data-sync-status role="status">{cloudConfigured ? 'Checking account…' : 'Saved in this browser.'}</p>
+        <button type="button" data-sync-retry hidden>Retry</button>
+        <button type="button" data-import-run hidden>Import the run from this browser</button>
+      </div>
+    </details>
   </div>
 
-  <main class="screens">
+  <main class="screens" inert={cloudConfigured}>
     <section class="screen active" id="scr-today">
       <p class="day-label" id="todayDate">Today</p>
       <h1 class="today">Live from the decision today.</h1>
-      <p class="sub"><a href="/#blueprints">Blueprint library</a> · Your run is saved in this browser.</p>
+      <p class="sub"><a href="/#blueprints">Blueprint library</a></p>
       <p class="sub" id="blueprintNotice" hidden>A run is already active. Finish or reset it before starting a different Blueprint.</p>
       <span class="signal-chip" id="signalChip">1 • 60 • 7 &middot; Day 1 of 7</span>
 
@@ -427,7 +444,7 @@ h1.today{font-size:clamp(1.9rem,4vw,3.15rem);font-weight:580;letter-spacing:-.05
       <p class="day-label">My HALO</p>
       <h2 class="sec">The 1 • 60 • 7 test</h2>
       <p class="sub">One card, one action, seven days. This module stays focused on the first test and the report it creates.</p>
-      <button class="btn btn-slip" type="button" onclick="resetTest()">Reset local 1 • 60 • 7 test</button>
+      <button class="btn btn-slip" type="button" onclick="resetTest()">Reset 1 • 60 • 7 test</button>
       <div class="tool-grid">
         <button class="tool-card" type="button" onclick="showTool('worksheet')"><i>1 Card</i><strong>The decision</strong><span>Identity, first proof, hard-day minimum, reset rule, and day-seven report.</span></button>
         <button class="tool-card" type="button" onclick="showTool('signal')"><i>60 Seconds</i><strong>The proof</strong><span>Evidence from the aligned action you already took.</span></button>
@@ -457,12 +474,14 @@ h1.today{font-size:clamp(1.9rem,4vw,3.15rem);font-weight:580;letter-spacing:-.05
       Tools</button>
     <p class="rail-label">Discover</p>
     <a class="rail-link" href="/#blueprints"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 5h14v14H5zM9 9h6m-6 4h6"/></svg>Blueprints</a>
+    <a class="rail-link" href="/community/"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16v11H9l-5 4zM8 9h8m-8 3h5"/></svg>Community</a>
   </nav>
 </div>
 
 <script is:inline>
 var STORAGE_KEY = 'halo.now.1607.state.v1';
 var TEST_DAYS = 7;
+var accountPractice = false;
 function defaultState(){
   return {
     identity:"a healthy person.",
@@ -495,28 +514,29 @@ function setText(id, value){
   if (el) el.textContent = value;
 }
 function saveState(){
-  try { localStorage.setItem(STORAGE_KEY, JSON.stringify({ state: state, caps: caps })); } catch (error) {}
+  var serialized = JSON.stringify({ state: state, caps: caps });
+  if (accountPractice) {
+    window.dispatchEvent(new CustomEvent('halo:practice-save', { detail: JSON.parse(serialized) }));
+    return;
+  }
+  try { localStorage.setItem(STORAGE_KEY, serialized); } catch (error) {}
   window.dispatchEvent(new CustomEvent('halo:app-state', { detail: state }));
 }
-function restoreState(){
-  try {
-    var raw = localStorage.getItem(STORAGE_KEY);
-    if (!raw) return;
-    var saved = JSON.parse(raw);
-    if (saved && saved.state) state = Object.assign(defaultState(), saved.state);
-    if (!Array.isArray(state.days)) state.days = Array(TEST_DAYS).fill(0);
-    if (state.days.length !== TEST_DAYS) state.days = state.days.slice(0, TEST_DAYS).concat(Array(Math.max(0, TEST_DAYS - state.days.length)).fill(0));
-    state.day = Math.max(1, Math.min(Number(state.day) || 1, TEST_DAYS));
-    state.proofs = state.proofs || {};
-    state.negotiation = state.negotiation || {};
-    state.dailyAdjustments = state.dailyAdjustments || {};
-    state.slips = Array.isArray(state.slips) ? state.slips : [];
-    state.selectedNegotiation = state.selectedNegotiation || 'Low';
-    caps = saved && saved.caps && typeof saved.caps === 'object' ? saved.caps : {};
-  } catch (error) {
-    state = defaultState();
-    caps = {};
-  }
+function readBrowserRun(){
+  try { return JSON.parse(localStorage.getItem(STORAGE_KEY)) || { state: {}, caps: {} }; }
+  catch (error) { return { state: {}, caps: {} }; }
+}
+function restoreState(saved){
+  state = Object.assign(defaultState(), saved && saved.state);
+  if (!Array.isArray(state.days)) state.days = Array(TEST_DAYS).fill(0);
+  state.days = state.days.slice(0, TEST_DAYS).concat(Array(Math.max(0, TEST_DAYS - state.days.length)).fill(0));
+  state.day = Math.max(1, Math.min(Number(state.day) || 1, TEST_DAYS));
+  state.proofs = state.proofs || {};
+  state.negotiation = state.negotiation || {};
+  state.dailyAdjustments = state.dailyAdjustments || {};
+  state.slips = Array.isArray(state.slips) ? state.slips : [];
+  state.selectedNegotiation = state.selectedNegotiation || 'Low';
+  caps = saved && saved.caps && typeof saved.caps === 'object' ? saved.caps : {};
 }
 function hydrateFromState(){
   var onboard = document.getElementById('onboard');
@@ -536,7 +556,12 @@ function hydrateFromState(){
   document.querySelectorAll('[data-neg]').forEach(function(btn){ btn.classList.toggle('active', btn.dataset.neg === state.selectedNegotiation); });
 }
 function resetTest(){
-  if (!confirm('Reset this local 1 • 60 • 7 test on this device?')) return;
+  if (!confirm(accountPractice ? 'Reset the current practice in your HALO account?' : 'Reset this 1 • 60 • 7 test on this device?')) return;
+  if (accountPractice) {
+    window.haloPractice.apply(null);
+    saveState();
+    return;
+  }
   window.dispatchEvent(new CustomEvent('halo:app-reset'));
   try { localStorage.removeItem(STORAGE_KEY); } catch (error) {}
   state = defaultState();
@@ -828,7 +853,11 @@ function renderEvidence(){
   var log = document.getElementById('proofLog'); log.innerHTML = '';
   Object.keys(state.proofs).slice(-3).reverse().forEach(function(day){
     var item = document.createElement('article');
-    item.innerHTML = '<strong>Day '+day+': '+state.proofs[day]+'</strong><span>Negotiation: '+(state.negotiation[day] || 'Low')+'</span>';
+    var heading = document.createElement('strong');
+    heading.textContent = 'Day ' + day + ': ' + state.proofs[day];
+    var negotiation = document.createElement('span');
+    negotiation.textContent = 'Negotiation: ' + (state.negotiation[day] || 'Low');
+    item.append(heading, negotiation);
     log.appendChild(item);
   });
 }
@@ -839,7 +868,7 @@ var domains = [
   {d:'Home', bg:'#EBF5EB'}, {d:'Growth', bg:'#FBF0E8'}
 ];
 var caps = {};
-restoreState();
+restoreState(readBrowserRun());
 function loadBlueprint() {
   var params = new URLSearchParams(location.search);
   var originalId = params.get('blueprint');
@@ -872,8 +901,12 @@ function renderBoard(){
   domains.forEach(function(o){
     var c = document.createElement('div');
     c.className = 'bcell'; c.style.background = o.bg;
-    c.innerHTML = '<span class="dom">'+o.d+'</span>' +
-      (caps[o.d] ? '<span class="cap">'+caps[o.d]+'</span>' : '<span class="add">[ tap to caption ]</span>');
+    var label = document.createElement('span');
+    label.className = 'dom'; label.textContent = o.d;
+    var caption = document.createElement('span');
+    caption.className = caps[o.d] ? 'cap' : 'add';
+    caption.textContent = caps[o.d] || '[ tap to caption ]';
+    c.append(label, caption);
     c.onclick = function(){
       var v = prompt('Caption for ' + o.d + ' - what does the Decided Life look like here?', caps[o.d]||'');
       if (v !== null) { caps[o.d] = v.trim(); saveState(); renderBoard(); }
@@ -929,12 +962,32 @@ function go(name, btn){
 }
 
 hydrateFromState(); renderEvidence(); renderBoard(); renderBase(); updateStatus();
+window.haloPractice = {
+  useAccount: function(){ accountPractice = true; },
+  browserRun: readBrowserRun,
+  apply: function(saved){
+    restoreState(saved);
+    document.getElementById('blueprintNotice').hidden = true;
+    loadBlueprint();
+    Object.values(ringTimers).forEach(clearInterval);
+    document.getElementById('proofInput').value = '';
+    document.getElementById('proofError').classList.remove('visible');
+    document.getElementById('sixtyWrap').style.display = 'none';
+    document.getElementById('btnSixty').style.display = '';
+    document.getElementById('onboard').classList.toggle('hidden', state.onboarded);
+    document.querySelectorAll('.ob-step').forEach(function(step){ step.classList.toggle('active', step.id === 'ob1'); });
+    hydrateFromState(); renderEvidence(); renderBoard(); renderBase(); updateStatus();
+    go('today', document.querySelector('[data-scr="today"]'));
+  }
+};
 window.addEventListener('halo:reader-identity', function(event){
+  if (accountPractice) return;
   state.identity = event.detail.identity.replace(/^I am\s+/i, '');
   if(event.detail.action) state.firstProof = event.detail.action;
   saveState(); hydrateFromState(); renderBase();
 });
 window.addEventListener('halo:reader-day', function(event){
+  if (accountPractice) return;
   var entry = event.detail;
   state.days[entry.day-1] = entry.kind;
   state.proofs[entry.day] = entry.action;
@@ -942,11 +995,13 @@ window.addEventListener('halo:reader-day', function(event){
   saveState(); renderEvidence(); renderBase(); updateStatus();
 });
 window.addEventListener('halo:reader-reset', function(){
+  if (accountPractice) return;
   state.days = Array(7).fill(0); state.proofs = {}; state.negotiation = {};
   state.dailyAdjustments = {}; state.slips = []; state.day = 1;
   saveState(); renderEvidence(); renderBase(); updateStatus();
 });
 window.addEventListener('halo:reader-ready', function(){
+  if (accountPractice) return;
   try {
     var notebook = JSON.parse(localStorage.getItem('halo.reader-tools.v1') || 'null');
     if (!state.onboarded && !new URLSearchParams(location.search).has('blueprint') && !new URLSearchParams(location.search).has('draft') && !state.blueprintId && notebook && notebook.fields.identity) {
@@ -958,5 +1013,6 @@ window.addEventListener('halo:reader-ready', function(){
   if(state.onboarded) window.dispatchEvent(new CustomEvent('halo:app-state', { detail: state }));
 });
 </script>
+<script>import '../scripts/halo-practice';</script>
 </body>
 </html>

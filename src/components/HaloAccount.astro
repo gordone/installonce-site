@@ -1,0 +1,94 @@
+---
+const configured = Boolean(import.meta.env.PUBLIC_SUPABASE_URL && import.meta.env.PUBLIC_SUPABASE_ANON_KEY);
+---
+<div class="account" data-halo-account>
+  {configured ? (
+    <>
+      <form data-email-form>
+        <label>Email <input name="email" type="email" autocomplete="email" required /></label>
+        <button type="submit">Send sign-in code</button>
+      </form>
+      <form data-code-form hidden>
+        <label>Email code <input name="code" inputmode="numeric" autocomplete="one-time-code" required pattern="[0-9]{6,10}" /></label>
+        <button type="submit">Sign in</button>
+        <button type="button" data-change-email>Change email</button>
+      </form>
+      <div data-account-session hidden>
+        <span data-account-email></span>
+        <button type="button" data-sign-out>Sign out</button>
+      </div>
+    </>
+  ) : <p>Account sign-in is currently unavailable.</p>}
+  <p role="status" data-account-status></p>
+</div>
+<style>
+  .account{font: .9rem/1.5 system-ui,sans-serif;color:#202724}
+  .account form,.account [data-account-session]{display:flex;align-items:end;flex-wrap:wrap;gap:.55rem}
+  .account [hidden]{display:none!important}
+  label{display:grid;gap:.2rem}
+  input,button{font:inherit;border:1px solid #85938b;border-radius:6px;padding:.45rem .65rem;max-width:100%}
+  button{background:#eaf1ed;color:#173329;cursor:pointer}
+  [data-account-status]{margin:.45rem 0 0}
+</style>
+<script>
+  import { supabase } from '../scripts/halo-account';
+  const root = document.querySelector<HTMLElement>('[data-halo-account]');
+  if (root && supabase) {
+    const client = supabase;
+    const emailForm = root.querySelector<HTMLFormElement>('[data-email-form]')!;
+    const codeForm = root.querySelector<HTMLFormElement>('[data-code-form]')!;
+    const sessionPanel = root.querySelector<HTMLElement>('[data-account-session]')!;
+    const status = root.querySelector<HTMLElement>('[data-account-status]')!;
+    let email = '';
+    client.auth.onAuthStateChange((_event, session) => {
+      emailForm.hidden = Boolean(session) || !codeForm.hidden;
+      sessionPanel.hidden = !session;
+      root.querySelector('[data-account-email]')!.textContent = session?.user.email ?? '';
+      if (session) {
+        codeForm.hidden = true;
+        status.textContent = '';
+      }
+    });
+    async function submit(form: HTMLFormElement, action: () => Promise<string>) {
+      const button = form.querySelector<HTMLButtonElement>('button[type=submit]')!;
+      button.disabled = true;
+      try { status.textContent = await action(); }
+      catch { status.textContent = 'Sign-in is unavailable. Try again.'; }
+      finally { button.disabled = false; }
+    }
+    emailForm.addEventListener('submit', (event) => {
+      event.preventDefault();
+      email = String(new FormData(emailForm).get('email')).trim();
+      void submit(emailForm, async () => {
+        const { error } = await client.auth.signInWithOtp({
+          email, options: { emailRedirectTo: location.origin + location.pathname + location.search },
+        });
+        if (error) return 'Could not send a code. Check your email address and try again.';
+        emailForm.hidden = true;
+        codeForm.hidden = false;
+        codeForm.querySelector('input')?.focus();
+        return 'Check your email for a sign-in code or link.';
+      });
+    });
+    codeForm.addEventListener('submit', (event) => {
+      event.preventDefault();
+      const token = String(new FormData(codeForm).get('code')).trim();
+      void submit(codeForm, async () => {
+        const { error } = await client.auth.verifyOtp({ email, token, type: 'email' });
+        return error ? 'This code is invalid or expired.' : '';
+      });
+    });
+    root.querySelector('[data-change-email]')?.addEventListener('click', () => {
+      codeForm.reset();
+      codeForm.hidden = true;
+      emailForm.hidden = false;
+      status.textContent = '';
+    });
+    root.querySelector('[data-sign-out]')?.addEventListener('click', async () => {
+      if (!window.dispatchEvent(new Event('halo:before-sign-out', { cancelable: true }))) return;
+      const { error } = await client.auth.signOut({ scope: 'local' });
+      if (error) status.textContent = 'Could not sign out. Try again.';
+      else location.reload();
+    });
+  }
+</script>
