@@ -1,0 +1,52 @@
+---
+import HaloLogo from './HaloLogo.astro';
+const { title, description } = Astro.props;
+const canonical = new URL(Astro.url.pathname, 'https://thehalomethod.co');
+---
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content={description} />
+  <link rel="canonical" href={canonical} />
+  <link rel="icon" href="/favicon.svg" />
+  <title>{title} | The HALO Method</title>
+</head>
+<body>
+  <header class="bar">
+    <a href="/" aria-label="HALO home"><HaloLogo /></a>
+    <nav aria-label="Main">
+      <a href="/#blueprints">Blueprints</a>
+      <a href="/1607/">1·60·7</a>
+      <a href="/build/">Build</a>
+      <a href="/app/">My HALO</a>
+    </nav>
+  </header>
+  <main><slot /></main>
+  <footer class="bar">
+    <span>Happened Already. Live On.</span>
+    <nav aria-label="About HALO"><a href="/book/">The Book</a><a href="/#origin">About</a></nav>
+  </footer>
+</body>
+</html>
+<style is:global>
+  :root{font-family:Arial,sans-serif;color:#111;background:#fff;line-height:1.55}
+  *{box-sizing:border-box}
+  body{margin:0}
+  a{color:inherit;text-underline-offset:.22em}
+  a:focus-visible,button:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-visible{outline:2px solid #356957;outline-offset:4px}
+  .bar{display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;padding:1rem max(5vw,1rem);border-bottom:1px solid #ddd}
+  footer.bar{border-top:1px solid #ddd;border-bottom:0;margin-top:4rem;font-size:.9rem}
+  .bar nav,.actions{display:flex;flex-wrap:wrap;align-items:center;gap:.6rem 1.25rem}
+  .bar nav a{display:inline-flex;align-items:center;min-height:44px}
+  .wrap{width:min(1120px,90%);margin-inline:auto}
+  .reading{width:min(720px,90%);margin:clamp(2rem,6vw,5rem) auto}
+  .label{font-size:.78rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase}
+  h1{font-size:clamp(2.4rem,7vw,5rem);line-height:1.02;letter-spacing:-.045em;margin:.3em 0}
+  h2{line-height:1.15}
+  .button{display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:.5rem 1rem;border:1px solid #111;border-radius:30px;font:inherit;text-decoration:none;background:#111;color:#fff;cursor:pointer}
+  .button.secondary{background:#fff;color:#111}
+  input,select,textarea{font:inherit;color:inherit;border:1px solid #777;border-radius:6px;padding:.55rem;background:#fff;max-width:100%}
+  [hidden]{display:none!important}
+</style>

@@ -1,0 +1,40 @@
+---
+import BlueprintLayout from '../../components/BlueprintLayout.astro';
+import blueprints from '../../data/blueprints.json';
+export function getStaticPaths() {
+  return blueprints.map((blueprint) => ({ params: { id: blueprint.id }, props: { blueprint } }));
+}
+const { blueprint } = Astro.props;
+const sections = [
+  ["Why it is hard", blueprint.whyItsHard],
+  ["If this is true", blueprint.conduct],
+  ["An ordinary day", blueprint.ordinaryDay],
+  ["What comes with it", blueprint.tradeoffs],
+  ["When you slip", blueprint.slipResponse],
+  ["Signs it is working", blueprint.signsItsWorking],
+  ["Example", blueprint.example],
+  ["Try it with an assistant", blueprint.assistantPrompt],
+];
+---
+<BlueprintLayout title={blueprint.title} description={blueprint.identity}>
+  <article class="reading">
+    <a href={`/#${blueprint.domain.toLowerCase()}`}>Back to {blueprint.domain}</a>
+    <p class="label">{blueprint.origin} · {blueprint.domain}</p>
+    <h1>{blueprint.title}</h1>
+    <div class="card">
+      <p class="label">Identity Card</p>
+      <p>It already happened.</p>
+      <h2>{blueprint.identity}</h2>
+      <p>{blueprint.question}</p>
+    </div>
+    <div class="actions">
+      <a class="button" href={`/app/?blueprint=${blueprint.id}`}>Start 1·60·7</a>
+      <a class="button secondary" href={`/build/?blueprint=${blueprint.id}`}>Make it mine</a>
+    </div>
+    {sections.map(([title, content]) => <section><h2>{title}</h2><p>{content}</p></section>)}
+  </article>
+</BlueprintLayout>
+<style>
+  .card{border:1px solid #ddd;background:#fafaf8;padding:1.25rem;border-radius:12px;margin:1.5rem 0}
+  section{margin-top:2rem}
+</style>

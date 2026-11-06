@@ -1,0 +1,85 @@
+---
+import BlueprintLayout from '../components/BlueprintLayout.astro';
+import blueprints from '../data/blueprints.json';
+const fields = [
+  ['identity', 'Who are you choosing to be?', 'I am someone who…', true],
+  ['question', 'What will you ask at the moment of friction?', '', true],
+  ['minimum', 'What is the smallest action that counts?', '', false],
+  ['whyItsHard', 'Where does the old pattern win?', '', false],
+  ['conduct', 'If this is true, what conduct follows?', '', false],
+  ['ordinaryDay', 'What does this look like on an ordinary day?', '', false],
+  ['tradeoffs', 'What comes with it?', '', false],
+  ['slipResponse', 'What will you do when you slip?', '', false],
+  ['signsItsWorking', 'What evidence will you look for?', '', false],
+] as const;
+---
+<BlueprintLayout title="Build a Blueprint" description="Create a personal HALO Blueprint or adapt an original.">
+  <section class="reading" data-builder data-originals={JSON.stringify(blueprints)}>
+    <p class="label">Build</p>
+    <h1 data-heading>Build a Blueprint</h1>
+    <p data-origin></p>
+    <p>Your draft is stored in this browser.</p>
+    <form hidden>
+      {fields.map(([name, prompt, placeholder, required]) => (
+        <label>{prompt}<textarea name={name} placeholder={placeholder} required={required} maxlength={name === 'identity' ? 200 : 1200} rows={2}></textarea></label>
+      ))}
+      <div class="actions">
+        <button class="button secondary" type="submit" name="save">Save draft</button>
+        <button class="button" type="submit" name="run">Start 1·60·7</button>
+      </div>
+    </form>
+    <p data-feedback role="status"></p>
+    <noscript>Turn on JavaScript to edit and save a Blueprint in this browser.</noscript>
+  </section>
+</BlueprintLayout>
+<style>
+  form,label{display:grid;gap:.55rem}
+  form{gap:1.25rem}
+  label{font-weight:700}
+  textarea{font-weight:400;width:100%}
+</style>
+<script>
+  const builder = document.querySelector<HTMLElement>('[data-builder]')!;
+  const form = builder.querySelector('form')!;
+  const feedback = builder.querySelector<HTMLElement>('[data-feedback]')!;
+  const originals = JSON.parse(builder.dataset.originals || '[]');
+  const original = originals.find((item: { id: string }) => item.id === new URLSearchParams(location.search).get('blueprint'));
+  const key = `halo.blueprint.draft.${original?.id ?? 'custom'}`;
+  const inputs = [...form.querySelectorAll<HTMLTextAreaElement>('textarea')];
+  let draft = original;
+  try {
+    const saved = localStorage.getItem(key);
+    if (saved) draft = JSON.parse(saved);
+  } catch {
+    feedback.textContent = 'The saved draft could not be opened.';
+  }
+  for (const input of inputs) input.value = draft?.[input.name] ?? '';
+  if (original) {
+    builder.querySelector('[data-heading]')!.textContent = 'Make it mine';
+    builder.querySelector('[data-origin]')!.textContent = `Based on the HALO Original ${original.title}.`;
+  }
+  form.hidden = false;
+  form.addEventListener('input', (event) => {
+    if (event.target instanceof HTMLTextAreaElement) event.target.setCustomValidity('');
+  });
+  form.addEventListener('submit', (event) => {
+    event.preventDefault();
+    const empty = inputs.find((input) => input.required && !input.value.trim());
+    if (empty) {
+      empty.setCustomValidity('Enter a response.');
+      empty.reportValidity();
+      return;
+    }
+    const fields = Object.fromEntries(inputs.map(({ name, value }) => [name, value.trim()]));
+    try {
+      localStorage.setItem(key, JSON.stringify({ ...fields, originId: original?.id ?? null }));
+      if ((event.submitter as HTMLButtonElement | null)?.name === 'run') {
+        location.assign(`/app/?draft=${encodeURIComponent(original?.id ?? 'custom')}`);
+        return;
+      }
+      feedback.textContent = 'Draft saved in this browser.';
+    } catch {
+      feedback.textContent = 'Your browser could not save this draft.';
+    }
+  });
+</script>

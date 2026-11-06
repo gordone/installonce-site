@@ -1,7 +1,9 @@
 ---
 import ReaderTools from '../components/ReaderTools.astro';
 import HaloLogo from '../components/HaloLogo.astro';
-const appTitle = 'OneSixtySeven - The 1 • 60 • 7 App';
+import blueprints from '../data/blueprints.json';
+const appTitle = 'My HALO | The HALO Method';
+const originals = blueprints.map(({ id, identity, question, slipResponse }) => ({ id, identity, question, slipResponse }));
 ---
 <html lang="en">
 <head>
@@ -9,7 +11,7 @@ const appTitle = 'OneSixtySeven - The 1 • 60 • 7 App';
 <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>{appTitle}</title>
-<meta name="description" content="Run OneSixtySeven: one card, one action in sixty seconds, and seven days living from the decision.">
+<meta name="description" content="Run 1·60·7 with HALO: one card, one action in sixty seconds, and seven days living from the decision.">
 <link rel="canonical" href="https://thehalomethod.co/app/" />
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -196,11 +198,11 @@ h1.today{font-family:var(--display);font-weight:250;font-size:1.95rem;color:var(
 </style>
 </head>
 <body>
-<div class="phone">
+<div class="phone" id="haloApp" data-originals={JSON.stringify(originals)}>
   <div class="onboard" id="onboard">
     <div class="ob-step active" id="ob1">
       <p class="ob-kicker">THE 1 • 60 • 7 TEST</p>
-      <h1 class="app-logo-heading"><HaloLogo size="large" /><span class="app-logo-now">OneSixtySeven</span></h1>
+      <h1 class="app-logo-heading"><HaloLogo size="large" /><span class="app-logo-now">My HALO</span></h1>
       <p class="halo-phrase"><b>H</b>appened <b>A</b>lready. <b>L</b>ive <b>O</b>n.</p>
       <p>Stop trying to become the person you want to be. Decide who you are, prove it with one action in the next 60 seconds, then live from the decision for seven days.</p>
       <div class="ob-card">
@@ -215,6 +217,7 @@ h1.today{font-family:var(--display);font-weight:250;font-size:1.95rem;color:var(
         <button class="chip" data-id="a business owner." data-proof="Send one useful follow-up." data-min="Open the pipeline." data-reset="Name the next customer action.">a business owner.</button>
       </div>
       <div class="field-grid" aria-label="1 • 60 • 7 setup">
+        <div><label for="obQuestion">Question at the moment of friction</label><input id="obQuestion" maxlength="1200" placeholder="What would this person do now?"></div>
         <div><label for="obProof">First proof</label><input id="obProof" placeholder="One action that can begin within sixty seconds."></div>
         <div><label for="obMinimum">Hard-day minimum</label><input id="obMinimum" placeholder="The smallest version that still counts."></div>
         <div><label for="obReset">Reset rule</label><input id="obReset" placeholder="What protects the return after a slip?"></div>
@@ -246,7 +249,7 @@ h1.today{font-family:var(--display);font-weight:250;font-size:1.95rem;color:var(
       <p class="ob-kicker">7 &middot; Live It</p>
       <h1 class="installed" id="obConfirm">That's proof.</h1>
       <p id="obSummary"></p><p id="obProtocol"></p>
-      <p>Now live from it for seven days. OneSixtySeven keeps the card visible, captures evidence, and helps you reset quickly when the old pattern tries to come back.</p>
+      <p>Now live from it for seven days. My HALO keeps the card visible, captures evidence, and helps you reset quickly when the old pattern tries to come back.</p>
       <div class="onboard-tracker">
         <strong>7-day tracker starts next</strong>
         <span>Day 1 is ready. Each day you can log proof or log a slip and reset.</span>
@@ -257,7 +260,7 @@ h1.today{font-family:var(--display);font-weight:250;font-size:1.95rem;color:var(
   </div>
 
   <div class="status">
-    <span class="brand app-logo"><HaloLogo size="small" /><span>OneSixtySeven</span></span>
+    <span class="brand app-logo"><HaloLogo size="small" /><span>My HALO</span></span>
     <span id="statusDay">DAY 1 &middot; 1 • 60 • 7</span>
   </div>
 
@@ -265,6 +268,8 @@ h1.today{font-family:var(--display);font-weight:250;font-size:1.95rem;color:var(
     <section class="screen active" id="scr-today">
       <p class="day-label" id="todayDate">Today</p>
       <h1 class="today">Live from the decision today.</h1>
+      <p class="sub"><a href="/#blueprints">Blueprint library</a> · Your run is saved in this browser.</p>
+      <p class="sub" id="blueprintNotice" hidden>A run is already active. Finish or reset it before starting a different Blueprint.</p>
       <span class="signal-chip" id="signalChip">1 • 60 • 7 &middot; Day 1 of 7</span>
 
       <div class="icard" id="todayCard">
@@ -274,7 +279,7 @@ h1.today{font-family:var(--display);font-weight:250;font-size:1.95rem;color:var(
 
       <div class="icard">
         <span class="lbl">Side two - ask it now</span>
-        <p class="q">What would the person I&apos;ve decided to be do right now?</p>
+        <p class="q" id="cardQuestion">What would the person I&apos;ve decided to be do right now?</p>
       </div>
 
       <div class="mini-panel"><b>First proof:</b> <span id="todayProof">Walk for sixty seconds.</span><br><b>Hard-day minimum:</b> <span id="todayMinimum">Put on walking shoes.</span></div>
@@ -389,7 +394,7 @@ h1.today{font-family:var(--display);font-weight:250;font-size:1.95rem;color:var(
     <section class="screen" id="scr-method">
       <a href="/book/" style="display:inline-flex;align-items:center;min-height:44px;margin-bottom:16px;color:inherit">Chapter reader materials</a>
       <ReaderTools />
-      <p class="day-label">OneSixtySeven</p>
+      <p class="day-label">My HALO</p>
       <h2 class="sec">The 1 • 60 • 7 test</h2>
       <p class="sub">One card, one action, seven days. This module stays focused on the first test and the report it creates.</p>
       <button class="btn btn-slip" type="button" onclick="resetTest()">Reset local 1 • 60 • 7 test</button>
@@ -427,6 +432,8 @@ var TEST_DAYS = 7;
 function defaultState(){
   return {
     identity:"a healthy person.",
+    question:"What would the person I've decided to be do right now?",
+    blueprintId:null,
     firstProof:"Walk for sixty seconds.",
     minimum:"Put on walking shoes.",
     resetRule:"Stand up and take one breath.",
@@ -481,10 +488,12 @@ function hydrateFromState(){
   var onboard = document.getElementById('onboard');
   if (state.onboarded && onboard) onboard.classList.add('hidden');
   setText('cardIdentity', identitySentence(state.identity));
+  setText('cardQuestion', state.question);
   setText('todayProof', state.firstProof);
   setText('todayMinimum', state.minimum);
   var d = new Date();
   setText('todayDate', d.toLocaleDateString('en-US',{weekday:'long', month:'long', day:'numeric'}));
+  document.getElementById('obQuestion').value = state.question;
   var proof = document.getElementById('obProof'); if (proof) proof.value = state.firstProof;
   var minimum = document.getElementById('obMinimum'); if (minimum) minimum.value = state.minimum;
   var reset = document.getElementById('obReset'); if (reset) reset.value = state.resetRule;
@@ -530,6 +539,8 @@ function obNext(){
   }
   error.classList.remove('visible');
   state.identity = identity;
+  state.question = valueOr('obQuestion', defaultState().question);
+  history.replaceState(null, '', location.pathname);
   state.firstProof = proof;
   state.minimum = valueOr('obMinimum', state.minimum);
   state.resetRule = valueOr('obReset', state.resetRule);
@@ -552,6 +563,7 @@ function enterApp(){
   state.onboarded = true;
   document.getElementById('onboard').classList.add('hidden');
   setText('cardIdentity', identitySentence(state.identity));
+  setText('cardQuestion', state.question);
   setText('todayProof', state.firstProof);
   setText('todayMinimum', state.minimum);
   var d = new Date();
@@ -794,6 +806,33 @@ var domains = [
 ];
 var caps = {};
 restoreState();
+function loadBlueprint() {
+  var params = new URLSearchParams(location.search);
+  var originalId = params.get('blueprint');
+  var draftId = params.get('draft');
+  if (!originalId && !draftId) return;
+  if (state.onboarded) {
+    document.getElementById('blueprintNotice').hidden = false;
+    return;
+  }
+  var originals = JSON.parse(document.getElementById('haloApp').dataset.originals);
+  var blueprint;
+  if (draftId) {
+    try {
+      blueprint = JSON.parse(localStorage.getItem('halo.blueprint.draft.' + draftId) || 'null');
+    } catch (error) {}
+  } else {
+    blueprint = originals.find(function(item) { return item.id === originalId; });
+  }
+  if (!blueprint || !blueprint.identity || !blueprint.question) return;
+  state.identity = blueprint.identity;
+  state.question = blueprint.question;
+  state.blueprintId = blueprint.id || blueprint.originId || null;
+  state.firstProof = '';
+  state.minimum = blueprint.minimum || '';
+  state.resetRule = blueprint.slipResponse || '';
+}
+loadBlueprint();
 function renderBoard(){
   var g = document.getElementById('boardGrid'); g.innerHTML='';
   domains.forEach(function(o){
@@ -871,7 +910,7 @@ window.addEventListener('halo:reader-reset', function(){
 window.addEventListener('halo:reader-ready', function(){
   try {
     var notebook = JSON.parse(localStorage.getItem('halo.reader-tools.v1') || 'null');
-    if (!state.onboarded && notebook && notebook.fields.identity) {
+    if (!state.onboarded && !new URLSearchParams(location.search).has('blueprint') && !new URLSearchParams(location.search).has('draft') && !state.blueprintId && notebook && notebook.fields.identity) {
       state.identity = notebook.fields.identity.replace(/^I am\s+/i, '');
       if(notebook.fields.action) state.firstProof = notebook.fields.action;
       hydrateFromState();
