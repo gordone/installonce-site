@@ -1,0 +1,86 @@
+---
+import BlueprintLayout from '../../components/BlueprintLayout.astro';
+import HaloAccount from '../../components/HaloAccount.astro';
+---
+<BlueprintLayout title="Community moderation" description="Review reports from HALO Blueprint groups." noindex={true}>
+  <section class="reading">
+    <p class="label">HALO community</p>
+    <h1>Moderation queue</h1>
+    <HaloAccount />
+    <p data-review-status role="status">Sign in with a moderator account.</p>
+    <div data-report-queue></div>
+  </section>
+</BlueprintLayout>
+<style>
+  [data-report-queue] :global(article){margin-top:1rem;border-top:1px solid #ccd5ce;padding:1rem 0;overflow-wrap:anywhere}
+  [data-report-queue] :global(button){font:inherit;cursor:pointer;padding:.45rem .75rem}
+</style>
+<script>
+  import { supabase } from '../../scripts/halo-account';
+  const client = supabase;
+  if (client) {
+    const queue = document.querySelector('[data-report-queue]')!;
+    const status = document.querySelector('[data-review-status]')!;
+    let userId: string | null = null;
+    let generation = 0;
+
+    async function load() {
+      const id = userId;
+      const view = ++generation;
+      queue.replaceChildren();
+      if (!id) { status.textContent = 'Sign in with a moderator account.'; return; }
+      const { data: assignment, error: assignmentError } = await client!.from('halo_community_moderators')
+        .select('user_id').eq('user_id', id).maybeSingle();
+      if (view !== generation) return;
+      if (assignmentError || !assignment) {
+        status.textContent = assignmentError ? 'Could not verify moderator access.' : 'Moderator access is required.';
+        return;
+      }
+      const { data, error } = await client!.from('halo_community_reports')
+        .select('post_id, reason, halo_community_posts(id, blueprint, title, body, hidden)')
+        .order('created_at', { ascending: false }).limit(100);
+      if (view !== generation) return;
+      if (error) { status.textContent = 'Could not load reports.'; return; }
+      status.textContent = data.length ? 'Showing up to 100 recent reports.' : 'No reports to review.';
+      type Post = { id: string; blueprint: string; title: string; body: string; hidden: boolean };
+      const byPost = new Map<string, { post: Post; reasons: string[] }>();
+      for (const row of data) {
+        const post = row.halo_community_posts as unknown as Post | null;
+        if (!post) continue;
+        const entry = byPost.get(row.post_id) ?? { post, reasons: [] };
+        entry.reasons.push(row.reason);
+        byPost.set(row.post_id, entry);
+      }
+      for (const { post, reasons } of byPost.values()) {
+        const article = document.createElement('article');
+        const title = document.createElement('h2');
+        title.textContent = post.title;
+        const meta = document.createElement('p');
+        meta.textContent = post.blueprint + ' · ' + reasons.join(', ');
+        const body = document.createElement('p');
+        body.textContent = post.body;
+        const action = document.createElement('button');
+        action.type = 'button';
+        action.textContent = post.hidden ? 'Restore visibility' : 'Hide from group';
+        action.addEventListener('click', async () => {
+          action.disabled = true;
+          const { data: updated, error: updateError } = await client!.from('halo_community_posts')
+            .update({ hidden: !post.hidden }).eq('id', post.id).select('id').maybeSingle();
+          if (view !== generation) return;
+          if (updateError || !updated) { status.textContent = 'Could not change post visibility.'; action.disabled = false; }
+          else void load();
+        });
+        article.append(title, meta, body, action);
+        queue.append(article);
+      }
+    }
+
+    client.auth.onAuthStateChange((_event, session) => {
+      const id = session?.user.id ?? null;
+      if (id === userId) return;
+      userId = id;
+      queue.replaceChildren();
+      window.setTimeout(() => void load(), 0);
+    });
+  }
+</script>
