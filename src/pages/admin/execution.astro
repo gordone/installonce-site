@@ -1,0 +1,109 @@
+---
+import BlueprintLayout from '../../components/BlueprintLayout.astro';
+import HaloAccount from '../../components/HaloAccount.astro';
+---
+<BlueprintLayout title="HALO Execution OS" description="HALO staff command center." noindex={true}>
+  <section class="execution">
+    <nav aria-label="Staff tools"><a href="/admin/launch/">Launch dashboard</a> · <a href="/admin/production/">Production control</a></nav>
+    <h1>Mission Control</h1>
+    <HaloAccount />
+    <p data-execution-status role="status">Sign in with a HALO launch staff account.</p>
+    <div data-execution-board hidden>
+      <h2>What should we do today?</h2>
+      <p>Run the Production Director brief to identify unresolved critical issues and the next milestone that needs verification.</p>
+      <button type="button" data-execution-run>Run production brief</button>
+      <div data-execution-history></div>
+    </div>
+  </section>
+</BlueprintLayout>
+<style>
+  .execution{max-width:900px;margin:auto;padding:clamp(1rem,4vw,3rem);background:#17181c;color:#f1f1f5;border-radius:12px}
+  .execution h1,.execution h2{color:inherit}
+  .execution :global(a){color:#d5caff}
+  .execution button{font:inherit;padding:.55rem .8rem}
+  [data-execution-history] :global(details){margin-top:1rem;padding:1rem;border:1px solid #3b3d48;border-radius:8px;overflow-wrap:anywhere}
+  [data-execution-history] :global(summary){cursor:pointer;font-weight:700}
+</style>
+<script>
+  import { supabase } from '../../scripts/halo-account';
+  const client = supabase;
+  const board = document.querySelector<HTMLElement>('[data-execution-board]')!;
+  const status = document.querySelector<HTMLElement>('[data-execution-status]')!;
+  const history = document.querySelector<HTMLElement>('[data-execution-history]')!;
+  const run = document.querySelector<HTMLButtonElement>('[data-execution-run]')!;
+  let generation = 0;
+
+  type Brief = {
+    verified: number; total: number; critical: number;
+    next: { title: string; owner: string; handoffs: string } | null;
+    issues: { title: string; location: string; state: string }[];
+  };
+
+  async function load(view: number) {
+    const { data, error } = await client!.from('halo_execution_runs').select('id,created_at,result')
+      .order('created_at', { ascending: false }).order('id').limit(10);
+    if (view !== generation) return;
+    if (error) { status.textContent = 'Could not load execution history.'; return; }
+    history.replaceChildren();
+    for (const [index, row] of data.entries()) {
+      const brief = row.result as Brief;
+      const details = document.createElement('details');
+      details.open = index === 0;
+      const summary = document.createElement('summary');
+      summary.textContent = 'Production brief · ' + new Date(row.created_at).toLocaleString();
+      const totals = document.createElement('p');
+      totals.textContent = `${brief.verified} of ${brief.total} milestones verified · ${brief.critical} critical issues awaiting verification`;
+      const next = document.createElement('p');
+      next.textContent = brief.next
+        ? `Next milestone: ${brief.next.title} · ${brief.next.owner}${brief.next.handoffs ? ' · ' + brief.next.handoffs : ''}`
+        : 'All production milestones are verified.';
+      details.append(summary, totals, next);
+      const list = document.createElement('ul');
+      for (const issue of brief.issues) {
+        const entry = document.createElement('li');
+        entry.textContent = `${issue.title} · ${issue.location} · ${issue.state}`;
+        list.append(entry);
+      }
+      if (list.childElementCount) details.append(list);
+      const action = document.createElement('a');
+      action.href = '/admin/production/';
+      action.textContent = 'Review in Production Control';
+      details.append(action);
+      history.append(details);
+    }
+    status.textContent = data.length ? 'Recent production briefs' : 'No production briefs have been run yet.';
+  }
+
+  run.addEventListener('click', async () => {
+    if (!client || board.hidden) return;
+    const view = generation;
+    run.disabled = true;
+    status.textContent = 'Running production brief…';
+    try {
+      const { error } = await client.rpc('halo_run_production_brief');
+      if (view !== generation) return;
+      if (error) status.textContent = 'Could not run the production brief.';
+      else await load(view);
+    } finally { if (view === generation) run.disabled = false; }
+  });
+
+  if (!client) status.textContent = 'HALO account sign-in is unavailable.';
+  else client.auth.onAuthStateChange((_event, session) => {
+    const view = ++generation;
+    board.hidden = true;
+    run.disabled = false;
+    history.replaceChildren();
+    status.textContent = session ? 'Checking launch staff access…' : 'Sign in with a HALO launch staff account.';
+    if (session) window.setTimeout(async () => {
+      if (view !== generation) return;
+      const { data, error } = await client.from('halo_launch_staff').select('user_id').maybeSingle();
+      if (view !== generation) return;
+      if (error || !data) {
+        status.textContent = error ? 'Could not verify launch staff access.' : 'Launch staff access is required.';
+        return;
+      }
+      board.hidden = false;
+      await load(view);
+    }, 0);
+  });
+</script>
