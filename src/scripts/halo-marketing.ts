@@ -1,7 +1,9 @@
 import blueprints from '../data/blueprints.json';
 
-const token = import.meta.env.PUBLIC_POSTHOG_PROJECT_TOKEN;
-const region = import.meta.env.PUBLIC_POSTHOG_REGION;
+const productionSite = location.hostname === 'thehalomethod.co';
+const token = import.meta.env.PUBLIC_POSTHOG_PROJECT_TOKEN ||
+  (productionSite ? 'phc_r9Xejk8jjxQfk6UVmUz45wMQjdBPmNMcwk3qVk8TZDYQ' : '');
+const region = import.meta.env.PUBLIC_POSTHOG_REGION || (productionSite ? 'us' : '');
 const host = region === 'eu' ? 'https://eu.i.posthog.com' : region === 'us' ? 'https://us.i.posthog.com' : '';
 const consent = 'halo.analytics.opt-in';
 const visitor = 'halo.analytics.visitor';
