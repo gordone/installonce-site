@@ -1,0 +1,64 @@
+---
+import BlueprintLayout from '../components/BlueprintLayout.astro';
+import { aiProviders } from '../scripts/halo-ai-settings';
+---
+<BlueprintLayout title="AI Settings" description="Choose which AI assistant you use to refine your HALO Blueprints." noindex={true}>
+  <section class="reading">
+    <p class="label">Settings</p>
+    <h1>AI Settings</h1>
+    <p>Choose the assistant you want to use and paste the details you want HALO to include in future refinement prompts. These settings are saved in this browser.</p>
+    <form data-ai-settings hidden>
+      <label>AI assistant
+        <select name="provider">
+          <option value="">Choose an assistant</option>
+          {Object.entries(aiProviders).map(([id, { name }]) => <option value={id}>{name}</option>)}
+        </select>
+      </label>
+      <label>Context to reuse
+        <textarea name="context" maxlength="4000" rows={5} placeholder="Paste selected notes from your AI chat, such as your goals, routines, or constraints."></textarea>
+      </label>
+      <div class="actions">
+        <button class="button" type="submit">Save AI settings</button>
+        <a class="button secondary" data-open-provider target="_blank" rel="noopener noreferrer" hidden>Open assistant</a>
+        <a href="/build/">Back to the Blueprint builder</a>
+      </div>
+    </form>
+    <p data-settings-status role="status"></p>
+  </section>
+</BlueprintLayout>
+<style>
+  form,label{display:grid;gap:.55rem}
+  form{gap:1rem}
+  textarea{width:100%}
+</style>
+<script>
+  import { aiProviders, aiSettingsKey, readAiSettings, type AiProvider } from '../scripts/halo-ai-settings';
+  const form = document.querySelector<HTMLFormElement>('[data-ai-settings]')!;
+  const provider = form.elements.namedItem('provider') as HTMLSelectElement;
+  const context = form.elements.namedItem('context') as HTMLTextAreaElement;
+  const link = form.querySelector<HTMLAnchorElement>('[data-open-provider]')!;
+  const status = document.querySelector<HTMLElement>('[data-settings-status]')!;
+  const saved = readAiSettings();
+  provider.value = saved.provider;
+  context.value = saved.context;
+  function updateLink() {
+    const selected = aiProviders[provider.value as AiProvider];
+    link.hidden = !selected;
+    if (selected) {
+      link.href = selected.url;
+      link.textContent = `Open ${selected.name}`;
+    }
+  }
+  updateLink();
+  form.hidden = false;
+  provider.addEventListener('change', updateLink);
+  form.addEventListener('submit', (event) => {
+    event.preventDefault();
+    try {
+      localStorage.setItem(aiSettingsKey, JSON.stringify({ provider: provider.value, context: context.value.trim() }));
+      status.textContent = 'AI settings saved.';
+    } catch {
+      status.textContent = 'Your browser could not save these settings.';
+    }
+  });
+</script>
