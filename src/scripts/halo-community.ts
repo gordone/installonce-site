@@ -126,7 +126,12 @@ if (client) {
     if (result.error && result.error.code !== '23505') {
       status.textContent = 'Could not change your membership.';
       membership.disabled = false;
-    } else void refresh();
+    } else {
+      if (!joined && !result.error) window.dispatchEvent(new CustomEvent('halo:marketing', {
+        detail: { event: 'community_joined', blueprint: group.value },
+      }));
+      void refresh();
+    }
   });
 
   compose.addEventListener('submit', async (event) => {
@@ -145,7 +150,13 @@ if (client) {
     submit.disabled = false;
     if (view !== generation) return;
     if (error) status.textContent = 'Could not publish your post. Try again.';
-    else { compose.reset(); await refresh(); }
+    else {
+      window.dispatchEvent(new CustomEvent('halo:marketing', {
+        detail: { event: 'community_posted', blueprint: group.value },
+      }));
+      compose.reset();
+      await refresh();
+    }
   });
   more.addEventListener('click', () => { if (userId && joined) void loadPosts(generation, userId); });
 }

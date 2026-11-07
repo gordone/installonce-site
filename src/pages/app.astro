@@ -623,6 +623,7 @@ function obDone(){
   setText('obProtocol', 'Minimum: ' + state.minimum + ' Reset: ' + state.resetRule + ' Review: ' + state.reviewDate + '.');
 }
 function enterApp(){
+  if (!state.onboarded) marketingEvent('1607_started');
   state.onboarded = true;
   document.getElementById('onboard').classList.add('hidden');
   setText('cardIdentity', identitySentence(state.identity));
@@ -667,6 +668,9 @@ function stopSixty(){
   setText('dayNum', 'done');
 }
 
+function marketingEvent(event, day){
+  window.dispatchEvent(new CustomEvent('halo:marketing', { detail: { event, day, blueprint: state.blueprintId } }));
+}
 function logDay(kind){
   var proof = document.getElementById('proofInput').value.trim();
   var error = document.getElementById('proofError');
@@ -677,6 +681,7 @@ function logDay(kind){
   }
   error.classList.remove('visible');
   var idx = state.day - 1;
+  var firstLog = idx >= 0 && idx < TEST_DAYS && !state.days[idx];
   if (idx >= 0 && idx < TEST_DAYS) state.days[idx] = kind;
   if (!proof && kind === 2) proof = state.resetRule;
   state.proofs[state.day] = proof;
@@ -687,6 +692,10 @@ function logDay(kind){
   }
   state.day = Math.min(state.day + 1, TEST_DAYS);
   saveState();
+  if (firstLog) {
+    marketingEvent(kind === 2 ? 'return_recorded' : 'daily_action_recorded', idx + 1);
+    if (idx === TEST_DAYS - 1) marketingEvent('day7_completed', TEST_DAYS);
+  }
   document.getElementById('proofInput').value = '';
   updateStatus(); renderEvidence(); renderBase();
   go('evidence', document.querySelector('[data-scr="evidence"]'));
@@ -1032,5 +1041,10 @@ window.addEventListener('halo:reader-ready', function(){
 });
 </script>
 <script>import '../scripts/halo-practice';</script>
+<label hidden data-halo-analytics-setting style="position:relative;display:block;margin:1rem;text-align:center">
+  <input type="checkbox" data-halo-analytics /> Share optional usage analytics on this browser
+</label>
+<style>[data-halo-analytics-setting][hidden]{display:none !important}</style>
+<script>import '../scripts/halo-marketing';</script>
 </body>
 </html>

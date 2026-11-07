@@ -144,6 +144,7 @@ const steps = ['Choose now.', 'Act now.', 'Stop negotiating.', 'Learn and return
     command.addEventListener('submit', (event) => {
       event.preventDefault();
       const goal = search.value.trim();
+      if (goal) window.dispatchEvent(new CustomEvent('halo:marketing', { detail: { event: 'blueprint_search' } }));
       if (goal && (event.submitter as HTMLButtonElement | null)?.name !== 'search') {
         location.assign(`/build/#${new URLSearchParams({ goal })}`);
         return;
