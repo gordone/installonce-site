@@ -17,9 +17,10 @@ const steps = ['Choose now.', 'Act now.', 'Stop negotiating.', 'Learn and return
           <label for="change-search">What do you want to change?</label>
           <div class="command-input">
             <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="5.5"/><path d="m15 15 4 4"/></svg>
-            <input id="change-search" type="search" data-search placeholder="Try sleep, debt, or writing" />
-            <button type="submit" aria-label="Show Blueprint results">↵</button>
+            <input id="change-search" type="search" maxlength="120" data-search placeholder="Try sleep, debt, or writing" />
+            <button type="submit" name="generate">Generate Blueprint</button>
           </div>
+          <button type="submit" name="search" class="library-search">Show Blueprint results</button>
         </form>
         <div class="actions">
           <a href="#blueprints" data-clear-search>Explore Blueprints ↓</a>
@@ -83,6 +84,7 @@ const steps = ['Choose now.', 'Act now.', 'Stop negotiating.', 'Learn and return
   .hero h1{font-size:clamp(2.9rem,6vw,5.35rem);line-height:1.1}
   .hero .label{color:#a9c8b9}
   .hero-lede{font-size:clamp(1.1rem,2vw,1.4rem);color:#c7d0ca}
+  .command .library-search{margin-top:.55rem}
   .hero .actions{margin-top:1.35rem;font-weight:700}
   .hero :focus-visible{outline-color:#b7eed9}
   .command{margin-top:2rem;max-width:500px}
@@ -141,6 +143,11 @@ const steps = ['Choose now.', 'Act now.', 'Stop negotiating.', 'Learn and return
     };
     command.addEventListener('submit', (event) => {
       event.preventDefault();
+      const goal = search.value.trim();
+      if (goal && (event.submitter as HTMLButtonElement | null)?.name !== 'search') {
+        location.assign(`/build/#${new URLSearchParams({ goal })}`);
+        return;
+      }
       domain.value = '';
       filter();
       location.hash = 'blueprints';
