@@ -876,7 +876,7 @@ function loadStartingPractice() {
   completedPractice = null;
   var params = new URLSearchParams(location.search);
   var originalId = params.get('blueprint');
-  var draftId = params.get('draft');
+  var draftId = params.get('draft') || new URLSearchParams(location.hash.slice(1)).get('draft');
   var practiceId = params.get('practice');
   if (!originalId && !draftId && !practiceId) return;
   if (state.onboarded) {
@@ -908,7 +908,7 @@ function loadStartingPractice() {
   state.identity = blueprint.identity;
   state.question = blueprint.question;
   state.blueprintId = blueprint.id || blueprint.originId || null;
-  state.firstProof = '';
+  state.firstProof = draftId && draftId.startsWith('goal:') ? blueprint.minimum || '' : '';
   state.minimum = blueprint.minimum || '';
   state.resetRule = blueprint.slipResponse || '';
 }
@@ -1021,7 +1021,7 @@ window.addEventListener('halo:reader-ready', function(){
   if (accountPractice) return;
   try {
     var notebook = JSON.parse(localStorage.getItem('halo.reader-tools.v1') || 'null');
-    if (!state.onboarded && !new URLSearchParams(location.search).has('blueprint') && !new URLSearchParams(location.search).has('draft') && !completedPractice && !state.blueprintId && notebook && notebook.fields.identity) {
+    if (!state.onboarded && !new URLSearchParams(location.search).has('blueprint') && !new URLSearchParams(location.search).has('draft') && !new URLSearchParams(location.hash.slice(1)).has('draft') && !completedPractice && !state.blueprintId && notebook && notebook.fields.identity) {
       state.identity = notebook.fields.identity.replace(/^I am\s+/i, '');
       if(notebook.fields.action) state.firstProof = notebook.fields.action;
       hydrateFromState();
