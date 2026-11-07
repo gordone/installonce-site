@@ -310,7 +310,7 @@ h1.today{font-size:clamp(1.9rem,4vw,3.15rem);font-weight:580;letter-spacing:-.05
       <p class="day-label" id="todayDate">Today</p>
       <h1 class="today">Live from the decision today.</h1>
       <p class="sub"><a href="/#blueprints">Blueprint library</a></p>
-      <p class="sub" id="blueprintNotice" hidden>A run is already active. Finish or reset it before starting a different Blueprint.</p>
+      <p class="sub" id="blueprintNotice" hidden>A run is already active. Finish or reset it before starting another practice.</p>
       <span class="signal-chip" id="signalChip">1 • 60 • 7 &middot; Day 1 of 7</span>
 
       <div class="today-columns">
@@ -482,6 +482,7 @@ h1.today{font-size:clamp(1.9rem,4vw,3.15rem);font-weight:580;letter-spacing:-.05
 var STORAGE_KEY = 'halo.now.1607.state.v1';
 var TEST_DAYS = 7;
 var accountPractice = false;
+var completedPractice = null;
 function defaultState(){
   return {
     identity:"a healthy person.",
@@ -597,6 +598,7 @@ function obNext(){
     return;
   }
   error.classList.remove('visible');
+  var alreadyCompleted = completedPractice && identity === completedPractice.identity && proof === completedPractice.proof;
   state.identity = identity;
   state.question = valueOr('obQuestion', defaultState().question);
   history.replaceState(null, '', location.pathname);
@@ -606,6 +608,7 @@ function obNext(){
   state.reviewDate = valueOr('obReview', state.reviewDate);
   saveState();
   document.getElementById('ob1').classList.remove('active');
+  if (alreadyCompleted) { obDone(); return; }
   document.getElementById('ob2').classList.add('active');
   setText('obActionText', state.firstProof);
   runRing('obRing','obNum',60);
@@ -869,13 +872,27 @@ var domains = [
 ];
 var caps = {};
 restoreState(readBrowserRun());
-function loadBlueprint() {
+function loadStartingPractice() {
+  completedPractice = null;
   var params = new URLSearchParams(location.search);
   var originalId = params.get('blueprint');
   var draftId = params.get('draft');
-  if (!originalId && !draftId) return;
+  var practiceId = params.get('practice');
+  if (!originalId && !draftId && !practiceId) return;
   if (state.onboarded) {
     document.getElementById('blueprintNotice').hidden = false;
+    return;
+  }
+  if (practiceId && !originalId && !draftId) {
+    try {
+      var sessions = JSON.parse(localStorage.getItem('halo.1607.sessions') || '{}');
+      var practice = Object.hasOwn(sessions, practiceId) && sessions[practiceId];
+      if (!practice || !practice.proofCompletedAt || typeof practice.identity !== 'string' || typeof practice.proof !== 'string') return;
+      completedPractice = { identity: practice.identity.trim(), proof: practice.proof.trim() };
+      state.identity = completedPractice.identity;
+      state.firstProof = completedPractice.proof;
+      state.blueprintId = null;
+    } catch (error) {}
     return;
   }
   var originals = JSON.parse(document.getElementById('haloApp').dataset.originals);
@@ -895,7 +912,7 @@ function loadBlueprint() {
   state.minimum = blueprint.minimum || '';
   state.resetRule = blueprint.slipResponse || '';
 }
-loadBlueprint();
+loadStartingPractice();
 function renderBoard(){
   var g = document.getElementById('boardGrid'); g.innerHTML='';
   domains.forEach(function(o){
@@ -968,7 +985,7 @@ window.haloPractice = {
   apply: function(saved){
     restoreState(saved);
     document.getElementById('blueprintNotice').hidden = true;
-    loadBlueprint();
+    loadStartingPractice();
     Object.values(ringTimers).forEach(clearInterval);
     document.getElementById('proofInput').value = '';
     document.getElementById('proofError').classList.remove('visible');
@@ -1004,7 +1021,7 @@ window.addEventListener('halo:reader-ready', function(){
   if (accountPractice) return;
   try {
     var notebook = JSON.parse(localStorage.getItem('halo.reader-tools.v1') || 'null');
-    if (!state.onboarded && !new URLSearchParams(location.search).has('blueprint') && !new URLSearchParams(location.search).has('draft') && !state.blueprintId && notebook && notebook.fields.identity) {
+    if (!state.onboarded && !new URLSearchParams(location.search).has('blueprint') && !new URLSearchParams(location.search).has('draft') && !completedPractice && !state.blueprintId && notebook && notebook.fields.identity) {
       state.identity = notebook.fields.identity.replace(/^I am\s+/i, '');
       if(notebook.fields.action) state.firstProof = notebook.fields.action;
       hydrateFromState();
