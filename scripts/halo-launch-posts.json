@@ -1,0 +1,93 @@
+[
+  {
+    "id": "instagram",
+    "channel": "Instagram",
+    "text": "Who are you choosing to be today? Write it down. Then take one action that makes it true. Start with a HALO Blueprint.",
+    "link": "https://thehalomethod.co/start/?utm_source=instagram&utm_medium=organic_social&utm_campaign=halo_launch",
+    "native": false
+  },
+  {
+    "id": "tiktok",
+    "channel": "TikTok",
+    "text": "Set a 60-second timer. Do one thing the person you want to become would do. Mine today is putting my phone outside the bedroom. What’s yours?",
+    "link": "https://thehalomethod.co/start/?utm_source=tiktok&utm_medium=organic_social&utm_campaign=halo_launch",
+    "native": false
+  },
+  {
+    "id": "youtube",
+    "channel": "YouTube Shorts",
+    "text": "A seven-day practice starts with one minute. Choose an identity, take one action, and repeat.",
+    "link": "https://thehalomethod.co/start/?utm_source=youtube&utm_medium=organic_social&utm_campaign=halo_launch",
+    "native": false
+  },
+  {
+    "id": "facebook",
+    "channel": "Facebook",
+    "text": "We’re starting with one small action today. Pick a HALO Blueprint, decide who you’re choosing to be, and take the first step. What will you do in your first minute?",
+    "link": "https://thehalomethod.co/start/?utm_source=facebook&utm_medium=organic_social&utm_campaign=halo_launch",
+    "native": false
+  },
+  {
+    "id": "linkedin",
+    "channel": "LinkedIn",
+    "text": "What would the person you want to become do in the next 60 seconds? HALO turns that question into a seven-day practice, starting with one action you can take today.",
+    "link": "https://thehalomethod.co/start/?utm_source=linkedin&utm_medium=organic_social&utm_campaign=halo_launch",
+    "native": false
+  },
+  {
+    "id": "threads",
+    "channel": "Threads",
+    "text": "Pick one identity you want to practice this week. What’s an action you could take for it before the next minute is up?",
+    "link": "https://thehalomethod.co/start/?utm_source=threads&utm_medium=organic_social&utm_campaign=halo_launch",
+    "native": false
+  },
+  {
+    "id": "x",
+    "channel": "X",
+    "text": "One identity. One action in 60 seconds. Seven days to practice. Choose your first HALO Blueprint.",
+    "link": "https://thehalomethod.co/start/?utm_source=x&utm_medium=organic_social&utm_campaign=halo_launch",
+    "native": false
+  },
+  {
+    "id": "bluesky",
+    "channel": "Bluesky",
+    "text": "Today’s experiment is simple. Pick an identity, then take one action for it in the next minute. What would you try?",
+    "link": "https://thehalomethod.co/start/?utm_source=bluesky&utm_medium=organic_social&utm_campaign=halo_launch",
+    "native": false
+  },
+  {
+    "id": "pinterest",
+    "channel": "Pinterest",
+    "text": "A seven-day identity practice you can start in 60 seconds. Choose a Blueprint and write down your first action.",
+    "link": "https://thehalomethod.co/start/?utm_source=pinterest&utm_medium=organic_social&utm_campaign=halo_launch",
+    "native": false
+  },
+  {
+    "id": "mastodon",
+    "channel": "Mastodon",
+    "text": "I’m trying a seven-day practice that starts with a question. What would the person I want to become do in the next minute? Here’s where to try it.",
+    "link": "https://thehalomethod.co/start/?utm_source=mastodon&utm_medium=organic_social&utm_campaign=halo_launch",
+    "native": false
+  },
+  {
+    "id": "substack",
+    "channel": "Substack Notes",
+    "text": "The first minute of a new practice is often the hardest. HALO starts there. Name an identity and take one action for it today.",
+    "link": "https://thehalomethod.co/start/?utm_source=substack&utm_medium=organic_social&utm_campaign=halo_launch",
+    "native": true
+  },
+  {
+    "id": "google_business_profile",
+    "channel": "Google Business Profile",
+    "text": "Try HALO’s seven-day practice. Choose a Blueprint and take your first action in one minute.",
+    "link": "https://thehalomethod.co/start/?utm_source=google_business_profile&utm_medium=organic_social&utm_campaign=halo_launch",
+    "native": false
+  },
+  {
+    "id": "reddit",
+    "channel": "Reddit",
+    "text": "What’s the smallest action that helped you stick with a change for a week? I’m working on a seven-day practice and would love to hear where people get stuck in the first minute.",
+    "link": "https://thehalomethod.co/start/?utm_source=reddit&utm_medium=organic_social&utm_campaign=halo_launch",
+    "native": true
+  }
+]
