@@ -39,6 +39,9 @@ const configured = Boolean(import.meta.env.PUBLIC_SUPABASE_URL && import.meta.en
     const codeForm = root.querySelector<HTMLFormElement>('[data-code-form]')!;
     const sessionPanel = root.querySelector<HTMLElement>('[data-account-session]')!;
     const status = root.querySelector<HTMLElement>('[data-account-status]')!;
+    const capture = (event: string) => (window as Window & {
+      posthog?: { capture: (event: string) => void };
+    }).posthog?.capture(event);
     let email = '';
     client.auth.onAuthStateChange((_event, session) => {
       emailForm.hidden = Boolean(session) || !codeForm.hidden;
@@ -64,6 +67,7 @@ const configured = Boolean(import.meta.env.PUBLIC_SUPABASE_URL && import.meta.en
           email, options: { emailRedirectTo: location.origin + location.pathname + location.search },
         });
         if (error) return 'Could not send a code. Check your email address and try again.';
+        capture('auth_sign_in_code_requested');
         emailForm.hidden = true;
         codeForm.hidden = false;
         codeForm.querySelector('input')?.focus();
@@ -75,7 +79,9 @@ const configured = Boolean(import.meta.env.PUBLIC_SUPABASE_URL && import.meta.en
       const token = String(new FormData(codeForm).get('code')).trim();
       void submit(codeForm, async () => {
         const { error } = await client.auth.verifyOtp({ email, token, type: 'email' });
-        return error ? 'This code is invalid or expired.' : '';
+        if (error) return 'This code is invalid or expired.';
+        capture('auth_signed_in');
+        return '';
       });
     });
     root.querySelector('[data-change-email]')?.addEventListener('click', () => {
@@ -88,7 +94,10 @@ const configured = Boolean(import.meta.env.PUBLIC_SUPABASE_URL && import.meta.en
       if (!window.dispatchEvent(new Event('halo:before-sign-out', { cancelable: true }))) return;
       const { error } = await client.auth.signOut({ scope: 'local' });
       if (error) status.textContent = 'Could not sign out. Try again.';
-      else location.reload();
+      else {
+        capture('auth_signed_out');
+        location.reload();
+      }
     });
   }
 </script>

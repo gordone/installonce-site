@@ -67,6 +67,10 @@ const fields = [
   const original = originals.find((item: { id: string }) => item.id === new URLSearchParams(location.search).get('blueprint'));
   const goal = original ? '' : (new URLSearchParams(location.hash.slice(1)).get('goal') ?? '').trim().slice(0, 120);
   const draftId = original?.id ?? (goal ? `goal:${goal.toLowerCase()}` : 'custom');
+  const blueprintOrigin = original ? 'original' : goal ? 'goal' : 'custom';
+  const capture = (event: string) => (window as Window & {
+    posthog?: { capture: (event: string, properties: { blueprint_origin: string }) => void };
+  }).posthog?.capture(event, { blueprint_origin: blueprintOrigin });
   const key = `halo.blueprint.draft.${draftId}`;
   const inputs = [...form.querySelectorAll<HTMLTextAreaElement>('textarea[name]')];
   const panel = builder.querySelector<HTMLDetailsElement>('[data-refinement]')!;
@@ -154,6 +158,38 @@ const fields = [
   }
   form.hidden = false;
   const refine = builder.querySelector<HTMLButtonElement>('[data-refine]')!;
+  const aiSessionStorageKey = `halo.ai-observability.session.${draftId}`;
+  function getAiSessionId() {
+    try {
+      const existing = sessionStorage.getItem(aiSessionStorageKey);
+      if (existing) return existing;
+      const created = crypto.randomUUID();
+      sessionStorage.setItem(aiSessionStorageKey, created);
+      return created;
+    } catch {
+      return crypto.randomUUID();
+    }
+  }
+  function captureAiGeneration(prompt: string, answer: string, traceId: string, startedAt: number) {
+    try {
+      const posthog = (window as Window & {
+        posthog?: { capture: (event: string, properties: Record<string, unknown>) => void };
+      }).posthog;
+      posthog?.capture('$ai_generation', {
+        $ai_trace_id: traceId,
+        $ai_session_id: getAiSessionId(),
+        $ai_span_id: crypto.randomUUID(),
+        $ai_span_name: 'blueprint_refinement',
+        $ai_model: 'browser_language_model',
+        $ai_provider: 'browser',
+        $ai_input: [{ role: 'user', content: prompt }],
+        $ai_output_choices: [{ role: 'assistant', content: answer }],
+        $ai_latency: (performance.now() - startedAt) / 1000,
+      });
+    } catch {
+      // Analytics must not change the result of an AI refinement.
+    }
+  }
   const model = (globalThis as typeof globalThis & {
     LanguageModel?: {
       availability(): Promise<string>;
@@ -189,7 +225,10 @@ const fields = [
             additionalProperties: false,
           };
           feedback.textContent = 'Refining your Blueprint…';
+          const startedAt = performance.now();
+          const traceId = crypto.randomUUID();
           answer = await session.prompt(prompt, { responseConstraint, signal: AbortSignal.timeout(45000) });
+          captureAiGeneration(prompt, answer, traceId, startedAt);
         } finally {
           session.destroy();
         }
@@ -221,9 +260,11 @@ const fields = [
     try {
       localStorage.setItem(key, JSON.stringify({ ...fields, aiContext: context.value.trim(), originId: original?.id ?? null }));
       if ((event.submitter as HTMLButtonElement | null)?.name === 'run') {
+        capture('blueprint_started');
         location.assign(goal ? `/app/#${new URLSearchParams({ draft: draftId })}` : `/app/?draft=${encodeURIComponent(draftId)}`);
         return;
       }
+      capture('blueprint_saved');
       feedback.textContent = 'Draft saved in this browser.';
     } catch {
       feedback.textContent = 'Your browser could not save this draft.';
