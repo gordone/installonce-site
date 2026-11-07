@@ -33,6 +33,11 @@ const canonical = new URL(Astro.url.pathname, 'https://thehalomethod.co');
     <span>Happened Already. Live On.</span>
     <nav aria-label="About HALO"><a href="/book/">The Book</a><a href="/#origin">About</a></nav>
   </footer>
+  <label hidden style="display:block;margin:1rem auto;text-align:center" data-analytics-setting>
+    <input type="checkbox" data-halo-analytics /> Share optional usage analytics on this browser
+  </label>
+  <style>[data-analytics-setting][hidden]{display:none !important}</style>
+  <script>import '../scripts/halo-marketing';</script>
 </body>
 </html>
 <style is:global>
