@@ -509,6 +509,7 @@ const publicSupabaseAnonKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY ?? "";
       persistEvent("artifact_generated", { code: session.id });
       artifactSummary.textContent = `I am ${session.identity}. Proof #1: ${session.proof}.`;
       shareLink.href = buildShareUrl(session);
+      root.querySelector(".app-link").href = "/app/?practice=" + encodeURIComponent(session.id);
       artifact.hidden = false;
       show("live");
     });
