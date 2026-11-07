@@ -1,0 +1,142 @@
+---
+import BlueprintLayout from '../../components/BlueprintLayout.astro';
+import HaloAccount from '../../components/HaloAccount.astro';
+---
+<BlueprintLayout title="HALO Production" description="Staff production control board." noindex={true}>
+  <section class="production">
+    <p><a href="/admin/launch/">← Launch dashboard</a></p>
+    <h1>Production control</h1>
+    <HaloAccount />
+    <p data-production-status role="status">Sign in with a HALO launch staff account.</p>
+    <div data-production-board hidden>
+      <h2>Lock → Proof → Release</h2>
+      <p data-production-progress></p>
+      <ol data-production-steps></ol>
+      <h2>Production issues</h2>
+      <form data-production-form>
+        <label>Issue <input name="title" required maxlength="180" /></label>
+        <label>Asset or page <input name="location" required maxlength="300" /></label>
+        <label>Severity <select name="severity"><option>normal</option><option>high</option><option>critical</option></select></label>
+        <button type="submit">Log issue</button>
+      </form>
+      <ul data-production-issues></ul>
+    </div>
+  </section>
+</BlueprintLayout>
+<style>
+  .production{max-width:960px;margin:auto;padding:clamp(1rem,4vw,3rem);color:#f1f1f5;background:#17181c;border-radius:12px}
+  .production :global(a){color:#d5caff}
+  .production h1,.production h2{color:inherit}
+  .production form{display:flex;flex-wrap:wrap;gap:.75rem;align-items:end}
+  .production form label{display:grid;gap:.3rem}
+  .production :global(li){padding:.65rem 0;border-bottom:1px solid #3b3d48;overflow-wrap:anywhere}
+  .production :global(li select){margin-inline-start:.65rem}
+  .production :global(input),.production :global(select),.production :global(button){font:inherit;padding:.3rem .45rem}
+</style>
+<script>
+  import { supabase } from '../../scripts/halo-account';
+
+  const client = supabase;
+  const status = document.querySelector<HTMLElement>('[data-production-status]')!;
+  const board = document.querySelector<HTMLElement>('[data-production-board]')!;
+  const steps = document.querySelector<HTMLOListElement>('[data-production-steps]')!;
+  const issues = document.querySelector<HTMLUListElement>('[data-production-issues]')!;
+  const progress = document.querySelector<HTMLElement>('[data-production-progress]')!;
+  const form = document.querySelector<HTMLFormElement>('[data-production-form]')!;
+  let generation = 0;
+
+  async function load(view: number) {
+    if (!client || view !== generation) return;
+    const [milestones, records] = await Promise.all([
+      client.from('halo_production_milestones').select('step,title,owner,handoffs,verified').order('step'),
+      client.from('halo_production_issues').select('id,title,location,severity,state').order('created_at', { ascending: false }),
+    ]);
+    if (view !== generation) return;
+    if (milestones.error || records.error || !milestones.data.length) {
+      status.textContent = milestones.error || records.error ? 'Could not load the production board.' : 'Launch staff access is required.';
+      return;
+    }
+    const next = milestones.data.find(row => !row.verified);
+    progress.textContent = next ? 'Next unverified milestone: ' + next.title : 'All milestones are marked verified.';
+    steps.replaceChildren();
+    issues.replaceChildren();
+    for (const milestone of milestones.data) {
+      const row = document.createElement('li');
+      const label = document.createElement('label');
+      const control = document.createElement('input');
+      control.type = 'checkbox';
+      control.checked = milestone.verified;
+      label.append(control, ' ' + milestone.title + ' · ' + milestone.owner);
+      row.append(label);
+      if (milestone.handoffs) {
+        const handoffs = document.createElement('div');
+        handoffs.textContent = 'Launch handoffs: ' + milestone.handoffs;
+        row.append(handoffs);
+      }
+      control.addEventListener('change', async () => {
+        control.disabled = true;
+        const result = await client.from('halo_production_milestones').update({ verified: control.checked })
+          .eq('step', milestone.step).select('step').maybeSingle();
+        if (view !== generation) return;
+        if (result.error || !result.data) {
+          control.checked = milestone.verified;
+          control.disabled = false;
+          status.textContent = 'Could not save the milestone.';
+        } else await load(view);
+      });
+      steps.append(row);
+    }
+    for (const issue of records.data) {
+      const row = document.createElement('li');
+      row.textContent = issue.severity.toUpperCase() + ' · ' + issue.title + ' · ' + issue.location;
+      const control = document.createElement('select');
+      control.setAttribute('aria-label', 'Status for ' + issue.title);
+      for (const state of ['open', 'fixed', 'verified', 'closed']) control.add(new Option(state, state));
+      control.value = issue.state;
+      control.addEventListener('change', async () => {
+        control.disabled = true;
+        const result = await client.from('halo_production_issues').update({ state: control.value })
+          .eq('id', issue.id).select('id').maybeSingle();
+        if (view !== generation) return;
+        if (result.error || !result.data) {
+          control.value = issue.state;
+          control.disabled = false;
+          status.textContent = 'Could not save the issue status.';
+        } else await load(view);
+      });
+      row.append(control);
+      issues.append(row);
+    }
+    status.textContent = records.data.length ? 'Production records loaded.' : 'No production issues logged.';
+    board.hidden = false;
+  }
+
+  form.addEventListener('submit', async event => {
+    event.preventDefault();
+    if (!client || board.hidden) return;
+    const view = generation;
+    const button = form.querySelector('button')!;
+    const data = new FormData(form);
+    button.disabled = true;
+    try {
+      const { error } = await client.from('halo_production_issues').insert({
+        title: String(data.get('title')).trim(), location: String(data.get('location')).trim(),
+        severity: data.get('severity'),
+      });
+      if (view !== generation) return;
+      if (error) status.textContent = 'Could not log the issue.';
+      else { form.reset(); await load(view); }
+    } finally { button.disabled = false; }
+  });
+
+  if (!client) status.textContent = 'HALO account sign-in is unavailable.';
+  else client.auth.onAuthStateChange((_event, session) => {
+    const view = ++generation;
+    board.hidden = true;
+    steps.replaceChildren();
+    issues.replaceChildren();
+    form.reset();
+    status.textContent = session ? 'Checking launch staff access…' : 'Sign in with a HALO launch staff account.';
+    if (session) window.setTimeout(() => { void load(view); }, 0);
+  });
+</script>
