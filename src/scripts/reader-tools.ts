@@ -3,6 +3,9 @@ import identities from '../data/reader-identities.json';
 type Day = { action: string; negotiation: string; within: string; slip: string; reset: string; returnSpeed: string; buffer: string };
 type Notebook = { fields: Record<string,string>; audit: Record<string,string>[]; days: (Day|null)[]; started: string; images: Record<string,string>; archives: {started:string; identity:string; days:(Day|null)[]}[] };
 const KEY = 'halo.reader-tools.v1';
+const capture = (event: string, properties?: Record<string, string | number>) => (window as Window & {
+  posthog?: { capture: (event: string, properties?: Record<string, string | number>) => void };
+}).posthog?.capture(event, properties);
 const fresh = (): Notebook => ({fields:{},audit:[{domain:'',inherited:'',learned:'',pressure:''}],days:Array(7).fill(null),started:'',images:{},archives:[]});
 
 document.querySelectorAll<HTMLElement>('[data-reader-tools]').forEach(root => {
@@ -33,10 +36,10 @@ document.querySelectorAll<HTMLElement>('[data-reader-tools]').forEach(root => {
     const input = document.querySelector<HTMLInputElement>('[data-identity-input]');
     if(input) input.value=identity.replace(/^I am\s+/i,'');
   }
-  function choose(statement:string, question:string, degree:string) {
+  function choose(statement:string, question:string, degree:string, selectionType:'library'|'custom') {
     if(book.fields.identity && book.fields.identity !== statement && book.days.some(Boolean) && !confirm('Change the identity for this test? Existing evidence will remain.')) return;
     book.fields.identity=statement; book.fields.question=question; book.fields.degree=degree;
-    book.fields.integrity0=statement; save(); hydrate(); syncIdentity(); panel(2);
+    book.fields.integrity0=statement; save(); capture('reader_identity_selected', { selection_type: selectionType }); hydrate(); syncIdentity(); panel(2);
   }
   $<HTMLSelectElement>('[data-tool-picker]').addEventListener('change',e => panel(Number((e.target as HTMLSelectElement).value)));
   all<HTMLInputElement>('[data-field]').forEach(el => el.addEventListener('input',() => {
@@ -50,8 +53,8 @@ document.querySelectorAll<HTMLElement>('[data-reader-tools]').forEach(root => {
     $('[data-results]').textContent=count ? `${count} identities` : 'No matches. Try another word or write your own identity below.';
   }
   $('[data-search]').addEventListener('input',filter); $('[data-domain]').addEventListener('change',filter);
-  all<HTMLButtonElement>('[data-choose]').forEach(btn=>btn.addEventListener('click',()=>{const item=identities.find(i=>i.id===Number(btn.dataset.choose))!; choose(item.statement,item.question,btn.closest('details')!.querySelector('select')!.value);}));
-  $('[data-use-custom]').addEventListener('click',()=>{const input=$<HTMLInputElement>('[data-custom]'); if(!input.value.trim()){input.focus();return;} choose(input.value.trim(),'What would that person do right now?','');});
+  all<HTMLButtonElement>('[data-choose]').forEach(btn=>btn.addEventListener('click',()=>{const item=identities.find(i=>i.id===Number(btn.dataset.choose))!; choose(item.statement,item.question,btn.closest('details')!.querySelector('select')!.value,'library');}));
+  $('[data-use-custom]').addEventListener('click',()=>{const input=$<HTMLInputElement>('[data-custom]'); if(!input.value.trim()){input.focus();return;} choose(input.value.trim(),'What would that person do right now?','','custom');});
   function renderAudit() {
     const container=$('[data-audit-rows]'); container.replaceChildren();
     book.audit.forEach((row,index)=>{
@@ -86,13 +89,13 @@ document.querySelectorAll<HTMLElement>('[data-reader-tools]').forEach(root => {
   form.addEventListener('change',slipFields);
   $<HTMLSelectElement>('[data-day]').addEventListener('change',e=>{selectedDay=Number((e.target as HTMLSelectElement).value);loadDay();});
   const today=()=>new Date().toLocaleDateString('en-CA');
-  $('[data-start-week]').addEventListener('click',()=>{if(!book.fields.identity?.trim()){panel(0);return;}if(!book.started)book.started=today();save();loadDay();});
+  $('[data-start-week]').addEventListener('click',()=>{if(!book.fields.identity?.trim()){panel(0);return;}if(!book.started){book.started=today();capture('practice_week_started');}save();loadDay();});
   function syncDay(row:Day){window.dispatchEvent(new CustomEvent('halo:reader-day',{detail:{day:selectedDay+1,action:row.action,kind:row.slip==='yes'?(row.reset==='yes'?2:0):1}}));}
   form.addEventListener('submit',event=>{
     event.preventDefault(); if(!book.fields.identity?.trim()){ $('[data-day-feedback]').textContent='Choose an identity before saving evidence.';return; }
     const row=Object.fromEntries(new FormData(form).entries()) as Day;row.action=row.action.trim();if(!row.action){$('[data-day-feedback]').textContent='Name one visible action.';return;}
     if(!book.started)book.started=today();if(row.slip!=='yes'){row.reset='no';row.returnSpeed='';}
-    book.days[selectedDay]=row;save();syncDay(row);renderReport();$('[data-day-feedback]').textContent=`Day ${selectedDay+1} saved.`;
+    book.days[selectedDay]=row;save();capture('practice_day_recorded', { day: selectedDay + 1, outcome: row.slip === 'yes' ? (row.reset === 'yes' ? 'reset_recorded' : 'slip_recorded') : 'aligned_action' });syncDay(row);renderReport();$('[data-day-feedback]').textContent=`Day ${selectedDay+1} saved.`;
   });
   function resetWeek(archive:boolean){
     if(!confirm(archive?'Archive this test and start another seven days?':'Clear the seven-day tracker? Your other worksheets will remain.'))return;
