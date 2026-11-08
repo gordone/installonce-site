@@ -1,6 +1,7 @@
 ---
 import BlueprintLayout from '../../components/BlueprintLayout.astro';
 import HaloAccount from '../../components/HaloAccount.astro';
+import HaloExecutionQueue from '../../components/HaloExecutionQueue.astro';
 ---
 <BlueprintLayout title="HALO Execution OS" description="HALO staff command center." noindex={true}>
   <section class="execution">
@@ -14,6 +15,7 @@ import HaloAccount from '../../components/HaloAccount.astro';
       <button type="button" data-execution-run>Run production brief</button>
       <div data-execution-history></div>
     </div>
+    <HaloExecutionQueue />
   </section>
 </BlueprintLayout>
 <style>

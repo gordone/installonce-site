@@ -1,0 +1,127 @@
+<section data-action-queue hidden>
+  <h2>Action and approval queue</h2>
+  <form data-action-proposal>
+    <label>Action <input name="title" required maxlength="160" /></label>
+    <label>What should happen? <textarea name="detail" required maxlength="2000"></textarea></label>
+    <button type="submit">Propose action</button>
+  </form>
+  <p role="status" data-action-status></p>
+  <div data-action-list></div>
+</section>
+<style>
+  [data-action-queue]{margin-top:2rem}
+  [data-action-queue] :global(form){display:grid;gap:.6rem;max-width:620px}
+  [data-action-queue] :global(label){display:grid;gap:.2rem}
+  [data-action-queue] :global(input),[data-action-queue] :global(textarea){font:inherit;padding:.45rem}
+  [data-action-queue] :global(article){margin:1rem 0;padding:1rem;border:1px solid #3b3d48;border-radius:8px;overflow-wrap:anywhere}
+  [data-action-queue] :global(h2),[data-action-queue] :global(h3){color:inherit}
+  [data-action-queue] :global(button){width:fit-content;font:inherit;padding:.45rem .7rem}
+</style>
+<script>
+  import { supabase } from '../scripts/halo-account';
+  const client = supabase;
+  const section = document.querySelector<HTMLElement>('[data-action-queue]')!;
+  const form = section.querySelector<HTMLFormElement>('[data-action-proposal]')!;
+  const list = section.querySelector<HTMLElement>('[data-action-list]')!;
+  const status = section.querySelector<HTMLElement>('[data-action-status]')!;
+  let generation = 0;
+  let loadSequence = 0;
+
+  async function load(view: number) {
+    const sequence = ++loadSequence;
+    const { data, error } = await client!.from('halo_execution_actions')
+      .select('id,title,detail,state,decision_note,decided_at,result,completed_at')
+      .order('created_at', { ascending: false }).order('id').limit(100);
+    if (view !== generation || sequence !== loadSequence) return;
+    if (error) { status.textContent = 'Could not load actions.'; return; }
+    list.replaceChildren();
+    status.textContent = data.length ? 'Showing up to 100 recent actions.' : 'No actions proposed yet.';
+    const stateOrder = ['pending', 'approved', 'completed', 'rejected'];
+    for (const action of data.sort((a,b) => stateOrder.indexOf(a.state) - stateOrder.indexOf(b.state))) {
+      const card = document.createElement('article');
+      const heading = document.createElement('h3');
+      heading.textContent = action.title + ' · ' + action.state;
+      card.append(heading);
+      for (const value of [
+        action.detail,
+        action.decision_note && 'Decision · ' + action.decision_note + ' · ' + new Date(action.decided_at).toLocaleString(),
+        action.result && 'Result · ' + action.result + ' · ' + new Date(action.completed_at).toLocaleString(),
+      ]) {
+        if (!value) continue;
+        const line = document.createElement('p');
+        line.textContent = value;
+        card.append(line);
+      }
+      if (action.state === 'pending' || action.state === 'approved') {
+        const review = document.createElement('form');
+        const label = document.createElement('label');
+        const input = document.createElement('textarea');
+        input.required = true;
+        input.maxLength = 2000;
+        label.append(action.state === 'pending' ? 'Decision note' : 'Work result', input);
+        review.append(label);
+        const choices = action.state === 'pending'
+          ? [['approved', 'Approve'], ['rejected', 'Reject']]
+          : [['completed', 'Record completion']];
+        for (const [state, name] of choices) {
+          const button = document.createElement('button');
+          button.type = 'submit';
+          button.value = state;
+          button.textContent = name;
+          review.append(button);
+        }
+        review.addEventListener('submit', async event => {
+          event.preventDefault();
+          const button = event.submitter as HTMLButtonElement | null;
+          if (!button || view !== generation) return;
+          const buttons = review.querySelectorAll('button');
+          buttons.forEach(control => { control.disabled = true; });
+          const { error } = await client!.rpc('halo_transition_execution_action', {
+            action_id: action.id, next_state: button.value, note: input.value,
+          });
+          if (view !== generation) return;
+          if (error) {
+            await load(view);
+            if (view === generation) status.textContent = 'Could not save the decision. The queue has been refreshed.';
+            buttons.forEach(control => { control.disabled = false; });
+          } else await load(view);
+        });
+        card.append(review);
+      }
+      list.append(card);
+    }
+  }
+
+  form.addEventListener('submit', async event => {
+    event.preventDefault();
+    if (!client || section.hidden) return;
+    const view = generation;
+    const button = form.querySelector('button')!;
+    const fields = new FormData(form);
+    button.disabled = true;
+    try {
+      const { error } = await client.from('halo_execution_actions').insert({
+        title: String(fields.get('title')).trim(), detail: String(fields.get('detail')).trim(),
+      });
+      if (view !== generation) return;
+      if (error) status.textContent = 'Could not propose the action. Enter a title and description.';
+      else { form.reset(); await load(view); }
+    } finally { if (view === generation) button.disabled = false; }
+  });
+
+  client?.auth.onAuthStateChange((_event, session) => {
+    const view = ++generation;
+    section.hidden = true;
+    list.replaceChildren();
+    status.textContent = '';
+    form.reset();
+    form.querySelector('button')!.disabled = false;
+    if (session) window.setTimeout(async () => {
+      if (view !== generation) return;
+      const { data, error } = await client.from('halo_launch_staff').select('user_id').maybeSingle();
+      if (view !== generation || error || !data) return;
+      section.hidden = false;
+      await load(view);
+    }, 0);
+  });
+</script>
