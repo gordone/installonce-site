@@ -1,0 +1,104 @@
+---
+const { missionControl = false } = Astro.props;
+---
+<p data-launch-status role="status">Sign in with a HALO launch staff account.</p>
+<div data-launch-dashboard={missionControl ? 'mission-control' : 'overview'} hidden></div>
+<style>
+  [data-launch-dashboard]{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1rem;margin-top:1rem}
+  [data-launch-dashboard][hidden]{display:none}
+  [data-launch-dashboard] :global(.launch-thesis){grid-column:1/-1}
+  [data-launch-dashboard] :global(section){border:1px solid #3b3d48;border-radius:9px;padding:1rem;min-width:0}
+  [data-launch-dashboard] :global(h2){margin:0 0 .75rem;color:inherit;font:700 1.25rem system-ui}
+  [data-launch-dashboard] :global(dl){margin:0}
+  [data-launch-dashboard] :global(.launch-row){display:flex;justify-content:space-between;gap:1rem;padding:.55rem 0;border-top:1px solid #3b3d48}
+  [data-launch-dashboard] :global(dd){margin:0;text-align:right;color:#d5caff;overflow-wrap:anywhere}
+  [data-launch-dashboard] :global(button){display:block;margin:.4rem 0 .2rem auto;font:inherit;padding:.35rem .6rem}
+  @media(max-width:650px){[data-launch-dashboard]{grid-template-columns:1fr}}
+</style>
+<script>
+  import { supabase } from '../scripts/halo-account';
+
+  type Snapshot = {
+    thesis: string;
+    note: string;
+    sections: { title: string; rows: [string, string][] }[];
+  };
+  const client = supabase;
+  const status = document.querySelector<HTMLElement>('[data-launch-status]')!;
+  const dashboard = document.querySelector<HTMLElement>('[data-launch-dashboard]')!;
+  let generation = 0;
+
+  async function load(view: number) {
+    const { data: assignment, error: assignmentError } = await client!.from('halo_launch_staff')
+      .select('user_id').maybeSingle();
+    if (view !== generation) return;
+    if (assignmentError || !assignment) {
+      status.textContent = assignmentError ? 'Could not verify launch staff access.' : 'Launch staff access is required.';
+      return;
+    }
+    const { data, error } = await client!.from('halo_launch_dashboard').select('snapshot')
+      .eq('id', 'overview').maybeSingle();
+    if (view !== generation) return;
+    if (error || !data) {
+      status.textContent = error ? 'Could not load the launch overview.' : 'The launch overview has not been loaded yet.';
+      return;
+    }
+
+    const snapshot = data.snapshot as Snapshot;
+    const canPropose = dashboard.dataset.launchDashboard === 'mission-control';
+    function fieldAction(group: string, label: string, value: string) {
+      const button = document.createElement('button');
+      button.type = 'button';
+      button.textContent = 'Propose action';
+      button.setAttribute('aria-label', 'Propose action for ' + group + ': ' + label);
+      button.addEventListener('click', () => dashboard.dispatchEvent(new CustomEvent('halo:propose-dashboard-action', {
+        bubbles: true, detail: { group, label, value },
+      })));
+      return button;
+    }
+
+    const intro = document.createElement('section');
+    intro.className = 'launch-thesis';
+    const thesis = document.createElement('p');
+    thesis.textContent = snapshot.thesis;
+    const note = document.createElement('small');
+    note.textContent = snapshot.note;
+    intro.append(thesis);
+    if (canPropose) intro.append(fieldAction('Overview', 'Launch thesis', snapshot.thesis));
+    const source = document.createElement('p');
+    source.append(note);
+    if (canPropose) source.append(fieldAction('Overview', 'Source note', snapshot.note));
+    intro.append(source);
+    dashboard.append(intro);
+    for (const group of snapshot.sections) {
+      const section = document.createElement('section');
+      const title = document.createElement('h2');
+      title.textContent = group.title;
+      const list = document.createElement('dl');
+      for (const [label, value] of group.rows) {
+        const row = document.createElement('div');
+        row.className = 'launch-row';
+        const term = document.createElement('dt');
+        term.textContent = label;
+        const detail = document.createElement('dd');
+        detail.textContent = value;
+        if (canPropose) detail.append(fieldAction(group.title, label, value));
+        row.append(term, detail);
+        list.append(row);
+      }
+      section.append(title, list);
+      dashboard.append(section);
+    }
+    status.textContent = 'Workbook snapshot';
+    dashboard.hidden = false;
+  }
+
+  if (!client) status.textContent = 'HALO account sign-in is unavailable.';
+  else client.auth.onAuthStateChange((_event, session) => {
+    const view = ++generation;
+    dashboard.hidden = true;
+    dashboard.replaceChildren();
+    status.textContent = session ? 'Checking launch staff access…' : 'Sign in with a HALO launch staff account.';
+    if (session) window.setTimeout(() => { if (view === generation) void load(view); }, 0);
+  });
+</script>
