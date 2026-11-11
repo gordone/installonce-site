@@ -1,0 +1,3 @@
+[functions.halo-agent-cycle]
+# A scoped, server-held n8n shared secret is verified by the handler.
+verify_jwt = false

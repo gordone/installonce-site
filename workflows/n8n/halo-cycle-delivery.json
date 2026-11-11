@@ -1,0 +1,60 @@
+{
+  "name": "HALO - Persist agent cycle in Mission Control",
+  "active": false,
+  "nodes": [
+    {
+      "id": "halo-cycle-input",
+      "name": "Receive compiled cycle",
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "typeVersion": 1.1,
+      "position": [0, 0],
+      "parameters": { "inputSource": "passthrough" }
+    },
+    {
+      "id": "halo-cycle-envelope",
+      "name": "Prepare delivery",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [240, 0],
+      "parameters": {
+        "jsCode": "const cycle = $input.first().json;\nif (typeof cycle.source_execution !== 'string' || !cycle.source_execution.trim() || !Array.isArray(cycle.reports) || !cycle.reports.length) {\n  throw new Error('A stable parent execution identity and compiled reports are required.');\n}\nconst delivery = { source_execution: cycle.source_execution, reports: cycle.reports };\nif (JSON.stringify(delivery).length > 200000) throw new Error('Cycle exceeds delivery size limit.');\nreturn [{ json: delivery }];"
+      }
+    },
+    {
+      "id": "halo-cycle-deliver",
+      "name": "Store cycle in Mission Control",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [480, 0],
+      "retryOnFail": true,
+      "maxTries": 3,
+      "waitBetweenTries": 1000,
+      "parameters": {
+        "method": "POST",
+        "url": "https://qahwqosklocjwbwstxsr.supabase.co/functions/v1/halo-agent-cycle",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify($json) }}",
+        "options": { "timeout": 20000 }
+      }
+    },
+    {
+      "id": "halo-cycle-health",
+      "name": "Enforce cycle health",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [720, 0],
+      "parameters": {
+        "jsCode": "const cycle = $('Prepare delivery').first().json;\nconst receipt = $input.first().json;\nif (receipt.status !== 'received' || !receipt.cycle_id) throw new Error('Mission Control did not acknowledge delivery.');\nconst successful = cycle.reports.filter(report => report.status === 'completed').length;\nif (!successful) throw new Error('HALO agent cycle failed. Failure reports were saved in Mission Control. Check upstream quota, credentials, and response validation.');\nreturn [{ json: { ...receipt, status: successful === cycle.reports.length ? 'completed' : 'partial', successful_agents: successful, total_agents: cycle.reports.length } }];"
+      }
+    }
+  ],
+  "connections": {
+    "Receive compiled cycle": { "main": [[{ "node": "Prepare delivery", "type": "main", "index": 0 }]] },
+    "Prepare delivery": { "main": [[{ "node": "Store cycle in Mission Control", "type": "main", "index": 0 }]] },
+    "Store cycle in Mission Control": { "main": [[{ "node": "Enforce cycle health", "type": "main", "index": 0 }]] }
+  },
+  "settings": { "executionOrder": "v1" }
+}

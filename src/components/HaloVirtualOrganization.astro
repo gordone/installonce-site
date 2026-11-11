@@ -5,13 +5,16 @@
   <div class="org-controls" data-org-controls></div>
   <button type="button" data-org-run>Run all approved work</button>
   <button type="button" data-org-refresh>Refresh operating state</button>
+  <h3>Agent cycle inbox</h3>
+  <p>Received reports are recommendations awaiting review. Cycle completion describes report generation.</p>
+  <div data-org-cycles></div>
   <h3>What should we do today?</h3>
   <div data-org-priorities></div>
   <details>
     <summary>Add a launch goal</summary>
     <form data-org-goal>
       <label>Outcome <input name="title" required maxlength="160" /></label>
-      <label>Accountable agent <select name="agent_id" data-org-agent-select required></select></label>
+      <label>Accountable agent <select name="agent_id" aria-label="Accountable agent" data-org-agent-select required></select></label>
       <label>Target <input name="target" type="number" min="0.01" step="any" required /></label>
       <label>Unit <input name="unit" required maxlength="80" placeholder="active Hosts" /></label>
       <label>Deadline <input name="deadline" type="date" required /></label>
@@ -179,7 +182,7 @@
     const names = new Map(agentList.map(agent => [agent.id, agent.name]));
     const controlsView = target('controls');
     controlsView.replaceChildren();
-    for (const [key, label] of [['paused','All autonomous work'],['preview','Preview mode'],['external_paused','External sends paused'],['spend_paused','Spend paused']]) {
+    for (const [key, label] of [['paused','Pause all autonomous work'],['preview','Preview mode'],['external_paused','External sends paused'],['spend_paused','Spend paused']]) {
       controlsView.append(button(`${label} · ${controls[key] ? 'ON' : 'OFF'}`, () => void command('controls', { [key]: !controls[key] })));
     }
 
@@ -306,6 +309,33 @@
     log.append(element('p','Latest 100 audit events'));
     for (const event of audit) log.append(element('p',`${new Date(event.created_at).toLocaleString()} · ${event.event} · ${event.object_id}`));
     status.textContent = 'Operating state loaded. Briefs are deterministic internal work packages. AI judgment and external execution require connected runtime adapters.';
+    // A missing inbox migration must not prevent the existing organization loading.
+    const cycleResult = await client!.from('halo_agent_cycles').select('id,source_execution,status,reports,received_at')
+      .order('received_at',{ascending:false}).order('id').limit(20);
+    if (view !== generation || sequence !== loadSequence) return;
+    const inbox = target('cycles');
+    inbox.replaceChildren();
+    if (cycleResult.error) {
+      inbox.append(element('p','Agent cycle bridge is not installed or available yet.'));
+      return;
+    }
+    if (!cycleResult.data.length) inbox.append(element('p','No agent cycles received. Connect the n8n delivery node after installing the bridge.'));
+    for (const cycle of cycleResult.data) {
+      const entry = element('details');
+      entry.append(element('summary',`${new Date(cycle.received_at).toLocaleString()} · ${cycle.status} · ${cycle.source_execution}`));
+      for (const report of cycle.reports) {
+        const card = element('article');
+        card.append(element('h4',`${names.get(report.agent_id) ?? report.role} · ${report.status}`));
+        if (report.summary) card.append(element('p',report.summary));
+        for (const evidence of report.evidence ?? []) card.append(element('p','Source evidence · ' + evidence));
+        for (const missing of report.missingInputs ?? []) card.append(element('p','Missing input · ' + missing));
+        for (const proposal of report.proposals) {
+          card.append(element('h4',proposal.title),element('p',`Type ${proposal.type} · Pending review`),element('p',proposal.draft));
+        }
+        entry.append(card);
+      }
+      inbox.append(entry);
+    }
   }
 
   target('run').addEventListener('click',() => void request('halo_run_approved_work'));
@@ -325,7 +355,7 @@
     busy = false;
     root.hidden = true;
     root.querySelectorAll<HTMLButtonElement>('button').forEach(node => { node.disabled = false; });
-    for (const name of ['controls','priorities','approvals','agents','tasks','decisions','assets','audit']) target(name).replaceChildren();
+    for (const name of ['controls','cycles','priorities','approvals','agents','tasks','decisions','assets','audit']) target(name).replaceChildren();
     root.querySelectorAll<HTMLFormElement>('form').forEach(form => form.reset());
     if (session) window.setTimeout(async () => {
       const { data,error } = await client.from('halo_launch_staff').select('user_id').maybeSingle();
