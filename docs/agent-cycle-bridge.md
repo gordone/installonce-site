@@ -31,3 +31,13 @@ Run `node scripts/test-agent-cycle-bridge.mjs`, `npm run test:mission-control`, 
 Live verification should confirm an authenticated receipt, one visible inbox entry, retry deduplication, partial report handling, and a failed cycle saved before n8n raises its failure. Unauthenticated calls must return 401. The staff inbox must remain invisible to signed-out visitors and non-staff accounts.
 
 The bridge does not resolve OpenAI quota or make the full virtual organization autonomous. It connects the existing seven-agent planning cycle to a durable staff review surface. Tool execution, standing authority, and owner notification/replies remain separate increments.
+
+## Parent workflow source and evidence limits
+
+`workflows/n8n/halo-launch-agent-team.json` preserves the deployed parent workflow with credential references removed. Reattach the existing PostHog and OpenAI credentials after importing it. The delivery sub-workflow ID is specific to the HALO deployment.
+
+Workbook milestone statuses in this runtime are historical planning context. Current completion is explicitly unverified. Scheduled campaign dates do not establish execution. Captured PostHog events cover opted-in instrumented browsers, and zero recorded events cannot establish zero people or overall activity. The 10,000 target measures protocol starts.
+
+Until approved canonical assets are supplied to this runtime, both the provider output schema and the report parser allow only `internal_task` proposals. Model instructions alone do not enforce that boundary. All proposals remain pending review. The presence of a completed cycle indicates successful report generation and storage, not completion of proposed work.
+
+Run `node scripts/test-agent-context.mjs` for the historical-status and internal-proposal gate regressions.
