@@ -1,6 +1,8 @@
 <section data-action-queue hidden>
   <h2>Action and approval queue</h2>
   <form data-action-proposal>
+    <p data-action-context hidden></p>
+    <button type="button" data-action-clear hidden>Clear dashboard field</button>
     <label>Action <input name="title" required maxlength="160" /></label>
     <label>What should happen? <textarea name="detail" required maxlength="2000"></textarea></label>
     <button type="submit">Propose action</button>
@@ -24,6 +26,34 @@
   const form = section.querySelector<HTMLFormElement>('[data-action-proposal]')!;
   const list = section.querySelector<HTMLElement>('[data-action-list]')!;
   const status = section.querySelector<HTMLElement>('[data-action-status]')!;
+  const titleField = form.querySelector<HTMLInputElement>('[name="title"]')!;
+  const detailField = form.querySelector<HTMLTextAreaElement>('[name="detail"]')!;
+  const submit = form.querySelector<HTMLButtonElement>('[type="submit"]')!;
+  const context = form.querySelector<HTMLElement>('[data-action-context]')!;
+  const clear = form.querySelector<HTMLButtonElement>('[data-action-clear]')!;
+  let fieldSource = '';
+
+  function clearField() {
+    fieldSource = '';
+    context.textContent = '';
+    context.hidden = true;
+    clear.hidden = true;
+    detailField.maxLength = 2000;
+  }
+
+  clear.addEventListener('click', clearField);
+  document.addEventListener('halo:propose-dashboard-action', event => {
+    if (section.hidden || submit.disabled) return;
+    const { group, label, value } = (event as CustomEvent<{ group: string; label: string; value: string }>).detail;
+    fieldSource = ('Dashboard field: ' + group + ' / ' + label).slice(0, 500) + '\n\n';
+    context.textContent = group + ' / ' + label + ': ' + value;
+    context.hidden = false;
+    clear.hidden = false;
+    detailField.maxLength = 2000 - fieldSource.length;
+    if (!titleField.value.trim()) titleField.value = ('Review ' + label).slice(0, 160);
+    detailField.focus();
+  });
+
   let generation = 0;
   let loadSequence = 0;
 
@@ -96,16 +126,21 @@
     event.preventDefault();
     if (!client || section.hidden) return;
     const view = generation;
-    const button = form.querySelector('button')!;
+    const button = submit;
     const fields = new FormData(form);
+    const detail = String(fields.get('detail')).trim();
+    if (!detail || detail.length > detailField.maxLength) {
+      status.textContent = 'Enter an action description that fits within the field limit.';
+      return;
+    }
     button.disabled = true;
     try {
       const { error } = await client.from('halo_execution_actions').insert({
-        title: String(fields.get('title')).trim(), detail: String(fields.get('detail')).trim(),
+        title: String(fields.get('title')).trim(), detail: fieldSource + detail,
       });
       if (view !== generation) return;
       if (error) status.textContent = 'Could not propose the action. Enter a title and description.';
-      else { form.reset(); await load(view); }
+      else { form.reset(); clearField(); await load(view); }
     } finally { if (view === generation) button.disabled = false; }
   });
 
@@ -115,7 +150,8 @@
     list.replaceChildren();
     status.textContent = '';
     form.reset();
-    form.querySelector('button')!.disabled = false;
+    clearField();
+    submit.disabled = false;
     if (session) window.setTimeout(async () => {
       if (view !== generation) return;
       const { data, error } = await client.from('halo_launch_staff').select('user_id').maybeSingle();
