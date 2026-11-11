@@ -10,7 +10,8 @@
     "build": "astro build",
     "preview": "astro preview",
     "astro": "astro",
-    "test:mission-control": "node scripts/test-mission-control.mjs"
+    "test:mission-control": "node scripts/test-mission-control.mjs",
+    "test:agent-bridge": "node scripts/test-agent-cycle-bridge.mjs"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.119.0",
