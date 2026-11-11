@@ -1,0 +1,86 @@
+import { PGlite } from '@electric-sql/pglite';
+import { readFile } from 'node:fs/promises';
+import assert from 'node:assert/strict';
+const db = new PGlite();
+await db.exec(`create role anon; create role authenticated; create schema auth;
+create table auth.users(id uuid primary key);
+create function auth.uid() returns uuid language sql as $$ select nullif(current_setting('test.uid', true),'')::uuid $$;
+create table public.halo_launch_staff(user_id uuid primary key);
+grant select on public.halo_launch_staff to authenticated;
+grant usage on schema auth to authenticated;
+insert into auth.users values ('11111111-1111-4111-8111-111111111111');
+insert into public.halo_launch_staff select id from auth.users;
+set test.uid = '11111111-1111-4111-8111-111111111111';`);
+await db.exec(await readFile(new URL('../supabase/migrations/20261110180000_halo_virtual_organization.sql', import.meta.url),'utf8'));
+let checks = 0;
+async function rpc(command,payload={}) {
+  const {rows} = await db.query('select public.halo_operating_command($1,$2) as result',[command,payload]);
+  return rows[0].result;
+}
+async function fails(action, pattern) { await assert.rejects(action,pattern); checks++; }
+async function run() { return (await db.query('select public.halo_run_approved_work() as result')).rows[0].result; }
+async function task(overrides={}) {
+  return rpc('task',{workflow_id:'podcast-brief',objective:'Prepare podcast intervention',deadline:'2027-01-01',
+    expected_output:'Evidence backed brief',success_metric:'Next decision prepared',fallback:'Liaison',evidence_required:'Run ID',...overrides});
+}
+const goal = await rpc('goal',{title:'Qualified podcast participants',agent_id:'podcast',target:100,unit:'Day-7 participants',deadline:'2027-01-01'});
+await fails(()=>rpc('metric',{id:goal.id,current_value:3}),/check constraint/);
+await rpc('metric',{id:goal.id,current_value:3,forecast:40,evidence:'Operator approved aggregate report'});
+await rpc('decision',{question:'Protocol',answer:'1·60·7',scope:'HALO',reason:'Canonical product decision'});
+await rpc('canonical_asset',{title:'Positioning',version:'1',content:'Approved HALO source',status:'current',evidence:'Owner approval'});
+await rpc('canonical_asset',{title:'Positioning',version:'2',content:'New approved source',status:'current',evidence:'Owner approval'});
+assert.equal((await db.query("select count(*) from public.halo_canonical_assets where status='current'")).rows[0].count,1); checks++;
+await fails(()=>rpc('canonical_asset',{title:'Unsafe',version:'1',content:'Draft',status:'current'}),/Approval evidence/);
+const first = await task({goal_id:goal.id});
+await fails(()=>task({goal_id:goal.id}),/duplicate key/);
+assert.equal((await run()).completed,0); checks++;
+let approval = (await db.query('select id from public.halo_agent_approvals where task_id=$1',[first.id])).rows[0];
+await rpc('approval',{id:approval.id,status:'approved',response:'Prepare internal brief'});
+assert.equal((await run()).eligible,1); checks++;
+assert.equal((await db.query('select count(*) from public.halo_agent_runs')).rows[0].count,0); checks++;
+await rpc('controls',{preview:false,paused:true});
+await fails(run,/paused/);
+await rpc('controls',{paused:false});
+await rpc('agent',{id:'podcast',paused:true});
+assert.equal((await run()).completed,0); checks++;
+await rpc('agent',{id:'podcast',paused:false});
+assert.equal((await run()).completed,1); checks++;
+assert.equal((await run()).completed,0); checks++;
+let stored = (await db.query('select result from public.halo_agent_runs')).rows[0].result;
+assert.equal(stored.canonical_assets.length,1); checks++;
+assert.equal(stored.canonical_assets[0].version,'2'); checks++;
+await fails(()=>rpc('task_state',{id:first.id,state:'verified'}),/verification evidence/);
+await rpc('task_state',{id:first.id,state:'verified',evidence:'Independent check of saved brief'});
+await fails(()=>rpc('task_state',{id:first.id,state:'measured'}),/learning/);
+await rpc('task_state',{id:first.id,state:'measured',learning:'Verified current source. Next step is specialist research.'});
+const second = await task({dependencies:[first.id]});
+approval = (await db.query('select id from public.halo_agent_approvals where task_id=$1',[second.id])).rows[0];
+await rpc('approval',{id:approval.id,status:'modified',response:'Change the research scope'});
+await rpc('replan',{id:second.id,objective:'Corrected research scope'});
+approval = (await db.query("select id from public.halo_agent_approvals where task_id=$1 and status='pending'",[second.id])).rows[0];
+await rpc('approval',{id:approval.id,status:'approved',response:'Approve revised scope'});
+await db.query("update public.halo_agent_approvals set expires_at=now()-interval '1 day' where id=$1",[approval.id]);
+assert.equal((await run()).completed,0); checks++;
+await rpc('replan',{id:second.id,objective:'Renew corrected scope'});
+approval = (await db.query("select id from public.halo_agent_approvals where task_id=$1 and status='pending'",[second.id])).rows[0];
+await rpc('approval',{id:approval.id,status:'approved',response:'Approve'});
+assert.equal((await run()).completed,1); checks++;
+const gated = await task({workflow_id:'host-brief'});
+approval = (await db.query('select id from public.halo_agent_approvals where task_id=$1',[gated.id])).rows[0];
+await rpc('task_state',{id:gated.id,state:'cancelled'});
+await fails(()=>rpc('approval',{id:approval.id,status:'approved',response:'Stale approval'}),/no longer pending/);
+const external = await task({workflow_id:'podcast-outreach'});
+approval = (await db.query('select id from public.halo_agent_approvals where task_id=$1',[external.id])).rows[0];
+await rpc('approval',{id:approval.id,status:'approved',response:'Review only'});
+assert.equal((await run()).completed,0); checks++;
+const waitingDependency = await task({workflow_id:'executive-brief',dependencies:[external.id]});
+approval = (await db.query('select id from public.halo_agent_approvals where task_id=$1',[waitingDependency.id])).rows[0];
+await rpc('approval',{id:approval.id,status:'approved',response:'Approve internal package'});
+assert.equal((await run()).completed,0); checks++;
+await db.exec("set test.uid = '22222222-2222-4222-8222-222222222222';");
+await fails(()=>rpc('controls',{paused:false}),/staff access/);
+await db.exec('set role authenticated;');
+assert.equal((await db.query('select count(*) from public.halo_agent_tasks')).rows[0].count,0); checks++;
+await fails(()=>db.query("update public.halo_agents set paused=false"),/permission denied/);
+console.log(`${checks} control-plane checks passed. No production services accessed.`);
+await db.close();

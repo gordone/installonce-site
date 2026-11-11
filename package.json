@@ -9,7 +9,8 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "test:mission-control": "node scripts/test-mission-control.mjs"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.119.0",
@@ -17,5 +18,8 @@
     "astro": "^6.4.8",
     "lucide-react": "^0.577.0",
     "tailwindcss": "^4.2.1"
+  },
+  "devDependencies": {
+    "@electric-sql/pglite": "^0.5.16"
   }
 }
