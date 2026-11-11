@@ -3,12 +3,14 @@ import BlueprintLayout from '../../components/BlueprintLayout.astro';
 import HaloAccount from '../../components/HaloAccount.astro';
 import HaloLaunchOverview from '../../components/HaloLaunchOverview.astro';
 import HaloExecutionQueue from '../../components/HaloExecutionQueue.astro';
+import HaloVirtualOrganization from '../../components/HaloVirtualOrganization.astro';
 ---
 <BlueprintLayout title="HALO Execution OS" description="HALO staff command center." noindex={true}>
   <section class="execution">
     <nav aria-label="Staff tools"><a href="/admin/launch/">Launch dashboard</a> · <a href="/admin/production/">Production control</a></nav>
     <h1>Mission Control</h1>
     <HaloAccount />
+    <HaloVirtualOrganization />
     <p data-execution-status role="status">Sign in with a HALO launch staff account.</p>
     <div data-execution-board hidden>
       <h2>What should we do today?</h2>
