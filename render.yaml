@@ -2,8 +2,27 @@ services:
   - type: web
     name: the-halo-method
     runtime: static
-    buildCommand: npm install && npm run build
+    buildCommand: npm ci --no-audit --no-fund && npm run build
     staticPublishPath: ./dist
     envVars:
       - key: NODE_VERSION
-        value: 20
+        value: 22.22.1
+    headers:
+      - path: /my-halo/*
+        name: X-Frame-Options
+        value: DENY
+      - path: /my-halo
+        name: X-Frame-Options
+        value: DENY
+      - path: /my-halo/*
+        name: Content-Security-Policy
+        value: "frame-ancestors 'none'"
+      - path: /my-halo
+        name: Content-Security-Policy
+        value: "frame-ancestors 'none'"
+      - path: /my-halo/*
+        name: Cache-Control
+        value: private, no-store
+      - path: /my-halo
+        name: Cache-Control
+        value: private, no-store
