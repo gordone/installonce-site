@@ -1,0 +1,32 @@
+name: HALO native integration checks
+on:
+  pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  native-halo:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22.22.1
+          cache: npm
+      - run: npm ci --no-audit --no-fund
+      - run: npm run test:native-halo
+      - run: npm run test:mission-control
+      - run: npm run test:agent-bridge
+      - run: npm run build
+      - name: Verify preserved routes and default-disabled rollout
+        run: node scripts/test-native-halo-build.mjs
+      - name: Build configured native route with synthetic public settings
+        run: npm run build && node scripts/test-native-halo-build.mjs
+        env:
+          PUBLIC_HALO_INTELLIGENCE_ENABLED: "1"
+          PUBLIC_HALO_INTELLIGENCE_API_URL: https://api.halo.test
+          PUBLIC_SUPABASE_URL: https://synthetic.supabase.co
+          PUBLIC_SUPABASE_ANON_KEY: sb_publishable_synthetic_public_project_key

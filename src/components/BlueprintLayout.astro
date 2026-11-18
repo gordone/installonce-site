@@ -1,6 +1,8 @@
 ---
 import HaloLogo from './HaloLogo.astro';
 import PostHog from './posthog.astro';
+import { intelligenceConfig } from '../lib/halo-intelligence-config.mjs';
+const { myHaloPath } = intelligenceConfig(import.meta.env);
 const { title, description, noindex = false } = Astro.props;
 const canonical = new URL(Astro.url.pathname, 'https://thehalomethod.co');
 ---
@@ -27,7 +29,7 @@ const canonical = new URL(Astro.url.pathname, 'https://thehalomethod.co');
       <a href="/1607/">1·60·7</a>
       <a href="/build/">Build</a>
       <a href="/community/">Community</a>
-      <a href="/app/">My HALO</a>
+      <a href={myHaloPath}>My HALO</a>
     </nav>
   </header>
   <main><slot /></main>

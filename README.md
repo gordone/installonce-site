@@ -41,3 +41,10 @@ All commands are run from the root of the project, from a terminal:
 ## 👀 Want to learn more?
 
 Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+
+
+## Native HALO Intelligence
+
+The reviewed integration adds `/my-halo/` with large intention/horizon inputs and the editable Identity Card, Blueprint, WEMBT and 1·60·7 dashboard. It reuses the existing Supabase account. Existing `/app/` saved practice, community, settings and operator routes remain available. The rollout flag defaults off; see `docs/halo-intelligence-integration.md` for the exact public configuration, pinned source, cutover checks and rollback. No backend secrets belong in this static site.
+
+Run `npm run test:native-halo` for account/configuration/bundle checks, along with the existing Mission Control and agent bridge tests. Production header/Node settings require actual Render application and live verification after approval; committing the declarations alone does not deploy them.

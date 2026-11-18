@@ -1,0 +1,17 @@
+{
+  "repository": "gordone/halo-intelligence-mvp",
+  "commit": "65bfcbdd8be615373f7d8e7168ac58dc00bceeab",
+  "publicPath": "/halo-intelligence/65bfcbdd8be615373f7d8e7168ac58dc00bceeab",
+  "files": {
+    "index.html": "6ccc6578697785f0eeba86e0cc0819335d33f34019d6a9bc33d1079e537bfb65",
+    "review.js": "e01739d107c46a7bca53398f6dc62968b411484676cfa33761b406a8d84b5aff",
+    "review.css": "fdffa60a314c04782c1ad4ef644a423161250d9873a117f6bae7e889ab3a5d79",
+    "auth-adapter.js": "cb8bfc010cb37923c9376bff57f6374d111b04f53a2718565fe97dd6ba59d25b",
+    "example.json": "ddaa3cb4764a1ce04ead4e5bfde054b12ac64078b198dd927083cc79a1568239",
+    "Anton-Regular.ttf": "a4ba3a92350ebb031da0cb47630ac49eb265082ca1bc0450442f4a83ab947cab",
+    "SourceSans3-Variable.ttf": "042fe2cc0b933e328410d7acbd0aa6a1873dca5aef81875f4bc214b08825c7b9",
+    "Anton-OFL.txt": "eee1d24ff8f553eb732237c7dd9b945a78313ed49ad6de02872a47277741b44a",
+    "SourceSans3-OFL.txt": "ed86f375d70bd39238d13b2ba5bd3bed20b3fe4847fa1356a63f380d2b26a8a5"
+  },
+  "body_template_sha256": "bbeda6087e1a1a9ae3f075abc5f5ee4a2b14dd09c25877be95ec3b30efea07a0"
+}

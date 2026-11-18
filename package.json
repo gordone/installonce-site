@@ -11,7 +11,8 @@
     "preview": "astro preview",
     "astro": "astro",
     "test:mission-control": "node scripts/test-mission-control.mjs",
-    "test:agent-bridge": "node scripts/test-agent-cycle-bridge.mjs"
+    "test:agent-bridge": "node scripts/test-agent-cycle-bridge.mjs",
+    "test:native-halo": "node --test scripts/test-native-halo-auth.mjs scripts/test-native-halo-config.mjs scripts/test-halo-intelligence-bundle.mjs"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.119.0",
