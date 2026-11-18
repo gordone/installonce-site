@@ -4,7 +4,7 @@ Prepared target: **https://thehalomethod.co/my-halo/**. This is an unmerged sour
 
 ## Source and accounts
 
-`src/generated/halo-intelligence-manifest.json` pins the reviewed frontend from `gordone/halo-intelligence-mvp` commit `c434847e1342eea2078d99378f310e4cf320cf2b` (native bridge PR #34). Every bundled asset has a SHA-256; the transformed native body has its own digest. Fonts retain their original licenses. Re-sync only from a matching clean backend checkout with `node scripts/sync-halo-intelligence.mjs SOURCE_CHECKOUT FULL_COMMIT`, then review the diff and run all checks.
+`src/generated/halo-intelligence-manifest.json` pins the reviewed frontend from `gordone/halo-intelligence-mvp` commit `c434847e1342eea2078d99378f310e4cf320cf2b` (native bridge PR #34). Text assets normalize to the source repository's LF form for stable Windows/Linux hashes; font bytes remain unmodified. Every bundled asset has a SHA-256; the transformed native body has its own digest. Fonts retain their original licenses. Re-sync only from a matching clean backend checkout with `node scripts/sync-halo-intelligence.mjs SOURCE_CHECKOUT FULL_COMMIT`, then review the diff and run all checks.
 
 The native page reuses `src/scripts/halo-account.ts` and the existing Supabase client. An existing session auto-connects; signed-out visitors explicitly request a sign-in link in the native dialog. Cancellation preserves entry text; same-owner refresh preserves edits; account changes, external sign-out and back-cache restores obey the backend UI's privacy boundary. Session notifications are scheduled outside Supabase's Auth callback to avoid SDK locks. No account metadata grants operator or moderation privileges.
 

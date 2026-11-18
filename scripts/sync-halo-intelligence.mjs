@@ -20,10 +20,12 @@ mkdirSync(destination,{recursive:true}); mkdirSync('src/generated',{recursive:tr
 for (const name of names) {
   const path=realpathSync(join(directory,name)); const within=relative(directory,path);
   if (within.startsWith('..') || isAbsolute(within)) throw new Error('Source assets must stay inside the UI directory');
-  const bytes=readFileSync(path); files[name]=digest(bytes);
+  const raw=readFileSync(path);
+  const bytes=name.endsWith('.ttf') ? raw : Buffer.from(raw.toString('utf8').replace(/\r\n/g,'\n'));
+  files[name]=digest(bytes);
   if (name !== 'index.html') writeFileSync(join(destination,name),bytes);
 }
-let body=readFileSync(join(directory,'index.html'),'utf8').match(/<body>([\s\S]*)<\/body>/i)?.[1];
+let body=readFileSync(join(directory,'index.html'),'utf8').replace(/\r\n/g,'\n').match(/<body>([\s\S]*)<\/body>/i)?.[1];
 if (!body || !body.includes('href="/review"')) throw new Error('Unrecognized upstream body template');
 body=body.replace('href="/review"','href="/my-halo/"')
   .replace('<button id="disconnect" class="text-button" hidden>Sign out</button>',
