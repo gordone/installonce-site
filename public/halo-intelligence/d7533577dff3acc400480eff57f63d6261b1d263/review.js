@@ -218,7 +218,7 @@ function foldPlanItem(container, id) {
   container.append(fold);
 }
 function focusView(id) {
-  const target = $(id); target.tabIndex = -1; target.focus();
+  const target = $(id); if (target.tabIndex < 0) target.tabIndex = -1; target.focus();
   target.scrollIntoView({ block: "start" });
 }
 for (const name of ["blueprint", "milestones"]) $("view-" + name).addEventListener("click", () => {
