@@ -435,3 +435,6 @@ dialog::backdrop { background: #050811bb; }
 .building-halo span:nth-child(3) { border-color: #c6d5ff; }
 #status { color: #c3cfff; }
 #status.error { color: #ffe0d7; background: #482b29; border-color: #bb877d; }
+textarea::placeholder { color: #61708c; }
+.completion-choice input { accent-color: #5865d8; }
+.object-button:not(.text-button) { background: #1e2944; color: #d5deff; border-color: #46577b; }
