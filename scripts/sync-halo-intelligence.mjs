@@ -12,7 +12,7 @@ if (!/^https:\/\/github\.com\/gordone\/halo-intelligence-mvp(?:\.git)?$/.test(gi
 if (git('status','--porcelain','--','src/halo_intelligence/ui')) throw new Error('Source UI has uncommitted changes');
 const directory = realpathSync(join(source,'src/halo_intelligence/ui'));
 const names=['index.html','review.js','review.css','auth-adapter.js','example.json',
-  'Anton-Regular.ttf','SourceSans3-Variable.ttf','Anton-OFL.txt','SourceSans3-OFL.txt'];
+  'Anton-Regular.ttf','SourceSans3-Variable.ttf','Anton-OFL.txt','SourceSans3-OFL.txt','Caveat-Variable.ttf','Caveat-OFL.txt'];
 const digest = (bytes) => createHash('sha256').update(bytes).digest('hex');
 const files = {};
 const destination = join('public','halo-intelligence',commit);
