@@ -39,7 +39,7 @@ export function createScreens({ state, request, onError, onNavigate, onOpen, onC
           const plan = await request("/halos/" + encodeURIComponent(item.id));
           if (state.epoch !== epoch || state.owner !== owner || state.locked) return;
           if (plan.owner_id !== owner || plan.id !== item.id) throw Object.assign(new Error(), { status: 503 });
-          remember(plan);
+          if (state.recent.some((h) => h.id === plan.id)) remember(plan);
         } catch (error) {
           if (state.epoch !== epoch || state.owner !== owner || error.name === "AbortError") return;
           failed.add(item.id);
@@ -106,6 +106,8 @@ export function createScreens({ state, request, onError, onNavigate, onOpen, onC
   }
   function render() {
     if (cacheOwner !== state.owner) { summaries.clear(); failed.clear(); cacheOwner = state.owner; }
+    const listed = new Set(state.recent.map((h) => h.id));
+    for (const id of summaries.keys()) if (!listed.has(id)) { summaries.delete(id); failed.delete(id); }
     if (state.saved && !state.locked) remember(state.plan);
     document.body.dataset.haloScreen = view;
     if (view === "overview" && location.pathname === paths.overview && state.saved && state.owner && !state.locked && !state.busy && state.plan?.owner_id === state.owner && requestedPlan() !== state.plan.id) history.replaceState({}, "", paths.overview + "?halo=" + encodeURIComponent(state.plan.id));
@@ -118,10 +120,8 @@ export function createScreens({ state, request, onError, onNavigate, onOpen, onC
     $("plus-screen").hidden = view !== "plus";
     if (view === "dashboard") renderList($("dashboard-screen"), false);
     if (view === "plus") renderList($("plus-screen"), true);
-    if (!state.owner || state.locked) {
-      if (view !== "dashboard") $("dashboard-screen").replaceChildren();
-      if (view !== "plus") $("plus-screen").replaceChildren();
-    }
+    if (view !== "dashboard") $("dashboard-screen").replaceChildren();
+    if (view !== "plus") $("plus-screen").replaceChildren();
     $("overview-report-state").textContent = state.locked ? "Reconnect to continue" : state.sample ? "Read-only example" : state.plan?.cycle_execution ? `${new Set(state.plan.cycle_execution.daily_logs.map((d) => d.day_offset)).size} of 7 day reports recorded` : state.plan ? "Ready for your first small start" : "Choose a HALO or create one below";
     if (view !== "overview" && state.owner && !state.locked) loadSummaries();
   }
