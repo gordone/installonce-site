@@ -442,3 +442,6 @@ textarea::placeholder { color: #61708c; }
 textarea.identity-writing { display: block; width: calc(100% - 52px); min-height: 180px; resize: vertical; border: 1px solid #8494b4; border-radius: 6px; padding: 10px; }
 .identity-writing-actions { display: flex; gap: 12px; flex-wrap: wrap; }
 .identity-writing-note { font: 15px/1.5 "Source Sans 3", sans-serif; }
+.identity-writing-label, .identity-writing-note { color: #334a7b; }
+.identity-writing-actions .button.inverse { color: #fff; background: #4055a1; border-color: #4055a1; }
+.identity-writing-actions .text-button { color: #334a7b; }
