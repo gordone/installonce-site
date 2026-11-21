@@ -1,10 +1,10 @@
 {
   "repository": "gordone/halo-intelligence-mvp",
-  "commit": "5f8f313e4a80adf75e56b51916e0ea0973b86da5",
-  "publicPath": "/halo-intelligence/5f8f313e4a80adf75e56b51916e0ea0973b86da5",
+  "commit": "72efa7c3e6659ce1c1ef1e1dd2975a72c2c87453",
+  "publicPath": "/halo-intelligence/72efa7c3e6659ce1c1ef1e1dd2975a72c2c87453",
   "files": {
     "index.html": "1ca19945d472e4a06e22802efee13f945acc85c91aba76a4fa3da5662656085e",
-    "review.js": "65dc4ec7752edc8bef5cbf3fe5821526ceb643fc19869f7c95f984e302913d7b",
+    "review.js": "5a28a9e47188d46e6e2e2701937a6240643f69673559e4b8f2952418895a0379",
     "review.css": "253aa1e9fb9dadd55e57f0cd855d1450c1aeba4f34dac69027416c276db1cb11",
     "auth-adapter.js": "cb8bfc010cb37923c9376bff57f6374d111b04f53a2718565fe97dd6ba59d25b",
     "example.json": "ddaa3cb4764a1ce04ead4e5bfde054b12ac64078b198dd927083cc79a1568239",

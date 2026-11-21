@@ -79,6 +79,9 @@ function handleError(error) {
   if (error.code === "card_ai_unavailable") {
     message("The server returned default templates instead of AI-generated content. Your current HALO is unchanged. Personalized generation must be enabled before rebuilding from your card.", true);
     $("retry").hidden = true;
+  } else if (error.code === "card_api_upgrade_required") {
+    message("The AI server returned a plan without the narrative Blueprint. It needs the current generation update before all three sections can be rebuilt. Your earlier HALO is unchanged.", true);
+    $("retry").hidden = true;
   } else if (error.status === 401) {
     abortRequests(); state.token = null; state.locked = true;
     message("Your session expired. Reconnect your account to continue. Unsaved edits stay in this tab.", true);
@@ -1021,6 +1024,7 @@ $("generate-from-card").addEventListener("click", () => {
       const result = await aiRequest("/halos/generate", { intention: build.card.statement, horizon_days: build.horizon });
       current(epoch);
       if (result.plan?.generation?.mode !== "llm") throw Object.assign(new Error(), { code: "card_ai_unavailable" });
+      if (!result.plan.blueprint?.story || Object.keys(storyLabels).some((key) => typeof result.plan.blueprint.story[key] !== "string" || !result.plan.blueprint.story[key].trim())) throw Object.assign(new Error(), { code: "card_api_upgrade_required" });
       if (result.plan.owner_id !== build.owner || result.plan.intention !== build.card.statement || result.plan.horizon_days !== build.horizon) throw Object.assign(new Error(), { status: 503 });
       build.result = result;
     }
