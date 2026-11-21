@@ -3,6 +3,11 @@
 export function createScreens({ state, request, onError, onNavigate, onOpen, onCreate }) {
   const paths = { dashboard: "/my-halo/dashboard/", overview: "/my-halo/overview/", plus: "/my-halo/plus/" };
   const fromPath = () => Object.entries(paths).find(([, path]) => path === location.pathname)?.[0] || "overview";
+  const requestedPlan = () => {
+    if (location.pathname !== paths.overview) return null;
+    const id = new URLSearchParams(location.search).get("halo");
+    return id && /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(id) ? id : null;
+  };
   let view = fromPath(), cacheOwner = null, loading = null, focusedPlan = null;
   let focusOverview = location.pathname === paths.overview;
   const summaries = new Map(), failed = new Set();
@@ -103,6 +108,7 @@ export function createScreens({ state, request, onError, onNavigate, onOpen, onC
     if (cacheOwner !== state.owner) { summaries.clear(); failed.clear(); cacheOwner = state.owner; }
     if (state.saved && !state.locked) remember(state.plan);
     document.body.dataset.haloScreen = view;
+    if (view === "overview" && location.pathname === paths.overview && state.saved && state.owner && !state.locked && !state.busy && state.plan?.owner_id === state.owner && requestedPlan() !== state.plan.id) history.replaceState({}, "", paths.overview + "?halo=" + encodeURIComponent(state.plan.id));
     for (const control of document.querySelectorAll(".screen-tabs [data-halo-screen]")) {
       if (control.dataset.haloScreen === view) control.setAttribute("aria-current", "page"); else control.removeAttribute("aria-current");
       control.setAttribute("aria-disabled", String(state.busy));
@@ -123,8 +129,13 @@ export function createScreens({ state, request, onError, onNavigate, onOpen, onC
     event.preventDefault(); if (state.busy) return;
     select(control.dataset.haloScreen); onNavigate(); $(view === "overview" ? "overview-screen" : view + "-screen").focus();
   });
-  window.addEventListener("popstate", () => { view = fromPath(); focusOverview = view === "overview"; onNavigate(); });
-  return { render, select, shouldFocusOverview() {
+  window.addEventListener("popstate", () => {
+    view = fromPath(); focusOverview = view === "overview";
+    const id = requestedPlan();
+    if (view === "overview" && id && state.owner && !state.locked && !state.busy && id !== state.plan?.id) onOpen(id);
+    else onNavigate();
+  });
+  return { render, select, requestedPlan, shouldFocusOverview() {
     if (!focusOverview || view !== "overview" || !state.plan || state.locked || focusedPlan === state.plan.id) return false;
     focusedPlan = state.plan.id; return true;
   } };

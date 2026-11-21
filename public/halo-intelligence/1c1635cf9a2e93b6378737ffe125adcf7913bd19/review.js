@@ -964,7 +964,7 @@ $("connect").addEventListener("click", async () => {
     if (previousOwner && previousOwner !== session.owner_id) { state.entryText = ""; $("horizon").value = "90"; $("custom-days").value = "30"; $("custom-days").hidden = $("custom-label").hidden = true; }
     state.owner = session.owner_id; state.locked = false;
     await refreshRecent();
-    if (!state.plan && !state.entryText.trim() && state.recent.length) { state.plan = await request("/halos/" + encodeURIComponent(state.recent[0].id)); state.saved = true; }
+    if (!state.plan && !state.entryText.trim() && (screens.requestedPlan() || state.recent.length)) { state.plan = await request("/halos/" + encodeURIComponent(screens.requestedPlan() || state.recent[0].id)); state.saved = true; }
     render(); message(previousOwner && previousOwner !== session.owner_id ? "Connected to a different account. The previous account's unsaved work was cleared from this tab." : state.dirty ? "Connected. Your unsaved edits are still here." : "Connected. Your workspace is ready.");
   });
 });
