@@ -1,10 +1,10 @@
 {
   "repository": "gordone/halo-intelligence-mvp",
-  "commit": "99593019fd8ae8eba9e5f6546d139c96017689c9",
-  "publicPath": "/halo-intelligence/99593019fd8ae8eba9e5f6546d139c96017689c9",
+  "commit": "5f8f313e4a80adf75e56b51916e0ea0973b86da5",
+  "publicPath": "/halo-intelligence/5f8f313e4a80adf75e56b51916e0ea0973b86da5",
   "files": {
-    "index.html": "d8a83b23eacd954f5d83bcc4e8860e50956e8ef5253dd39f17bcde90bf85a9c0",
-    "review.js": "c1ec61bfea2dbcb35176f1a9657517eadb4efefd95cd22b96eadff2814361da4",
+    "index.html": "1ca19945d472e4a06e22802efee13f945acc85c91aba76a4fa3da5662656085e",
+    "review.js": "65dc4ec7752edc8bef5cbf3fe5821526ceb643fc19869f7c95f984e302913d7b",
     "review.css": "253aa1e9fb9dadd55e57f0cd855d1450c1aeba4f34dac69027416c276db1cb11",
     "auth-adapter.js": "cb8bfc010cb37923c9376bff57f6374d111b04f53a2718565fe97dd6ba59d25b",
     "example.json": "ddaa3cb4764a1ce04ead4e5bfde054b12ac64078b198dd927083cc79a1568239",
@@ -15,5 +15,5 @@
     "Caveat-Variable.ttf": "0bdb6b660482d31531b3945849fba5916b3ef8695da7024a9e6b9ee3c4157988",
     "Caveat-OFL.txt": "1f9d81d094273d82f3898a1ee8b598a717d050ecbf5ff7bede105b704880157b"
   },
-  "body_template_sha256": "ce15955c44fcd484c3a63cc19b305c7637ff0d815b092056fd7de2e93b6eb70e"
+  "body_template_sha256": "4d462d0eb2d32250b6d50143e27beb50381778cb6c59941381b934729d0c2414"
 }
