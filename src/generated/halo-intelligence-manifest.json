@@ -1,12 +1,12 @@
 {
   "repository": "gordone/halo-intelligence-mvp",
-  "commit": "0a32a292b18e8435fec09bc9bbd221fc9b2099bc",
-  "publicPath": "/halo-intelligence/0a32a292b18e8435fec09bc9bbd221fc9b2099bc",
+  "commit": "9d29c4d06f26ebdb1983c0444df185a2cd0e9ddf",
+  "publicPath": "/halo-intelligence/9d29c4d06f26ebdb1983c0444df185a2cd0e9ddf",
   "files": {
-    "index.html": "9fb4712ad1866cbcf502a244eb08db9c3de1a2b29a98d77c15ac5ae78d3b24ae",
+    "index.html": "870617cfbd40e19096b19c99b979c6f0ca75841e4f8963196aac8f2bd3879c98",
     "review.js": "a053790bebc27738ee814e6cb209d7e2f3eeb8fc349e6d0f38e0b34cab0a9976",
-    "screens.js": "db80b5aa53eab3b224cf9a925459177cf6142031f62ebec8ff4cc4ff42e48d81",
-    "review.css": "5286f94652fd34f45a3b6c2b9a15ec2ceb8966753400dcc2322ebdf4dee92232",
+    "screens.js": "45ef25edbe9d4e790288a6aa00ac23e7f817eede96ae8308cbe0d7eb7e454513",
+    "review.css": "c51a90f3b390fe62121e747b908e0fe83ac86ae004cb837269ba6ada5e5a200a",
     "auth-adapter.js": "cb8bfc010cb37923c9376bff57f6374d111b04f53a2718565fe97dd6ba59d25b",
     "example.json": "ddaa3cb4764a1ce04ead4e5bfde054b12ac64078b198dd927083cc79a1568239",
     "Anton-Regular.ttf": "a4ba3a92350ebb031da0cb47630ac49eb265082ca1bc0450442f4a83ab947cab",
@@ -16,5 +16,5 @@
     "Caveat-Variable.ttf": "0bdb6b660482d31531b3945849fba5916b3ef8695da7024a9e6b9ee3c4157988",
     "Caveat-OFL.txt": "1f9d81d094273d82f3898a1ee8b598a717d050ecbf5ff7bede105b704880157b"
   },
-  "body_template_sha256": "c64430889c74ebfb8822b79a63886ab4309417cd66f90a4867819b7f61d0de34"
+  "body_template_sha256": "d69ce737cf3aa5bfe98e0e0de33922f41ade8f9b1b3951919d721af86a210817"
 }
