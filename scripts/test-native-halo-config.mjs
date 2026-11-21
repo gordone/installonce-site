@@ -6,7 +6,7 @@ const values = { PUBLIC_HALO_INTELLIGENCE_API_URL:'https://api.halo.test',
   PUBLIC_SUPABASE_ANON_KEY:'sb_publishable_synthetic_public_project_key',
   PUBLIC_HALO_INTELLIGENCE_ENABLED:'1' };
 test('valid explicit configuration switches the native navigation only when enabled',()=>{
-  assert.equal(intelligenceConfig(values).myHaloPath,'/my-halo/');
+  assert.equal(intelligenceConfig(values).myHaloPath,'/my-halo/dashboard/');
   assert.equal(intelligenceConfig({...values,PUBLIC_HALO_INTELLIGENCE_ENABLED:'0'}).myHaloPath,'/app/');
   assert.equal(intelligenceConfig({}).configured,false);
 });
