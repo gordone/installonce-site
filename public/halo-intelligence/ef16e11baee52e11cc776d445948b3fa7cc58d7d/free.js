@@ -630,7 +630,14 @@ function proposeInterpretation() {
       horizon_days:state.plan.horizon_days, based_on_plan_id:state.plan.id, expected_revision:state.plan.revision,
       ...(state.outputLanguage ? {output_language:state.outputLanguage} : {})};
     if (!state.interpretationAttempt || JSON.stringify(state.interpretationAttempt.body) !== JSON.stringify(body)) state.interpretationAttempt = {body,key:crypto.randomUUID()};
-    const result = await api("/halos/generate", "POST", body, {"Idempotency-Key":state.interpretationAttempt.key});
+    let result;
+    try {
+      result = await api("/halos/generate", "POST", body, {"Idempotency-Key":state.interpretationAttempt.key});
+    } catch (error) {
+      if (epoch !== state.epoch) return;
+      if (error.status && !["generation_pending", "generation_recovery_required"].includes(error.code)) state.interpretationAttempt = null;
+      throw error;
+    }
     if (epoch !== state.epoch) return;
     owned(result.plan);
     if (result.plan.intention_record?.source_plan_id !== state.plan.id) throw {status:503,code:"invalid_response"};
