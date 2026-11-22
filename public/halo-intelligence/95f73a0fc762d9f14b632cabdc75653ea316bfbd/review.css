@@ -490,3 +490,5 @@ body[data-overview-report="true"] .overview-heading,body[data-overview-report="t
 body[data-overview-report="true"][data-overview-detail="false"] #review { display:none; }
 body[data-overview-report="true"][data-overview-detail="true"] .overview-report>.report-card,body[data-overview-report="true"][data-overview-detail="true"] .report-start,body[data-overview-report="true"][data-overview-detail="true"] .report-days,body[data-overview-report="true"][data-overview-detail="true"] .report-links { display:none; }
 @media(max-width:480px) { .report-heading { display:block; } .report-card { padding:16px; } .report-links { gap:8px; } .report-links button,.report-links a { padding:12px; } }
+
+#original-intention { white-space: pre-wrap; overflow-wrap: anywhere; }

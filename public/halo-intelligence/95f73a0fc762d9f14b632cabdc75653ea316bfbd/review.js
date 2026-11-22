@@ -373,7 +373,7 @@ function render() {
   }
   const plan = state.plan;
   $("draft-label").textContent = state.sample ? "Example · not saved" : state.saved ? "Saved · revision " + plan.revision : "Draft · needs review";
-  $("original-intention").textContent = plan.intention;
+  $("original-intention").textContent = plan.intention_record?.original_intention ?? plan.intention;
   $("identity-statement").textContent = plan.identity_card.statement;
   $("identity-writing").value = state.edits.statement ?? plan.identity_card.statement;
   $("identity-question").textContent = plan.identity_card.question;
@@ -1020,17 +1020,19 @@ $("generate-from-card").addEventListener("click", () => {
   if (!state.cardBuild || state.cardBuild.sourceId !== state.plan.id || state.cardBuild.sourceRevision !== state.plan.revision) {
     state.cardBuild = { owner: state.owner, sourceId: state.plan.id, sourceRevision: state.plan.revision,
       horizon: state.plan.horizon_days,
+      intention: state.plan.intention_record?.current_intention ?? state.plan.intention,
+      originalIntention: state.plan.intention_record?.original_intention ?? state.plan.intention,
       card: Object.fromEntries(Object.keys(editFields).map((key) => [key, state.plan.identity_card[key]])), result: null, saved: null };
   }
   const build = state.cardBuild;
   perform("Generating Blueprint, Timeline and Milestones from your saved Identity Card…", async (epoch) => {
     if (state.owner !== build.owner || state.plan?.id !== build.sourceId || state.plan.revision !== build.sourceRevision || state.dirty || state.editing) throw Object.assign(new Error(), { status: 409 });
     if (!build.result) {
-      const result = await aiRequest("/halos/generate", { intention: build.card.statement, horizon_days: build.horizon });
+      const result = await aiRequest("/halos/generate", { intention: build.intention, horizon_days: build.horizon, based_on_plan_id:build.sourceId, expected_revision:build.sourceRevision });
       current(epoch);
       if (result.plan?.generation?.mode !== "llm") throw Object.assign(new Error(), { code: "card_ai_unavailable" });
       if (!result.plan.blueprint?.story || Object.keys(storyLabels).some((key) => typeof result.plan.blueprint.story[key] !== "string" || !result.plan.blueprint.story[key].trim())) throw Object.assign(new Error(), { code: "card_api_upgrade_required" });
-      if (result.plan.owner_id !== build.owner || result.plan.intention !== build.card.statement || result.plan.horizon_days !== build.horizon) throw Object.assign(new Error(), { status: 503 });
+      if (result.plan.owner_id !== build.owner || result.plan.intention !== build.intention || result.plan.intention_record?.original_intention !== build.originalIntention || result.plan.horizon_days !== build.horizon) throw Object.assign(new Error(), { status: 503 });
       build.result = result;
     }
     if (!build.saved) {
