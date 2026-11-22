@@ -627,8 +627,7 @@ function proposeInterpretation() {
   run(async () => {
     const epoch = state.epoch;
     const body = {intention:state.plan.intention_record?.current_intention ?? state.plan.intention,
-      horizon_days:state.plan.horizon_days, based_on_plan_id:state.plan.id, expected_revision:state.plan.revision,
-      ...(state.outputLanguage ? {output_language:state.outputLanguage} : {})};
+      horizon_days:state.plan.horizon_days, based_on_plan_id:state.plan.id, expected_revision:state.plan.revision};
     if (!state.interpretationAttempt || JSON.stringify(state.interpretationAttempt.body) !== JSON.stringify(body)) state.interpretationAttempt = {body,key:crypto.randomUUID()};
     let result;
     try {
