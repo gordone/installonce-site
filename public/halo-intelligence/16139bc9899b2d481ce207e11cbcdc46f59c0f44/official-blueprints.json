@@ -1,0 +1,143 @@
+{
+  "edition": "HALO Interior v32",
+  "source_sha256": "02aa2287c4093721345ee50070d45b1507b98653682018d264d1885dade005c2",
+  "verification": "All 17 Identity Cards and questions matched the supplied manuscript after typography normalization. Linked website prose includes editorial adaptations.",
+  "blueprints": [
+    {
+      "id": "debt-free",
+      "number": 1,
+      "title": "Debt-Free",
+      "identity": "I am someone who handles debt deliberately.",
+      "question": "Would someone handling debt deliberately finance this?",
+      "pdf_page": 71
+    },
+    {
+      "id": "financial-organization",
+      "number": 2,
+      "title": "Financial Organization",
+      "identity": "I am someone who processes, decides and clears.",
+      "question": "Would someone who processes, decides and clears let this sit?",
+      "pdf_page": 71
+    },
+    {
+      "id": "wealth-building",
+      "number": 3,
+      "title": "Wealth Building",
+      "identity": "I am someone who handles money deliberately and builds stability where I can.",
+      "question": "Would a wealth builder make this decision?",
+      "pdf_page": 72
+    },
+    {
+      "id": "fitness",
+      "number": 4,
+      "title": "Fitness",
+      "identity": "I am someone who takes care of my body.",
+      "question": "What would someone who takes care of their body do in this moment?",
+      "pdf_page": 74
+    },
+    {
+      "id": "rested",
+      "number": 5,
+      "title": "Rested",
+      "identity": "I am someone who recovers on purpose.",
+      "question": "Would someone who recovers on purpose still be awake right now?",
+      "pdf_page": 75
+    },
+    {
+      "id": "the-body-i-have-today",
+      "number": 6,
+      "title": "The Body I Have Today",
+      "identity": "I am someone who trains with the body I have today.",
+      "question": "What does my body need today, and did I give it that?",
+      "pdf_page": 75
+    },
+    {
+      "id": "parenting",
+      "number": 7,
+      "title": "Parenting",
+      "identity": "I am a parent who practices presence and repairs when I get it wrong.",
+      "question": "What am I teaching by how I handle this?",
+      "pdf_page": 77
+    },
+    {
+      "id": "partnership",
+      "number": 8,
+      "title": "Partnership",
+      "identity": "I am the partner I would want to have.",
+      "question": "Did I show up today?",
+      "pdf_page": 78
+    },
+    {
+      "id": "calm",
+      "number": 9,
+      "title": "Calm",
+      "identity": "I am someone who stays steady under pressure. I regulate before I respond.",
+      "question": "Would someone who stays steady escalate this?",
+      "pdf_page": 78
+    },
+    {
+      "id": "confidence",
+      "number": 10,
+      "title": "Confidence",
+      "identity": "I am someone who enters the room as an equal and contributes. I speak without waiting to be invited.",
+      "question": "Am I shrinking or contributing?",
+      "pdf_page": 79
+    },
+    {
+      "id": "leadership",
+      "number": 11,
+      "title": "Leadership",
+      "identity": "I am a leader who turns ambiguity into clarity.",
+      "question": "Did I create clarity or confusion?",
+      "pdf_page": 81
+    },
+    {
+      "id": "build-without-permission",
+      "number": 12,
+      "title": "Build Without Permission",
+      "identity": "I am someone who builds at full size.",
+      "question": "Would I wait for someone else’s yes right now?",
+      "pdf_page": 82
+    },
+    {
+      "id": "creation",
+      "number": 13,
+      "title": "Creation",
+      "identity": "I am a creator who ships.",
+      "question": "Did I ship this week?",
+      "pdf_page": 82
+    },
+    {
+      "id": "the-third-act",
+      "number": 14,
+      "title": "The Third Act",
+      "identity": "I am a builder in my third act.",
+      "question": "What did I build or transfer today?",
+      "pdf_page": 83
+    },
+    {
+      "id": "the-side-build",
+      "number": 15,
+      "title": "The Side-Build",
+      "identity": "I am a founder with a day job.",
+      "question": "Did the build touch the market this week?",
+      "pdf_page": 85
+    },
+    {
+      "id": "operator-to-owner",
+      "number": 16,
+      "title": "Operator To Owner",
+      "identity": "I am an owner, not the operator.",
+      "question": "Is this task mine, or am I hiding in it?",
+      "pdf_page": 86
+    },
+    {
+      "id": "business-owner",
+      "number": 17,
+      "title": "Business Owner",
+      "identity": "I am answerable for what this business produces.",
+      "question": "Am I running it, or hiding in it?",
+      "pdf_page": 86
+    }
+  ]
+}

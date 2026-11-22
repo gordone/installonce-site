@@ -1,5 +1,5 @@
 const events = new Set(['halo_preview_active','halo_preview_feature_used','halo_preview_price_feedback']);
-const features = new Set(['home','create','today','review','halos','plus','account','library','repeat',
+const features = new Set(['interpretation','home','create','today','review','halos','plus','account','library','repeat',
   'initial_generation','activation','day_report','evidence','milestone_check','weekly_repeat','identity_edit','saved_change']);
 const choices = new Set(['monthly','annual','prefer_free','not_yet']);
 export function previewProperties(detail) {
