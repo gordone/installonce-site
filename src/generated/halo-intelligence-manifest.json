@@ -1,17 +1,17 @@
 {
   "repository": "gordone/halo-intelligence-mvp",
-  "commit": "2cd91b1167aa94ab1988ffc7e519ff971675c11d",
-  "publicPath": "/halo-intelligence/2cd91b1167aa94ab1988ffc7e519ff971675c11d",
+  "commit": "04e3c9d19c43c1112d9fc929788f384bd5f6cc2e",
+  "publicPath": "/halo-intelligence/04e3c9d19c43c1112d9fc929788f384bd5f6cc2e",
   "files": {
-    "index.html": "870617cfbd40e19096b19c99b979c6f0ca75841e4f8963196aac8f2bd3879c98",
-    "review.js": "a053790bebc27738ee814e6cb209d7e2f3eeb8fc349e6d0f38e0b34cab0a9976",
+    "index.html": "4891978f764c3bc6367a37db3b253a52933fe050eb38b04c909239785b4ecf35",
+    "review.js": "200b486402a6d73e5852c540049453557da1673b18b6ef3399a2fe8784e513f4",
     "screens.js": "45ef25edbe9d4e790288a6aa00ac23e7f817eede96ae8308cbe0d7eb7e454513",
-    "review.css": "c51a90f3b390fe62121e747b908e0fe83ac86ae004cb837269ba6ada5e5a200a",
+    "review.css": "3d8f905c4a03162f426083a010cd608292deaa6e904a210bd4254dc051718d7d",
     "auth-adapter.js": "cb8bfc010cb37923c9376bff57f6374d111b04f53a2718565fe97dd6ba59d25b",
     "example.json": "ddaa3cb4764a1ce04ead4e5bfde054b12ac64078b198dd927083cc79a1568239",
     "free.html": "be0281024e8a9f37e3a4d9a3ef46ea05c44867a96fddb15b4d165b3d7bdc4995",
-    "free.js": "ebf9864b3187a4f5e18afaa5d256cece65bbd7238a88c9cde817a7ff00eaa3e4",
-    "free.css": "efa3ee1c90e6cf952e98c743e900a43d21b49c6673e24608b4be9a1d0db34c2c",
+    "free.js": "91fc451977fc429df61d081719ef27536412d03cb5724254118dc679b26ba14a",
+    "free.css": "d9c1c5e89339cb6a13968df21108a19d12472d4128991b74ab703e48ddf7c307",
     "free-example.json": "772ea104a54e6353179efe03f7f36d37fbe93b917267c57aadba77f6ae7f517f",
     "official-blueprints.json": "25708514b55313e2c5be2d01c98ec6c6806708fbbdf2ccdf86ff40d23eb0daf2",
     "Anton-Regular.ttf": "a4ba3a92350ebb031da0cb47630ac49eb265082ca1bc0450442f4a83ab947cab",
@@ -21,6 +21,6 @@
     "Caveat-Variable.ttf": "0bdb6b660482d31531b3945849fba5916b3ef8695da7024a9e6b9ee3c4157988",
     "Caveat-OFL.txt": "1f9d81d094273d82f3898a1ee8b598a717d050ecbf5ff7bede105b704880157b"
   },
-  "body_template_sha256": "d69ce737cf3aa5bfe98e0e0de33922f41ade8f9b1b3951919d721af86a210817",
+  "body_template_sha256": "6becf8bcbf0b82886d829b12ce29d59a4560bcb2853db365853ff44488810b2d",
   "free_body_template_sha256": "7ea0c1c0fb35b1244087abe29d37596db656c0a548e1113e295c0ea4093fd96d"
 }
