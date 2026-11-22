@@ -10,7 +10,7 @@ const requestedPlan = () => {
   return value && /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(value) ? value : null;
 };
 const state = { owner: null, token: null, epoch: 0, busy: false, connecting: false, locked: false,
-  view: nativeHost ? routeView() : "create", policy: null, plan: null, initiative: null, history: [], sample: false,
+  view: nativeHost && routeView() !== "today" ? routeView() : "create", policy: null, plan: null, initiative: null, history: [], sample: false,
   items: [], cursor: null, active: [], entry: "", horizon: "7", attempt: null, receipt: null,
   editor: null, repeat: null, localSignedOut: false };
 const requests = new Set();
@@ -51,7 +51,8 @@ function busy(value, building = false) {
   state.busy = value; $("building").hidden = !(value && building);
   $("main").setAttribute("aria-busy", String(value));
   for (const el of document.querySelectorAll("button, input, select, textarea")) {
-    if (el.dataset.allowBusy === "true") continue;
+    // The trusted host owns its sign-in dialog's loading/cancel state.
+    if (el.dataset.allowBusy === "true" || el.closest("#halo-signin-dialog")) continue;
     el.disabled = value || el.dataset.baseDisabled === "true";
   }
 }
@@ -186,6 +187,9 @@ async function connect(interactive = true) {
     if (interactive) await auth.signIn();
     const token = await auth.getAccessToken();
     if (epoch !== state.epoch) return;
+    if (!token && !interactive && !oldOwner) {
+      state.locked = false; state.token = null; render(); notice(""); return;
+    }
     if (!token) throw { status: 401, code: "not_signed_in" };
     const session = await api("/session", "GET", undefined, {}, token, epoch);
     if (!session || typeof session.owner_id !== "string") throw { status: 503, code: "invalid_response" };
@@ -210,6 +214,8 @@ async function connect(interactive = true) {
     if (state.editor && oldOwner === state.owner) displayEditor();
   } catch (error) {
     if (epoch !== state.epoch) return;
+    if (!oldOwner && !state.owner) state.locked = false;
+    if (error.name === "AbortError" && !oldOwner) { render(); notice(""); return; }
     if (state.owner && !state.locked) { state.policy = null; state.view = "account"; render(); notice(failure(error), reloadCurrent); }
     else { render(); notice("We could not connect. Try connecting your account again."); }
   } finally { if (epoch === state.epoch) { state.connecting = false; busy(false); renderHeader(); } }
@@ -537,7 +543,7 @@ function renderPlan() {
 
 function showCreate() { state.view = "create"; if (nativeHost) history.pushState({}, "", nativePaths.today); notice(""); render(); $("intention")?.focus(); }
 function upgradePreview() {
-  showEditor({ title: "A longer horizon · Plus preview", description: "Longer horizons and Plus checkout are not available in this preview. Your intention stays here. You can continue with a seven-day practice.",
+  showEditor({ title: "A longer horizon · Plus preview", description: "Longer horizons need a manually granted Plus Preview invitation. Paid checkout is off. Your intention stays here; you can continue with a seven-day practice.",
     fields: [], save: "Keep 7 days", async submit() { state.horizon = "7"; closeEditor(); render(); } });
 }
 function createScreen() {
@@ -655,6 +661,8 @@ function accountScreen() {
   if (!state.owner || state.locked) { el.append(panel("Your private practice", node("p", "Connect an account to save and continue your HALO."))); return el; }
   if (!state.policy) return stack(node("h1", "Account"), panel("Account information unavailable", node("p", "Your saved work remains available. Refresh before creating or changing a HALO."), button("Refresh account information", () => run(reloadCurrent, { readRetry: reloadCurrent }))));
   const p = state.policy;
+  if (p.entitlement === "plus_preview" && p.effective_until) el.append(panel("Your Plus Preview",
+    node("p", "Preview access ends " + new Date(p.effective_until).toLocaleString() + ". No subscription or payment was created. Saved work remains readable after expiry.", "secondary")));
   el.append(panel(p.tier === "free" ? "HALO Free" : "HALO Plus Preview",
     node("p", `${p.limits.active_initiatives} active HALO${p.limits.active_initiatives === 1 ? "" : "s"} allowed · Seven-day practice within your chosen horizon.`, "secondary"),
     node("p", `${p.usage.initial_requests_today} of ${p.limits.initial_generation_requests_per_day} initial AI requests used today.`),

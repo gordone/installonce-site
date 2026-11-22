@@ -1,7 +1,7 @@
 {
   "repository": "gordone/halo-intelligence-mvp",
-  "commit": "3604b8cce2665397fcc47619c7888e56fced08e7",
-  "publicPath": "/halo-intelligence/3604b8cce2665397fcc47619c7888e56fced08e7",
+  "commit": "d8340fdca8580f09dd61f36f8951a51e7fdf2f26",
+  "publicPath": "/halo-intelligence/d8340fdca8580f09dd61f36f8951a51e7fdf2f26",
   "files": {
     "index.html": "870617cfbd40e19096b19c99b979c6f0ca75841e4f8963196aac8f2bd3879c98",
     "review.js": "a053790bebc27738ee814e6cb209d7e2f3eeb8fc349e6d0f38e0b34cab0a9976",
@@ -10,7 +10,7 @@
     "auth-adapter.js": "cb8bfc010cb37923c9376bff57f6374d111b04f53a2718565fe97dd6ba59d25b",
     "example.json": "ddaa3cb4764a1ce04ead4e5bfde054b12ac64078b198dd927083cc79a1568239",
     "free.html": "0aca748531270f93c93ebb02aa8e61731d8f5da2630f0660be9a128e29f96aa1",
-    "free.js": "697f54aa05260635c86f60ceb2fed9eca75ba03d6b7893e368b33649fcde9a5d",
+    "free.js": "1f6cf9a4e411e1aa7b801a09e296e6b29e657610b8b31a9db5156842dd5c7379",
     "free.css": "7ecb7f2cf88e78b59549c98ce892ddc08d213e8c2a3a4ae171610fbd86de668c",
     "free-example.json": "772ea104a54e6353179efe03f7f36d37fbe93b917267c57aadba77f6ae7f517f",
     "official-blueprints.json": "25708514b55313e2c5be2d01c98ec6c6806708fbbdf2ccdf86ff40d23eb0daf2",
