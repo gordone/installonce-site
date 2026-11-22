@@ -26,3 +26,9 @@ New private intention/Blueprint text is not wired into PostHog/session recording
 Set `PUBLIC_HALO_INTELLIGENCE_ENABLED=0` and rebuild to restore the previous My HALO navigation. The prior `/app/` practice/data remains accessible throughout. Disable remote generation or roll back the backend image if needed, retaining the current private database, erasure guards and receipt cleanup. Do not restore an old backup into traffic without replaying later erasure guards and removing erased content. Keep prior pinned assets for reviewed rollback; do not erase member data or reset credentials as a routing rollback.
 
 No infrastructure, credentials, account state, messages, purchases, merges or deployments are changed while preparing this PR. Activation remains the user's final batch-approval gate.
+
+### Identity Card home restoration
+
+The Free/Plus workspace returns to the book-style ruled Identity Card with Caveat handwriting and blue paper tint. On automatic connection, the overview opens the single active HALO, or the first available saved HALO, as a card workspace. This is read-only navigation: it never activates a draft or records practice. Explicit My HALOs and Plus routes still open their respective screens.
+
+Home returns to the selected card. View Blueprint, View Milestones and View Timeline navigate to the editable objects on the same page; Today and My 1·60·7 Overview open the daily report. The existing account verification, server entitlement checks, evidence and billing gates are unchanged. Mobile Home navigation is available alongside Today. The compiled native regression checks saved-card preservation after reload and navigation at 320px.
