@@ -30,3 +30,12 @@ jobs:
           PUBLIC_HALO_INTELLIGENCE_API_URL: https://api.halo.test
           PUBLIC_SUPABASE_URL: https://synthetic.supabase.co
           PUBLIC_SUPABASE_ANON_KEY: sb_publishable_synthetic_public_project_key
+
+      - name: Build selected-tester Free and Plus preview with synthetic settings
+        run: npm run build && node scripts/test-native-halo-build.mjs
+        env:
+          PUBLIC_HALO_TIERS_ENABLED: "1"
+          PUBLIC_HALO_INTELLIGENCE_ENABLED: "1"
+          PUBLIC_HALO_INTELLIGENCE_API_URL: https://api.halo.test
+          PUBLIC_SUPABASE_URL: https://synthetic.supabase.co
+          PUBLIC_SUPABASE_ANON_KEY: sb_publishable_synthetic_public_project_key

@@ -36,3 +36,10 @@ test('enabled incomplete configuration fails the build without exposing supplied
     assert.throws(()=>intelligenceConfig({...values,[key]:'PRIVATE'}),error=>!error.message.includes('PRIVATE'));
   }
 });
+
+test('tier UI is explicit and uses Today rather than the full dashboard',()=>{
+  const values={PUBLIC_HALO_INTELLIGENCE_ENABLED:'1',PUBLIC_HALO_INTELLIGENCE_API_URL:'https://api.halo.test',PUBLIC_SUPABASE_URL:'https://synthetic.supabase.co',PUBLIC_SUPABASE_ANON_KEY:'sb_publishable_synthetic_public_project_key',PUBLIC_HALO_TIERS_ENABLED:'1'};
+  assert.equal(intelligenceConfig(values).tiersEnabled,true);
+  assert.equal(intelligenceConfig(values).myHaloPath,'/my-halo/overview/');
+  assert.throws(()=>intelligenceConfig({...values,PUBLIC_HALO_TIERS_ENABLED:'true'}));
+});

@@ -25,6 +25,8 @@ export function intelligenceConfig(values) {
   const project = authOrigin(values.PUBLIC_SUPABASE_URL);
   const configured = !!api && !!project && isPublicProjectKey(values.PUBLIC_SUPABASE_ANON_KEY);
   const enabled = values.PUBLIC_HALO_INTELLIGENCE_ENABLED === '1';
+  if (!['0','1',undefined].includes(values.PUBLIC_HALO_TIERS_ENABLED)) throw new Error('Explicit HALO tier UI switch required');
+  const tiersEnabled = enabled && values.PUBLIC_HALO_TIERS_ENABLED === '1';
   if (enabled && !configured) throw new Error('HALO Intelligence requires a valid HTTPS API origin and public Supabase project configuration');
-  return Object.freeze({ api, project, configured, enabled, myHaloPath: enabled ? '/my-halo/dashboard/' : '/app/' });
+  return Object.freeze({ api, project, configured, enabled, tiersEnabled, myHaloPath: enabled ? (tiersEnabled ? '/my-halo/overview/' : '/my-halo/dashboard/') : '/app/' });
 }

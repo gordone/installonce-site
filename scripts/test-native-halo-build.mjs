@@ -11,5 +11,7 @@ console.log('Native My HALO and existing production routes verified');
 
 const home=readFileSync('dist/index.html','utf8');
 const enabled=process.env.PUBLIC_HALO_INTELLIGENCE_ENABLED==='1';
-assert.ok(home.includes('href="'+(enabled?'/my-halo/dashboard/':'/app/')+'"'),'Rollout navigation mismatch');
+assert.ok(home.includes('href="'+(enabled?(process.env.PUBLIC_HALO_TIERS_ENABLED==='1'?'/my-halo/overview/':'/my-halo/dashboard/'):'/app/')+'"'),'Rollout navigation mismatch');
 assert.equal(body.includes('Account connection is being configured'),!enabled,'Configured native page mismatch');
+
+if(process.env.PUBLIC_HALO_TIERS_ENABLED==='1') { assert.ok(body.includes('id="tier-label"')); assert.ok(!body.includes('id="dashboard-screen"')); }
