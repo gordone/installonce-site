@@ -1,7 +1,7 @@
 {
   "repository": "gordone/halo-intelligence-mvp",
-  "commit": "d8340fdca8580f09dd61f36f8951a51e7fdf2f26",
-  "publicPath": "/halo-intelligence/d8340fdca8580f09dd61f36f8951a51e7fdf2f26",
+  "commit": "1bfcc9cb9c8b087ccc6586e37be8ed1671c23a17",
+  "publicPath": "/halo-intelligence/1bfcc9cb9c8b087ccc6586e37be8ed1671c23a17",
   "files": {
     "index.html": "870617cfbd40e19096b19c99b979c6f0ca75841e4f8963196aac8f2bd3879c98",
     "review.js": "a053790bebc27738ee814e6cb209d7e2f3eeb8fc349e6d0f38e0b34cab0a9976",
@@ -9,9 +9,9 @@
     "review.css": "c51a90f3b390fe62121e747b908e0fe83ac86ae004cb837269ba6ada5e5a200a",
     "auth-adapter.js": "cb8bfc010cb37923c9376bff57f6374d111b04f53a2718565fe97dd6ba59d25b",
     "example.json": "ddaa3cb4764a1ce04ead4e5bfde054b12ac64078b198dd927083cc79a1568239",
-    "free.html": "0aca748531270f93c93ebb02aa8e61731d8f5da2630f0660be9a128e29f96aa1",
-    "free.js": "1f6cf9a4e411e1aa7b801a09e296e6b29e657610b8b31a9db5156842dd5c7379",
-    "free.css": "7ecb7f2cf88e78b59549c98ce892ddc08d213e8c2a3a4ae171610fbd86de668c",
+    "free.html": "be0281024e8a9f37e3a4d9a3ef46ea05c44867a96fddb15b4d165b3d7bdc4995",
+    "free.js": "15bca2167648866137438e8091f444bb5e972c61053b5106dcae5450d0ae36f1",
+    "free.css": "5f3c43b2024fabffc04c023731b333bc1de07cdc0b4e8751ebaf4e502f83f444",
     "free-example.json": "772ea104a54e6353179efe03f7f36d37fbe93b917267c57aadba77f6ae7f517f",
     "official-blueprints.json": "25708514b55313e2c5be2d01c98ec6c6806708fbbdf2ccdf86ff40d23eb0daf2",
     "Anton-Regular.ttf": "a4ba3a92350ebb031da0cb47630ac49eb265082ca1bc0450442f4a83ab947cab",
@@ -22,5 +22,5 @@
     "Caveat-OFL.txt": "1f9d81d094273d82f3898a1ee8b598a717d050ecbf5ff7bede105b704880157b"
   },
   "body_template_sha256": "d69ce737cf3aa5bfe98e0e0de33922f41ade8f9b1b3951919d721af86a210817",
-  "free_body_template_sha256": "40e41ca8a0f54ff8622289f2ead2758f948d4a68eeeffa12d9f6eeb2e8a0cdfe"
+  "free_body_template_sha256": "7ea0c1c0fb35b1244087abe29d37596db656c0a548e1113e295c0ea4093fd96d"
 }
