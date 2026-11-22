@@ -9,7 +9,7 @@ test('bundled source is pinned and every public file matches its recorded hash',
   assert.equal(manifest.repository,'gordone/halo-intelligence-mvp');
   assert.equal(manifest.publicPath,'/halo-intelligence/'+manifest.commit);
   for(const [name,digest]of Object.entries(manifest.files)) {
-    if(name==='index.html')continue;
+    if(['index.html','free.html'].includes(name))continue;
     assert.equal(hash(readFileSync('public'+manifest.publicPath+'/'+name)),digest,name);
   }
   assert.equal(hash(readFileSync('src/generated/halo-intelligence-body.html')),manifest.body_template_sha256);
@@ -22,4 +22,12 @@ test('native body preserves workflows and links to legacy practice/settings with
   assert.ok(!/<script|<iframe|onerror=/i.test(body));
   assert.match(readFileSync('public'+manifest.publicPath+'/review.js','utf8'),/from "\.\/auth-adapter\.js"/);
   assert.ok(readFileSync('public'+manifest.publicPath+'/review.css','utf8').includes("url('./Anton-Regular.ttf')"));
+});
+
+test('Free template is hashed and preserves native auth without scripts or private content',()=>{
+  const body=readFileSync('src/generated/halo-intelligence-free-body.html','utf8');
+  assert.equal(hash(body),manifest.free_body_template_sha256);
+  for(const id of ['main','connect','sign-out','editor','edit-form'])assert.ok(body.includes('id="'+id+'"'));
+  assert.ok(!/<script|<iframe|onerror=/i.test(body));
+  assert.ok(body.includes('/settings/') && body.includes('/app/'));
 });
