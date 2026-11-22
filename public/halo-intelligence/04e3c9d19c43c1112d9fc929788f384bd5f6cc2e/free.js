@@ -375,13 +375,15 @@ function identityWriting(card) {
   const input = node("textarea", null, "identity-statement identity-writing"); input.id = "identity-writing";
   input.required = true; input.rows = 4; input.value = draft?.statement ?? card.statement;
   input.setAttribute("aria-describedby", "identity-writing-help");
-  const help = node("p", "Write directly on your card, then save. Your Blueprint, Milestones and Timeline remain unchanged.", "identity-writing-help"); help.id = "identity-writing-help";
-  const save = node("button", "Save Identity Card", "primary"); save.type = "submit";
+  const help = node("p", "Save wording only, or translate this entry into a new Identity Card, Blueprint, Milestones and Timeline.", "identity-writing-help"); help.id = "identity-writing-help";
+  const save = node("button", "Save Identity Card"); save.type = "submit";
   const cancel = button("Cancel card edit", () => { state.identityDraft = null; render(); });
+  const build = button("Translate and build plan", () => proposeInterpretation({entry:input.value}), {primary:true,disabled:!state.policy?.capabilities.intention_translation});
   const update = () => {
     const changed = input.value !== card.statement;
     save.disabled = !changed || !input.value.trim(); save.dataset.baseDisabled = String(save.disabled);
     cancel.disabled = !changed; cancel.dataset.baseDisabled = String(cancel.disabled);
+    build.disabled = !input.value.trim() || !state.policy?.capabilities.intention_translation; build.dataset.baseDisabled = String(build.disabled);
   };
   input.addEventListener("input", () => {
     state.identityDraft = input.value === card.statement ? null : { ...(draft || context), statement: input.value }; update();
@@ -400,7 +402,9 @@ function identityWriting(card) {
       if (await refreshAfterSave(result)) notice("Your Identity Card is saved.");
     });
   });
-  update(); form.append(label, input, help, row(save, cancel)); return form;
+  update(); form.append(label, input, help, row(build, save, cancel));
+  if (!state.policy?.capabilities.intention_translation) form.append(node("p", "Plan translation is temporarily unavailable. You can still save your wording.", "identity-writing-help"));
+  return form;
 }
 function taskCard(action) {
   const el = node("div", null, "task");
@@ -620,13 +624,20 @@ function renderPlan() {
   return el;
 }
 
-function proposeInterpretation() {
+function proposeInterpretation(options = {}) {
   if (!editable() || state.busy || !state.policy?.capabilities.intention_translation) return;
-  if (state.interpretationProposal) { state.view = "interpretation"; render(); return; }
-  if (state.identityDraft) { notice("Save or cancel your card edit before requesting an interpretation."); return; }
+  const entry = typeof options.entry === "string" ? options.entry : null;
+  if (entry !== null && !entry.trim()) return;
+  const intention = entry ?? state.plan.intention_record?.current_intention ?? state.plan.intention;
+  if (state.interpretationProposal) {
+    const attempt = state.interpretationAttempt?.body;
+    if (attempt?.intention === intention && attempt.based_on_plan_id === state.plan.id && attempt.expected_revision === state.plan.revision) { state.view = "interpretation"; render(); return; }
+    state.interpretationProposal = null; state.interpretationAttempt = null;
+  }
+  if (state.identityDraft && entry === null) { notice("Save or cancel your card edit before requesting an interpretation, or use Translate and build plan for this entry."); return; }
   run(async () => {
     const epoch = state.epoch;
-    const body = {intention:state.plan.intention_record?.current_intention ?? state.plan.intention,
+    const body = {intention,
       horizon_days:state.plan.horizon_days, based_on_plan_id:state.plan.id, expected_revision:state.plan.revision};
     if (!state.interpretationAttempt || JSON.stringify(state.interpretationAttempt.body) !== JSON.stringify(body)) state.interpretationAttempt = {body,key:crypto.randomUUID()};
     let result;
@@ -657,6 +668,7 @@ function interpretationScreen() {
     const saved = await api("/halos", "POST", {draft_receipt:proposal.draft_receipt});
     if (epoch !== state.epoch) return;
     owned(saved, plan.id); state.interpretationProposal = null; state.interpretationAttempt = null;
+    if (state.identityDraft?.owner === state.owner && state.identityDraft?.id === plan.intention_record.source_plan_id) state.identityDraft = null;
     if (await refreshAfterSave(saved, null, "home")) notice("Your proposed HALO is saved separately. Your previous HALO and its evidence remain available. Review or edit, then choose when to start.");
   }), {primary:true}), button("Keep current HALO", () => { state.interpretationProposal = null; state.interpretationAttempt = null; state.view = "home"; render(); })));
   return el;
