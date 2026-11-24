@@ -26,3 +26,12 @@ services:
       - path: /my-halo
         name: Cache-Control
         value: private, no-store
+      - path: /
+        name: X-Frame-Options
+        value: DENY
+      - path: /
+        name: Content-Security-Policy
+        value: "frame-ancestors 'none'"
+      - path: /
+        name: Cache-Control
+        value: private, no-store
