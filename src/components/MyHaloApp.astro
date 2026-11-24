@@ -1,0 +1,65 @@
+---
+import body from '../generated/halo-intelligence-body.html?raw';
+import freeBody from '../generated/halo-intelligence-free-body.html?raw';
+import manifest from '../generated/halo-intelligence-manifest.json';
+import { intelligenceConfig } from '../lib/halo-intelligence-config.mjs';
+const config = intelligenceConfig(import.meta.env);
+const policy = "default-src 'self'; script-src 'self'; style-src 'self'; font-src 'self'; "
+  + `connect-src 'self' ${config.api || ''} ${config.project || ''} https://us.i.posthog.com; `
+  + "img-src 'self' data:; object-src 'none'; base-uri 'none'; form-action 'self'";
+---
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="color-scheme" content="dark light" />
+  <meta name="robots" content={Astro.url.pathname === "/" ? "index,follow" : "noindex,nofollow"} />
+  <meta name="description" content="One editable Identity Card, one small action in 60 seconds, and seven days of practice with My HALO." />
+  <meta name="referrer" content="no-referrer" />
+  <meta http-equiv="Content-Security-Policy" content={policy} />
+  <link rel="canonical" href="https://thehalomethod.co/" />
+  <link rel="icon" href="/favicon.svg" />
+  <link rel="stylesheet" href={`${manifest.publicPath}/${config.tiersEnabled ? 'free.css' : 'review.css'}`} />
+  {config.tiersEnabled && <link rel="stylesheet" href={`${manifest.publicPath}/practice1607.css`} />}
+  <link rel="stylesheet" href="/halo-intelligence/native-host.css" />
+  <title>My HALO — Your Blueprint and daily practice</title>
+</head>
+<body>
+  {!config.configured && <p class="halo-connection-notice">Account connection is being configured. You can explore the clearly labeled example; your earlier practice remains at <a href="/app/">My HALO practice</a>.</p>}
+  <Fragment set:html={config.tiersEnabled ? freeBody : body} />
+  <dialog id="halo-signin-dialog" aria-labelledby="halo-signin-title" aria-describedby="halo-signin-privacy">
+    <h2 id="halo-signin-title">Connect your HALO account.</h2>
+    <p id="halo-signin-privacy">Use the same account as the HALO community. We’ll email you a sign-in link when you ask for it.</p>
+    <form id="halo-signin-form" method="dialog">
+      <label for="halo-signin-email">Email address</label>
+      <input id="halo-signin-email" type="email" autocomplete="email" maxlength="254" required />
+      <p id="halo-signin-status" role="status" aria-live="polite"></p>
+      <div class="dialog-actions"><button id="halo-signin-cancel" type="button" class="text-button">Back to HALO</button><button id="halo-signin-send" type="submit" class="button primary">Email me a sign-in link</button></div>
+    </form>
+  </dialog>
+  <script>
+    import { supabase } from '../scripts/halo-account';
+    import '../scripts/halo-preview-analytics.mjs';
+    import { createNativeHaloAuth } from '../scripts/halo-native-auth.mjs';
+    import { intelligenceConfig } from '../lib/halo-intelligence-config.mjs';
+    import manifest from '../generated/halo-intelligence-manifest.json';
+    const config = intelligenceConfig(import.meta.env);
+    const auth = createNativeHaloAuth({
+      client: config.configured ? supabase : null,
+      dialog: document.getElementById('halo-signin-dialog'),
+      form: document.getElementById('halo-signin-form'),
+      email: document.getElementById('halo-signin-email'),
+      send: document.getElementById('halo-signin-send'),
+      cancel: document.getElementById('halo-signin-cancel'),
+      status: document.getElementById('halo-signin-status'),
+      redirectTo: new URL('/my-halo/', location.origin).href,
+    });
+    // Reviewed build-time values only; never derive this bridge from search/hash/member data.
+    Object.defineProperty(globalThis, '__HALO_HOST__', { value: Object.freeze({apiOrigin: config.api, auth, experience: config.tiersEnabled ? "streamlined" : "classic"}), configurable: false });
+    window.addEventListener('pagehide', (event) => { if (!event.persisted) auth.dispose(); });
+    await import(/* @vite-ignore */ `${manifest.publicPath}/${config.tiersEnabled ? 'free.js' : 'review.js'}`);
+  </script>
+</body>
+</html>
+

@@ -31,3 +31,17 @@ test('Free template is hashed and preserves native auth without scripts or priva
   assert.ok(!/<script|<iframe|onerror=/i.test(body));
   assert.ok(body.includes('/settings/') && body.includes('/app/'));
 });
+
+test('root migration preserves landing page, aliases and the sign-in return route',()=>{
+  const page=readFileSync('src/pages/index.astro','utf8');
+  const alias=readFileSync('src/pages/my-halo.astro','utf8');
+  const app=readFileSync('src/components/MyHaloApp.astro','utf8');
+  assert.ok(page.includes('MyHaloApp')&&alias.includes('MyHaloApp'));
+  assert.ok(readFileSync('src/pages/method.astro','utf8').includes('Better decisions.'));
+  assert.ok(app.includes('href="https://thehalomethod.co/"'));
+  assert.ok(app.includes("redirectTo: new URL('/my-halo/', location.origin).href"));
+  assert.ok(app.includes('experience: config.tiersEnabled ? "streamlined"'));
+  for(const name of ['practice1607.js','practice1607.css','my-halo-examples.json']) assert.ok(manifest.files[name]);
+  const rules=readFileSync('render.yaml','utf8');
+  assert.match(rules,/path: \/\s+name: Cache-Control\s+value: private, no-store/);
+});
