@@ -38,6 +38,14 @@ export function mountPractice1607(model, actions) {
   for (const [key,label] of [["card","1 Card"],["proof","60 Seconds"],["week","7 Days"]]) { const status = document.createElement("span"); status.textContent = label; status.dataset.step = key; $(".step-tabs").append(status); }
   $(".practice-card-actions").append(button("Turn card over", () => { model.side = model.side === "front" ? "back" : "front"; update(); }));
   if (actions.save) $(".practice-card-actions").append(button("Save Identity Card", () => actions.save(input.value), model.readOnly));
+  if (actions.build) {
+    const build = button(model.hasPlan ? "Translate and build plan" : "Build my HALO", () => {
+      if (model.custom && !customInput.reportValidity()) return;
+      if (!model.statement.trim()) { message("Write your identity first."); model.side = "front"; update(); input.focus(); return; }
+      actions.build(model.statement,model.duration);
+    }, model.readOnly);
+    build.className = "primary"; $(".practice-card-actions").prepend(build);
+  }
   let interval = null;
   const message = text => { $(".practice-message").textContent = text; };
   function stop() { if (interval !== null) clearInterval(interval); interval = null; }
@@ -74,7 +82,7 @@ export function mountPractice1607(model, actions) {
     }
     $(".practice-details").replaceChildren();
     for (const [key,label] of [["blueprint","View Blueprint"],["timeline","View Timeline"],["milestones","View Milestones"]]) $(".practice-details").append(button(label, () => actions.detail(key), !model.hasPlan));
-    if (actions.build) $(".practice-details").append(button(model.hasPlan ? "Translate and build plan" : "Build my HALO", () => { if (model.custom && !customInput.reportValidity()) return; if (!model.statement.trim()) { message("Write your identity first."); model.side = "front"; update(); input.focus(); return; } actions.build(model.statement,model.duration); }, model.readOnly));
+
     tickDisplay(); stop(); if (model.deadline) interval = setInterval(tick,250);
   }
   function tickDisplay() { $(".practice-clock").textContent = String(model.deadline ? Math.max(0,Math.ceil((model.deadline-Date.now())/1000)) : model.remaining).padStart(2,"0"); }
