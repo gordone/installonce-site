@@ -3,7 +3,9 @@ import body from '../generated/halo-intelligence-body.html?raw';
 import freeBody from '../generated/halo-intelligence-free-body.html?raw';
 import manifest from '../generated/halo-intelligence-manifest.json';
 import { intelligenceConfig } from '../lib/halo-intelligence-config.mjs';
+import { brandHaloShell } from '../lib/halo-shell-brand.mjs';
 const config = intelligenceConfig(import.meta.env);
+const brandedBody = brandHaloShell(config.tiersEnabled ? freeBody : body);
 const policy = "default-src 'self'; script-src 'self'; style-src 'self'; font-src 'self'; "
   + `connect-src 'self' ${config.api || ''} ${config.project || ''} https://us.i.posthog.com; `
   + "img-src 'self' data:; object-src 'none'; base-uri 'none'; form-action 'self'";
@@ -27,7 +29,7 @@ const policy = "default-src 'self'; script-src 'self'; style-src 'self'; font-sr
 </head>
 <body>
   {!config.configured && <p class="halo-connection-notice">Account connection is being configured. You can explore the clearly labeled example; your earlier practice remains at <a href="/app/">My HALO practice</a>.</p>}
-  <Fragment set:html={config.tiersEnabled ? freeBody : body} />
+  <Fragment set:html={brandedBody} />
   <dialog id="halo-signin-dialog" aria-labelledby="halo-signin-title" aria-describedby="halo-signin-privacy">
     <h2 id="halo-signin-title">Connect your HALO account.</h2>
     <p id="halo-signin-privacy">Use the same account as the HALO community. We’ll email you a sign-in link when you ask for it.</p>
