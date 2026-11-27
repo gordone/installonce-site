@@ -1,6 +1,7 @@
 ---
 import BlueprintLayout from '../../components/BlueprintLayout.astro';
 import HaloLaunchOverview from '../../components/HaloLaunchOverview.astro';
+import HaloMarketingLaunch from '../../components/HaloMarketingLaunch.astro';
 import HaloAccount from '../../components/HaloAccount.astro';
 ---
 <BlueprintLayout title="HALO Launch Dashboard" description="Staff overview of the HALO launch plan." noindex={true}>
@@ -10,6 +11,7 @@ import HaloAccount from '../../components/HaloAccount.astro';
     <p><a href="/admin/execution/">Mission Control →</a></p>
     <p><a href="/admin/production/">Production control →</a></p>
     <HaloAccount />
+    <HaloMarketingLaunch />
     <HaloLaunchOverview />
   </section>
 </BlueprintLayout>
