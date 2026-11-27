@@ -1,0 +1,325 @@
+{
+  "schema_version": "1.0",
+  "id": "cae27a3d-69f6-537c-a5ef-5b655357ef85",
+  "owner_id": "46d913f2-0d98-5144-a314-9565bfb408e3",
+  "revision": 1,
+  "intention": "  Finish a draft and share it for feedback.  ",
+  "horizon_days": 90,
+  "start_date": "2026-11-16",
+  "target_date": "2027-02-13",
+  "outcome": {
+    "text": "A draft shared for feedback, with a repeatable revision practice.",
+    "assumptions": [
+      "A short draft is assumed."
+    ]
+  },
+  "identity_card": {
+    "id": "a5befab1-ace8-507b-8984-2fd6eb2ba4a4",
+    "revision": 1,
+    "user_edited_fields": [],
+    "review_state": "draft",
+    "source_refs": [
+      "ac35c6d4-0e96-5b84-8adb-62b508e0f5d2"
+    ],
+    "heading": "It already happened.",
+    "statement": "I finish drafts, seek feedback, and revise my work.",
+    "question": "What evidence of that conduct will I create today?",
+    "conduct_criterion": "Save a paragraph or a documented revision today.",
+    "conduct_review": "pending"
+  },
+  "wembt": {
+    "id": "8b970cee-3938-5e5b-b0e2-9e84a6b4f3e5",
+    "revision": 1,
+    "user_edited_fields": [],
+    "review_state": "draft",
+    "source_refs": [
+      "ac35c6d4-0e96-5b84-8adb-62b508e0f5d2"
+    ],
+    "conditions": [
+      {
+        "id": "428cd1b9-01bb-55b2-a9c7-869034244a83",
+        "revision": 1,
+        "user_edited_fields": [],
+        "review_state": "draft",
+        "source_refs": [
+          "ac35c6d4-0e96-5b84-8adb-62b508e0f5d2"
+        ],
+        "title": "A sustainable drafting slot exists",
+        "type": "enabling",
+        "acceptance_criterion": "User can record a concrete observation of this condition.",
+        "criticality": "high",
+        "status": "unknown",
+        "verification_state": "unknown",
+        "assumptions": [],
+        "gap": null,
+        "evidence_ids": []
+      },
+      {
+        "id": "ed8dda69-1fab-5a83-a8f8-79b5517adef0",
+        "revision": 1,
+        "user_edited_fields": [],
+        "review_state": "draft",
+        "source_refs": [
+          "ac35c6d4-0e96-5b84-8adb-62b508e0f5d2"
+        ],
+        "title": "A feedback route is available",
+        "type": "enabling",
+        "acceptance_criterion": "User can record a concrete observation of this condition.",
+        "criticality": "high",
+        "status": "unknown",
+        "verification_state": "unknown",
+        "assumptions": [],
+        "gap": null,
+        "evidence_ids": []
+      },
+      {
+        "id": "db4e9931-f8da-5c4e-a4c5-891dd3db9de2",
+        "revision": 1,
+        "user_edited_fields": [],
+        "review_state": "draft",
+        "source_refs": [
+          "ac35c6d4-0e96-5b84-8adb-62b508e0f5d2"
+        ],
+        "title": "Revision progress is visible",
+        "type": "enabling",
+        "acceptance_criterion": "User can record a concrete observation of this condition.",
+        "criticality": "high",
+        "status": "unknown",
+        "verification_state": "unknown",
+        "assumptions": [],
+        "gap": null,
+        "evidence_ids": []
+      }
+    ]
+  },
+  "blueprint": {
+    "id": "f9b29a06-b57f-58a6-80ff-fa5c538d7bce",
+    "revision": 1,
+    "user_edited_fields": [],
+    "review_state": "draft",
+    "source_refs": [
+      "ac35c6d4-0e96-5b84-8adb-62b508e0f5d2"
+    ],
+    "actions": [
+      {
+        "id": "356576a6-5e53-5b19-af6f-5d0f38268470",
+        "revision": 1,
+        "user_edited_fields": [],
+        "review_state": "draft",
+        "source_refs": [
+          "ac35c6d4-0e96-5b84-8adb-62b508e0f5d2"
+        ],
+        "condition_ids": [
+          "428cd1b9-01bb-55b2-a9c7-869034244a83"
+        ],
+        "description": "Save one paragraph of the draft",
+        "done_criterion": "A saved note or draft records the stated work.",
+        "kind": "external",
+        "owner_id": "46d913f2-0d98-5144-a314-9565bfb408e3",
+        "day_offset": 1,
+        "duration_minutes": 5,
+        "status": "planned",
+        "evidence_ids": [],
+        "completion_confirmation": null
+      },
+      {
+        "id": "a6ed1fff-766a-55e4-89d3-938f598fc105",
+        "revision": 1,
+        "user_edited_fields": [],
+        "review_state": "draft",
+        "source_refs": [
+          "ac35c6d4-0e96-5b84-8adb-62b508e0f5d2"
+        ],
+        "condition_ids": [
+          "428cd1b9-01bb-55b2-a9c7-869034244a83"
+        ],
+        "description": "Outline the next paragraph",
+        "done_criterion": "A saved note or draft records the stated work.",
+        "kind": "external",
+        "owner_id": "46d913f2-0d98-5144-a314-9565bfb408e3",
+        "day_offset": 2,
+        "duration_minutes": 5,
+        "status": "planned",
+        "evidence_ids": [],
+        "completion_confirmation": null
+      },
+      {
+        "id": "3dee19fb-ade9-5db1-82fa-f6aad4ffe55e",
+        "revision": 1,
+        "user_edited_fields": [],
+        "review_state": "draft",
+        "source_refs": [
+          "ac35c6d4-0e96-5b84-8adb-62b508e0f5d2"
+        ],
+        "condition_ids": [
+          "428cd1b9-01bb-55b2-a9c7-869034244a83"
+        ],
+        "description": "Revise a paragraph for clarity",
+        "done_criterion": "A saved note or draft records the stated work.",
+        "kind": "external",
+        "owner_id": "46d913f2-0d98-5144-a314-9565bfb408e3",
+        "day_offset": 3,
+        "duration_minutes": 5,
+        "status": "planned",
+        "evidence_ids": [],
+        "completion_confirmation": null
+      },
+      {
+        "id": "62eb1a34-be9e-53f1-9406-b23e29bceab2",
+        "revision": 1,
+        "user_edited_fields": [],
+        "review_state": "draft",
+        "source_refs": [
+          "ac35c6d4-0e96-5b84-8adb-62b508e0f5d2"
+        ],
+        "condition_ids": [
+          "ed8dda69-1fab-5a83-a8f8-79b5517adef0"
+        ],
+        "description": "Identify one possible reader",
+        "done_criterion": "A saved note or draft records the stated work.",
+        "kind": "external",
+        "owner_id": "46d913f2-0d98-5144-a314-9565bfb408e3",
+        "day_offset": 4,
+        "duration_minutes": 5,
+        "status": "planned",
+        "evidence_ids": [],
+        "completion_confirmation": null
+      },
+      {
+        "id": "12625300-bbc3-52ba-a294-8ce790e25271",
+        "revision": 1,
+        "user_edited_fields": [],
+        "review_state": "draft",
+        "source_refs": [
+          "ac35c6d4-0e96-5b84-8adb-62b508e0f5d2"
+        ],
+        "condition_ids": [
+          "ed8dda69-1fab-5a83-a8f8-79b5517adef0"
+        ],
+        "description": "Prepare a specific feedback question",
+        "done_criterion": "A saved note or draft records the stated work.",
+        "kind": "external",
+        "owner_id": "46d913f2-0d98-5144-a314-9565bfb408e3",
+        "day_offset": 5,
+        "duration_minutes": 5,
+        "status": "planned",
+        "evidence_ids": [],
+        "completion_confirmation": null
+      },
+      {
+        "id": "ff8fbd3d-2528-5ade-b0ed-4b57176b41fd",
+        "revision": 1,
+        "user_edited_fields": [],
+        "review_state": "draft",
+        "source_refs": [
+          "ac35c6d4-0e96-5b84-8adb-62b508e0f5d2"
+        ],
+        "condition_ids": [
+          "ed8dda69-1fab-5a83-a8f8-79b5517adef0"
+        ],
+        "description": "Record one revision decision",
+        "done_criterion": "A saved note or draft records the stated work.",
+        "kind": "external",
+        "owner_id": "46d913f2-0d98-5144-a314-9565bfb408e3",
+        "day_offset": 6,
+        "duration_minutes": 5,
+        "status": "planned",
+        "evidence_ids": [],
+        "completion_confirmation": null
+      },
+      {
+        "id": "2f0f85fd-da58-5f62-975d-fcfbe05c7e09",
+        "revision": 1,
+        "user_edited_fields": [],
+        "review_state": "draft",
+        "source_refs": [
+          "ac35c6d4-0e96-5b84-8adb-62b508e0f5d2"
+        ],
+        "condition_ids": [
+          "db4e9931-f8da-5c4e-a4c5-891dd3db9de2"
+        ],
+        "description": "Review the first cycle and propose the next",
+        "done_criterion": "A saved note or draft records the stated work.",
+        "kind": "external",
+        "owner_id": "46d913f2-0d98-5144-a314-9565bfb408e3",
+        "day_offset": 7,
+        "duration_minutes": 5,
+        "status": "planned",
+        "evidence_ids": [],
+        "completion_confirmation": null
+      }
+    ],
+    "dependencies": [],
+    "first_cycle": {
+      "id": "19eff01f-f077-5054-b86f-3ede121e9740",
+      "protocol": "1·60·7",
+      "days": [
+        {
+          "day_offset": 1,
+          "action_ids": [
+            "356576a6-5e53-5b19-af6f-5d0f38268470"
+          ]
+        },
+        {
+          "day_offset": 2,
+          "action_ids": [
+            "a6ed1fff-766a-55e4-89d3-938f598fc105"
+          ]
+        },
+        {
+          "day_offset": 3,
+          "action_ids": [
+            "3dee19fb-ade9-5db1-82fa-f6aad4ffe55e"
+          ]
+        },
+        {
+          "day_offset": 4,
+          "action_ids": [
+            "62eb1a34-be9e-53f1-9406-b23e29bceab2"
+          ]
+        },
+        {
+          "day_offset": 5,
+          "action_ids": [
+            "12625300-bbc3-52ba-a294-8ce790e25271"
+          ]
+        },
+        {
+          "day_offset": 6,
+          "action_ids": [
+            "ff8fbd3d-2528-5ade-b0ed-4b57176b41fd"
+          ]
+        },
+        {
+          "day_offset": 7,
+          "action_ids": [
+            "2f0f85fd-da58-5f62-975d-fcfbe05c7e09"
+          ]
+        }
+      ],
+      "first_60_seconds": "Open the draft and write its next sentence."
+    }
+  },
+  "sources": [
+    {
+      "id": "ac35c6d4-0e96-5b84-8adb-62b508e0f5d2",
+      "title": "Synthetic planning assumption for contract tests",
+      "kind": "ai_inferred",
+      "locator": null,
+      "verified_at": null,
+      "reviewed_at": null,
+      "expires_on": null,
+      "review_state": "pending",
+      "inference_summary": "Illustrative drafting conditions inferred for a synthetic fixture; no empirical or expert review is claimed."
+    }
+  ],
+  "evidence": [],
+  "generation": {
+    "run_id": "345f9e6c-efed-5679-9c00-6b156644a652",
+    "mode": "mock",
+    "model_id": null,
+    "prompt_version": "synthetic-fixture-1",
+    "created_at": "2026-11-16T12:00:00Z",
+    "retrieval_source_ids": []
+  }
+}
