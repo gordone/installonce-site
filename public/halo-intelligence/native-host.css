@@ -3,7 +3,8 @@
   #halo-signin-status { font-size: 17px; }
   .product-nav { flex-wrap: wrap; }
 
-.native-halo-wordmark {
+.native-halo-wordmark,
+.practice-module .test-brand > span:first-child::before {
   display: inline-block;
   width: 112px;
   max-width: 100%;
@@ -11,6 +12,17 @@
   vertical-align: middle;
   background: currentColor;
   mask: url('/halo-wordmark.png') center / contain no-repeat;
+}
+@supports (mask-image: url('/halo-wordmark.png')) {
+  @media (forced-colors: none) {
+    .practice-module .test-brand > span:first-child {
+      min-width: 0;
+      font-size: 0;
+      letter-spacing: 0;
+      line-height: 0;
+    }
+    .practice-module .test-brand > span:first-child::before { content: ''; }
+  }
 }
 .native-halo-mobile { display: none; }
 .native-halo-product { font: inherit; }
