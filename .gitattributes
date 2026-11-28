@@ -1,3 +1,4 @@
 public/halo-intelligence/** text eol=lf
 public/halo-intelligence/**/*.ttf -text
+public/halo-intelligence/**/*.png -text
 src/generated/** text eol=lf
