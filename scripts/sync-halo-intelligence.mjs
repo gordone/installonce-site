@@ -12,7 +12,7 @@ if (!/^https:\/\/github\.com\/gordone\/halo-intelligence-mvp(?:\.git)?$/.test(gi
 if (git('status','--porcelain','--','src/halo_intelligence/ui')) throw new Error('Source UI has uncommitted changes');
 const directory = realpathSync(join(source,'src/halo_intelligence/ui'));
 const names=['index.html','review.js','screens.js','review.css','auth-adapter.js','example.json','free.html','free.js','free.css','free-example.json','official-blueprints.json','practice1607.js','practice1607.css','my-halo-examples.json',
-  'Anton-Regular.ttf','SourceSans3-Variable.ttf','Anton-OFL.txt','SourceSans3-OFL.txt','Caveat-Variable.ttf','Caveat-OFL.txt'];
+  'Anton-Regular.ttf','SourceSans3-Variable.ttf','Anton-OFL.txt','SourceSans3-OFL.txt','Caveat-Variable.ttf','Caveat-OFL.txt','halo-1607-tagline.png'];
 const digest = (bytes) => createHash('sha256').update(bytes).digest('hex');
 const files = {};
 const destination = join('public','halo-intelligence',commit);
@@ -21,7 +21,7 @@ for (const name of names) {
   const path=realpathSync(join(directory,name)); const within=relative(directory,path);
   if (within.startsWith('..') || isAbsolute(within)) throw new Error('Source assets must stay inside the UI directory');
   const raw=readFileSync(path);
-  const bytes=name.endsWith('.ttf') ? raw : Buffer.from(raw.toString('utf8').replace(/\r\n/g,'\n'));
+  const bytes=/\.(ttf|png)$/.test(name) ? raw : Buffer.from(raw.toString('utf8').replace(/\r\n/g,'\n'));
   files[name]=digest(bytes);
   if (!['index.html','free.html'].includes(name)) writeFileSync(join(destination,name),bytes);
 }

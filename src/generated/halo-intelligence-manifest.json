@@ -1,7 +1,7 @@
 {
   "repository": "gordone/halo-intelligence-mvp",
-  "commit": "8090c3b0faf893b7d410db24d3e8483e111b2d06",
-  "publicPath": "/halo-intelligence/8090c3b0faf893b7d410db24d3e8483e111b2d06",
+  "commit": "941486cf7ae6df907f205abf8bc8fc4ff43859b4",
+  "publicPath": "/halo-intelligence/941486cf7ae6df907f205abf8bc8fc4ff43859b4",
   "files": {
     "index.html": "4891978f764c3bc6367a37db3b253a52933fe050eb38b04c909239785b4ecf35",
     "review.js": "200b486402a6d73e5852c540049453557da1673b18b6ef3399a2fe8784e513f4",
@@ -10,19 +10,20 @@
     "auth-adapter.js": "57e0ecd29b2b752cea014749d6c567aeb233ca9a10bb1616284ad43c80053162",
     "example.json": "ddaa3cb4764a1ce04ead4e5bfde054b12ac64078b198dd927083cc79a1568239",
     "free.html": "b39228770506c31b69d887e55149e8608be2c36ac9dc445e359f8dc17d63fd07",
-    "free.js": "b165b1cb3e57a36e6c7c2ec00942c512bf8256e77353a166301852fd23816bb0",
+    "free.js": "38cb9784c4b6883c19cb84746e3d9d91d6893643b2adc8016802e2f0ec1f9cd2",
     "free.css": "15d40ca947c76db20813775d0eae77533f9f486537b1af333b148d6bffa3c3a1",
     "free-example.json": "772ea104a54e6353179efe03f7f36d37fbe93b917267c57aadba77f6ae7f517f",
     "official-blueprints.json": "8095452d6791a5aea4b5640a88179a62ed2580328f834dadc6de99ac2cc8d0ac",
     "practice1607.js": "29dac81c004ab94490a4a3b3dcd871d83435d70f506017aac9a275091eb26a35",
-    "practice1607.css": "469110bc1655441c6f6a388ddc1c0b4d07f935d6978d83c20a4c20f7f4db96c1",
+    "practice1607.css": "3eee98a67e67b0d0cec8ff2bd1037510c5e298c30b68ca14af863b72380c2d2f",
     "my-halo-examples.json": "797a3aea0aabd185c2380d55d7ccead679749c9c15e71a1ee4673fa69f2bd3e8",
     "Anton-Regular.ttf": "a4ba3a92350ebb031da0cb47630ac49eb265082ca1bc0450442f4a83ab947cab",
     "SourceSans3-Variable.ttf": "042fe2cc0b933e328410d7acbd0aa6a1873dca5aef81875f4bc214b08825c7b9",
     "Anton-OFL.txt": "eee1d24ff8f553eb732237c7dd9b945a78313ed49ad6de02872a47277741b44a",
     "SourceSans3-OFL.txt": "ed86f375d70bd39238d13b2ba5bd3bed20b3fe4847fa1356a63f380d2b26a8a5",
     "Caveat-Variable.ttf": "0bdb6b660482d31531b3945849fba5916b3ef8695da7024a9e6b9ee3c4157988",
-    "Caveat-OFL.txt": "1f9d81d094273d82f3898a1ee8b598a717d050ecbf5ff7bede105b704880157b"
+    "Caveat-OFL.txt": "1f9d81d094273d82f3898a1ee8b598a717d050ecbf5ff7bede105b704880157b",
+    "halo-1607-tagline.png": "a72c83f17b42071b4db7caaafe5be145c0e3b1ea955c33a8358f85b3e4b7e878"
   },
   "body_template_sha256": "6becf8bcbf0b82886d829b12ce29d59a4560bcb2853db365853ff44488810b2d",
   "free_body_template_sha256": "bb11cddc145ffa74623d859503f6eaa5bed032b4ab7412bd88356ab6db2ddcd3"
