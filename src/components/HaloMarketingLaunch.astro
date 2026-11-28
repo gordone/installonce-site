@@ -6,6 +6,13 @@
     <p data-marketing-readiness></p>
     <h3>Next actions</h3>
     <ol data-marketing-next></ol>
+    <h3>Marketing runner</h3>
+    <p data-marketing-runner-status role="status"></p>
+    <div data-marketing-runner-controls></div>
+    <h3>Needs your input</h3>
+    <div data-marketing-inbox></div>
+    <h3>Drafts for review</h3>
+    <div data-marketing-drafts></div>
     <h3>Campaigns</h3>
     <div data-marketing-campaigns></div>
     <h3>Activity planner</h3>
@@ -27,6 +34,8 @@
   }
   .marketing :global(button){align-self:end;cursor:pointer}
   .marketing :global(form p){grid-column:1/-1;margin:0}
+  .marketing :global(.run-draft){white-space:pre-wrap;overflow-wrap:anywhere}
+  [data-marketing-runner-controls]{display:flex;flex-wrap:wrap;gap:.5rem}
 </style>
 
 <script>
@@ -41,8 +50,131 @@
   const activities = document.querySelector<HTMLElement>('[data-marketing-activities]')!;
   const filter = document.querySelector<HTMLSelectElement>('[data-marketing-filter]')!;
   const client = supabase;
+  const runnerStatus = document.querySelector<HTMLElement>('[data-marketing-runner-status]')!;
+  const runnerControls = document.querySelector<HTMLElement>('[data-marketing-runner-controls]')!;
+  const inbox = document.querySelector<HTMLElement>('[data-marketing-inbox]')!;
+  const drafts = document.querySelector<HTMLElement>('[data-marketing-drafts]')!;
   let generation = 0;
   let loadSequence = 0;
+  let runnerSequence = 0;
+  let runnerAvailable = false;
+  let runnerBusy = false;
+  let selectedRun: number | null = null;
+  let runnerVersion = '';
+  let titles = new Map<number, string>();
+
+  function runnerButton(label: string, action: () => void) {
+    const button = document.createElement('button');
+    button.type = 'button';
+    button.textContent = label;
+    button.addEventListener('click', action);
+    return button;
+  }
+
+  async function command(view: number, action: string, id: number | null = null, input: string | null = null) {
+    if (!client || view !== generation || runnerBusy) return;
+    runnerBusy = true;
+    runnerStatus.textContent = 'Working…';
+    try {
+      const { data, error } = await client.rpc('halo_marketing_runner_command', {
+        p_command: action, p_activity: id, p_input: input,
+      });
+      if (view !== generation) return;
+      if (error) {
+        runnerStatus.textContent = error.code === '22023' ? error.message : 'Could not run this command. Refresh and try again.';
+        return;
+      }
+      selectedRun = action === 'run' ? (data ?? id) : null;
+      runnerVersion = '';
+      await loadRunner(view);
+      if (view !== generation) return;
+      if (selectedRun !== null) {
+        const result = board.querySelector<HTMLElement>('[data-run-id="' + selectedRun + '"]');
+        if (result instanceof HTMLDetailsElement) result.open = true;
+        result?.scrollIntoView({ block: 'nearest' });
+        result?.querySelector('summary')?.focus();
+      }
+    } catch {
+      if (view === generation) runnerStatus.textContent = 'Could not confirm the command. Refresh to check the result.';
+    } finally {
+      runnerBusy = false;
+    }
+  }
+
+  async function loadRunner(view: number) {
+    if (!client || view !== generation) return;
+    const request = ++runnerSequence;
+    const [settings, runs] = await Promise.all([
+      client.from('halo_marketing_runner_settings').select('enabled').maybeSingle(),
+      client.from('halo_marketing_runs').select('activity_id,state,prompt,draft,operator_input,updated_at').order('created_at').order('activity_id'),
+    ]);
+    if (view !== generation || request !== runnerSequence) return;
+    runnerAvailable = !settings.error && !runs.error && !!settings.data;
+    for (const button of board.querySelectorAll<HTMLButtonElement>('[data-run-activity]')) {
+      button.disabled = !runnerAvailable;
+    }
+    if (!runnerAvailable) {
+      runnerStatus.textContent = 'The marketing runner is unavailable. Check the database migration and refresh.';
+      return;
+    }
+    const version = JSON.stringify([settings.data, runs.data, [...titles]]);
+    if (version === runnerVersion) return;
+    runnerVersion = version;
+    const enabled = !!settings.data?.enabled;
+    runnerStatus.textContent = enabled ? 'Automatic queue on' : 'Automatic queue paused';
+    runnerControls.replaceChildren(
+      runnerButton(enabled ? 'Pause automatic queue' : 'Start automatic queue', () => void command(view, enabled ? 'pause' : 'start')),
+      runnerButton('Refresh runner', () => void loadRunner(view)),
+    );
+    const replies = new Map([...inbox.querySelectorAll<HTMLTextAreaElement>('textarea')].map(
+      input => [input.name, input.value],
+    ));
+    const open = new Set([...board.querySelectorAll<HTMLDetailsElement>('[data-run-id][open]')].map(
+      item => item.dataset.runId,
+    ));
+    inbox.replaceChildren();
+    drafts.replaceChildren();
+    for (const row of runs.data ?? []) {
+      const title = titles.get(row.activity_id) || 'Activity #' + row.activity_id;
+      const draft = paragraph(row.draft);
+      draft.className = 'run-draft';
+      const item = detail(row.state === 'needs_input' ? title + ' — ' + row.prompt : title, draft);
+      item.dataset.runId = String(row.activity_id);
+      item.open = selectedRun === row.activity_id || open.has(item.dataset.runId);
+      if (row.state === 'needs_input') {
+        const form = document.createElement('form');
+        const label = document.createElement('label');
+        label.textContent = row.prompt;
+        const input = document.createElement('textarea');
+        input.name = String(row.activity_id);
+        input.required = true;
+        input.maxLength = 4000;
+        input.value = replies.get(input.name) || '';
+        const submit = document.createElement('button');
+        submit.textContent = 'Submit input';
+        label.append(input);
+        form.append(label, submit);
+        form.addEventListener('submit', event => {
+          event.preventDefault();
+          if (input.value.trim()) void command(view, 'answer', row.activity_id, input.value);
+        });
+        item.append(form);
+        inbox.append(item);
+      } else {
+        item.append(paragraph('Operator input'), paragraph(row.operator_input || ''));
+        drafts.append(item);
+      }
+    }
+    if (!inbox.childElementCount) inbox.append(paragraph('No input requested.'));
+    if (!drafts.childElementCount) drafts.append(paragraph('No drafts for review.'));
+  }
+
+  function runActivity(view: number, id: number) {
+    const button = runnerButton('Run autonomously', () => void command(view, 'run', id));
+    button.dataset.runActivity = '';
+    button.disabled = !runnerAvailable;
+    return button;
+  }
 
   function paragraph(value: string) {
     const node = document.createElement('p');
@@ -153,6 +285,7 @@
       filter.value = names.has(selected) ? selected : '';
       const today = new Intl.DateTimeFormat('sv-SE', { timeZone: 'America/New_York' }).format(new Date());
       const ranked = rankActivities(activityResult.data, milestoneResult.data, today);
+      titles = new Map(ranked.map(row => [row.id, row.title]));
       const active = ranked.filter(row => row.active);
       const blocked = active.filter(row => row.blockers.length > 0);
       const unplanned = campaignResult.data.filter(row => row.budget_usd == null ||
@@ -165,6 +298,7 @@
       for (const row of ready.slice(0, 5)) {
         const entry = document.createElement('li');
         entry.textContent = row.priority + ' · ' + row.title + ' · ' + row.owner + ' · ' + row.due_on + ' — ' + row.next_action;
+        entry.append(' ', runActivity(view, row.id));
         next.append(entry);
       }
       if (!next.childElementCount) {
@@ -176,6 +310,7 @@
       renderActivities();
       board.hidden = false;
       status.textContent = message || 'Launch plan';
+      void loadRunner(view);
 
       function renderActivities() {
         activities.replaceChildren();
@@ -186,6 +321,7 @@
             paragraph('Objective — ' + row.objective),
             paragraph('Complete when — ' + row.exit_criteria),
             paragraph(row.blockers.length ? 'Dependencies — ' + row.blockers.join(', ') : 'Dependencies satisfied'),
+            ...(row.active && !row.blockers.length ? [runActivity(view, row.id)] : []),
             editor('halo_marketing_activities', row, [
               ['owner', 'Owner'], ['next_action', 'Next action', 'textarea'], ['due_on', 'Due date', 'date'],
               ['expected_roi', 'Expected ROI', ['High','Medium','Low','Indirect']], ['confidence', 'Confidence (1–5)', 'number', 1, 5],
@@ -207,10 +343,19 @@
   else client.auth.onAuthStateChange((_event, session) => {
     const view = ++generation;
     board.hidden = true;
+    runnerAvailable = false;
+    selectedRun = null;
+    runnerVersion = '';
+    runnerControls.replaceChildren();
+    inbox.replaceChildren();
+    drafts.replaceChildren();
     [next, campaigns, activities].forEach(node => node.replaceChildren());
     filter.replaceChildren(new Option('All campaigns', ''));
     filter.onchange = null;
     status.textContent = session ? 'Loading the marketing plan…' : 'Sign in with a HALO launch staff account.';
     if (session) window.setTimeout(() => void load(view), 0);
   });
+  window.setInterval(() => {
+    if (!board.hidden && !runnerBusy) void loadRunner(generation);
+  }, 15000);
 </script>
