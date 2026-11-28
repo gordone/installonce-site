@@ -1,0 +1,62 @@
+/* Card proportions and flip interaction follow Halo1607Experience.astro. */
+.practice-intro { margin:0; min-width:0; max-width:980px; }
+.practice-intro-text { font-size:1.5rem; }
+@media (min-width:640px) and (forced-colors:none) {
+  .practice-intro { position:relative; }
+  .practice-intro::before {
+    content:""; display:block; width:100%; aspect-ratio:1440 / 88;
+    background:currentColor; mask:url('./halo-1607-tagline.png') center / contain no-repeat;
+  }
+  .practice-intro-text {
+    position:absolute; width:1px; height:1px; overflow:hidden;
+    clip-path:inset(50%); white-space:nowrap;
+  }
+}
+.practice-module { --paper:#fff; --ink:#111; --rule:#d4d7df; color:#fff; }
+.practice-duration { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:8px; margin-bottom:18px; }
+.practice-duration button { border-radius:40px; min-height:44px; }
+.practice-module button[aria-pressed="true"] { color:#111; background:#fff; border-color:#fff; }
+.practice-module .halo-test { background:#050505; border:1px solid #30313a; border-radius:32px; padding:clamp(16px,3vw,30px); }
+.practice-module .test-brand { display:flex; justify-content:space-between; align-items:center; gap:12px; margin-bottom:20px; font:14px/1.4 ui-monospace,monospace; }
+.practice-module .test-brand > :first-child { font-size:24px; letter-spacing:.12em; }
+.practice-module .card-stage { perspective:1200px; margin:18px 0; }
+.practice-module .index-card { position:relative; max-width:560px; min-height:330px; margin:auto; transform-style:preserve-3d; transition:transform .65s cubic-bezier(.2,.7,.2,1); }
+.practice-module .index-card.flipped { transform:rotateY(180deg); }
+.practice-module .card-face { position:absolute; inset:0; backface-visibility:hidden; -webkit-backface-visibility:hidden; background:var(--paper); color:var(--ink); border-radius:20px; padding:22px 24px; box-shadow:0 20px 48px #0006; }
+.practice-module .card-front { opacity:1; visibility:visible; }
+.practice-module .card-back { transform:rotateY(180deg); opacity:0; visibility:hidden; }
+.practice-module .flipped .card-front { opacity:0; visibility:hidden; pointer-events:none; }
+.practice-module .flipped .card-back { opacity:1; visibility:visible; }
+.practice-module .card-face::before { content:""; position:absolute; top:49px; left:0; right:0; border-top:2px solid #666; }
+.practice-module .card-label,.practice-module .card-footer { font:10px/1.5 ui-monospace,monospace; letter-spacing:.14em; text-transform:uppercase; color:#626777; }
+.practice-module .card-prompt,.practice-module .card-question { display:block; margin-top:35px; color:#111; font:22px/1.35 Georgia,serif; }
+.practice-module .card-question { font-size:18px; }
+.practice-module .card-input { width:100%; min-height:125px; margin-top:8px; padding:0 6px; border:0; border-radius:0; color:#172d50; background:repeating-linear-gradient(to bottom,transparent 0,transparent 39px,var(--rule) 39px,var(--rule) 40px); font:600 clamp(26px,4vw,32px)/40px Caveat,Georgia,serif; resize:none; }
+.practice-module .card-input:focus-visible { outline:2px solid #354ea0; outline-offset:3px; }
+.practice-module .card-input:disabled { opacity:1; }
+.practice-module .card-footer { position:absolute; bottom:18px; left:24px; right:24px; display:flex; justify-content:space-between; gap:8px; }
+.practice-card-actions,.practice-module .panel-actions,.practice-details { display:flex; flex-wrap:wrap; gap:10px; margin-top:16px; }
+.practice-module .test-panel { margin-top:18px; border:1px solid #30313a; border-radius:24px; padding:22px; background:#0d0d0d; }
+.practice-module .panel-label { color:#b9bbc8; font:11px/1.5 ui-monospace,monospace; text-transform:uppercase; letter-spacing:.14em; }
+.practice-module .practice-heading { font:26px/1.25 Georgia,serif; margin:12px 0; }
+.practice-module .practice-clock { font-size:64px; line-height:1; margin:20px 0; }
+.practice-module .practice-description { color:#c5c7d2; }
+.practice-module .practice-message { color:#d5dcff; }
+.practice-module .practice-custom { display:block; margin:0 0 18px; }
+.practice-module .practice-custom input { display:block; max-width:180px; margin-top:8px; }
+.practice-module .practice-tracker ol { display:grid; grid-template-columns:repeat(7,minmax(0,1fr)); gap:4px; padding:0; list-style:none; }
+.practice-module .practice-tracker li { text-align:center; border:1px solid #454653; border-radius:30px; padding:12px 2px; font-size:12px; }
+@media(max-width:540px) { .practice-module .card-face { padding:18px; } .practice-module .index-card { min-height:350px; } .practice-module .card-prompt { font-size:20px; } .practice-duration { gap:4px; } .practice-module .card-footer { left:18px; right:18px; } }
+@media(prefers-reduced-motion:reduce) { .practice-module .index-card { transition:none; } }
+
+/* Blue framing keeps the book card prominent in the streamlined workspace. */
+.practice-module .halo-test,.practice-module .test-panel { border-color:#536ab4; box-shadow:inset 0 1px 0 #98adff24; }
+.practice-module .card-face { border:2px solid #7187d8; box-shadow:0 0 0 1px #a8baff35,0 20px 48px #0006; }
+.practice-module .card-face::before { border-color:#8498df; }
+.practice-module .practice-start-highlight { background:linear-gradient(110deg,#5268d2,#384da5); color:#fff; border:2px solid #b1c0ff; box-shadow:0 0 0 3px #697fd22e; font-weight:700; }
+.practice-module .practice-ready { color:#e3e9ff; background:linear-gradient(120deg,#26335a,#18233d); border:2px solid #819bef; box-shadow:0 0 18px #617de321; }
+.practice-module .practice-build-status { color:#dce5ff; background:#15213a; border:1px solid #536ab4; border-radius:12px; padding:14px 16px; }
+.practice-module .practice-build-status:empty { display:none; }
+.practice-module[data-building="true"] .practice-build-status::before { content:""; display:inline-block; width:14px; height:14px; margin-right:10px; vertical-align:middle; border:2px solid #667aa5; border-top-color:#dbe5ff; border-radius:50%; animation:practice-build-spin 1.2s linear infinite; }
+@keyframes practice-build-spin { to { transform:rotate(360deg); } }
+@media(prefers-reduced-motion:reduce) { .practice-module[data-building="true"] .practice-build-status::before { animation:none; } }
