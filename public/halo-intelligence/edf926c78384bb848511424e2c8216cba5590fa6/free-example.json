@@ -1,0 +1,401 @@
+{
+  "schema_version": "1.0",
+  "id": "5caeb231-1ac1-5fb8-add1-2f4fb7bff34e",
+  "owner_id": "00000000-0000-4000-8000-000000000099",
+  "revision": 1,
+  "intention": "Make time to write",
+  "horizon_days": 7,
+  "start_date": "2026-11-19",
+  "target_date": "2026-11-25",
+  "outcome": {
+    "text": "A provisional first-cycle draft; achievement is not established.",
+    "assumptions": [
+      "Unreviewed writing scaffold selected by English keywords only.",
+      "No personal context, reviewed foundations, or external facts were retrieved.",
+      "Time estimates are placeholders; horizon feasibility is unknown.",
+      "This cycle does not establish achievement of the overall intention.",
+      "Consequential changes require appropriate independent verification."
+    ]
+  },
+  "identity_card": {
+    "id": "8b35ae53-4ace-5e1a-b404-fa448bdfdd4b",
+    "revision": 1,
+    "user_edited_fields": [],
+    "review_state": "draft",
+    "source_refs": [
+      "721ec0ae-044f-502b-b819-da2b5e86494f"
+    ],
+    "heading": "It already happened.",
+    "statement": "I write small drafts, examine my wording, and record revision decisions.",
+    "question": "What note or observation could demonstrate that conduct today?",
+    "conduct_criterion": "Save today's note and review what it actually demonstrates.",
+    "conduct_review": "pending"
+  },
+  "wembt": {
+    "id": "90c497cd-152d-5e8f-b5e4-a493a0b6b186",
+    "revision": 1,
+    "user_edited_fields": [],
+    "review_state": "draft",
+    "source_refs": [
+      "721ec0ae-044f-502b-b819-da2b5e86494f"
+    ],
+    "conditions": [
+      {
+        "id": "49e1ffea-d765-5f14-9254-4b047c4e9f6b",
+        "revision": 1,
+        "user_edited_fields": [],
+        "review_state": "draft",
+        "source_refs": [
+          "721ec0ae-044f-502b-b819-da2b5e86494f"
+        ],
+        "title": "A small draft has a defined scope",
+        "type": "enabling",
+        "acceptance_criterion": "A note states the draft's purpose and a small scope.",
+        "criticality": "high",
+        "status": "unknown",
+        "verification_state": "unknown",
+        "assumptions": [
+          "Relevance and feasibility need user review."
+        ],
+        "gap": null,
+        "evidence_ids": []
+      },
+      {
+        "id": "d917a4e0-31d5-5d99-810d-b3164ab3ca9c",
+        "revision": 1,
+        "user_edited_fields": [],
+        "review_state": "draft",
+        "source_refs": [
+          "721ec0ae-044f-502b-b819-da2b5e86494f"
+        ],
+        "title": "A repeatable drafting slot is identified",
+        "type": "enabling",
+        "acceptance_criterion": "A note names a possible time and place; availability is still unconfirmed.",
+        "criticality": "high",
+        "status": "unknown",
+        "verification_state": "unknown",
+        "assumptions": [
+          "Relevance and feasibility need user review."
+        ],
+        "gap": null,
+        "evidence_ids": []
+      },
+      {
+        "id": "08e1d04a-553e-5750-b174-7c6638b5ce79",
+        "revision": 1,
+        "user_edited_fields": [],
+        "review_state": "draft",
+        "source_refs": [
+          "721ec0ae-044f-502b-b819-da2b5e86494f"
+        ],
+        "title": "Revision questions are recorded",
+        "type": "enabling",
+        "acceptance_criterion": "A draft note contains at least one concrete revision question.",
+        "criticality": "high",
+        "status": "unknown",
+        "verification_state": "unknown",
+        "assumptions": [
+          "Relevance and feasibility need user review."
+        ],
+        "gap": null,
+        "evidence_ids": []
+      }
+    ]
+  },
+  "blueprint": {
+    "id": "d893b4a0-a6f0-560c-8882-95d0fb567f7b",
+    "revision": 1,
+    "user_edited_fields": [],
+    "review_state": "draft",
+    "source_refs": [
+      "721ec0ae-044f-502b-b819-da2b5e86494f"
+    ],
+    "actions": [
+      {
+        "id": "95eb8cbd-829b-5f79-87f4-d1f73500195a",
+        "revision": 1,
+        "user_edited_fields": [],
+        "review_state": "draft",
+        "source_refs": [
+          "721ec0ae-044f-502b-b819-da2b5e86494f"
+        ],
+        "condition_ids": [
+          "49e1ffea-d765-5f14-9254-4b047c4e9f6b"
+        ],
+        "description": "Write the purpose and a small scope for the draft.",
+        "done_criterion": "Save a note of the work and confirm it yourself.",
+        "kind": "external",
+        "owner_id": "00000000-0000-4000-8000-000000000099",
+        "day_offset": 1,
+        "duration_minutes": 5,
+        "status": "planned",
+        "evidence_ids": [],
+        "completion_confirmation": null
+      },
+      {
+        "id": "09c3040e-b11f-5e93-b648-23795fb904a8",
+        "revision": 1,
+        "user_edited_fields": [],
+        "review_state": "draft",
+        "source_refs": [
+          "721ec0ae-044f-502b-b819-da2b5e86494f"
+        ],
+        "condition_ids": [
+          "d917a4e0-31d5-5d99-810d-b3164ab3ca9c"
+        ],
+        "description": "Note a possible drafting slot and write one sentence.",
+        "done_criterion": "Save a note of the work and confirm it yourself.",
+        "kind": "external",
+        "owner_id": "00000000-0000-4000-8000-000000000099",
+        "day_offset": 2,
+        "duration_minutes": 5,
+        "status": "planned",
+        "evidence_ids": [],
+        "completion_confirmation": null
+      },
+      {
+        "id": "50fb370e-0cf8-5513-b56f-a506f0092eb2",
+        "revision": 1,
+        "user_edited_fields": [],
+        "review_state": "draft",
+        "source_refs": [
+          "721ec0ae-044f-502b-b819-da2b5e86494f"
+        ],
+        "condition_ids": [
+          "49e1ffea-d765-5f14-9254-4b047c4e9f6b"
+        ],
+        "description": "Add one paragraph within the chosen scope.",
+        "done_criterion": "Save a note of the work and confirm it yourself.",
+        "kind": "external",
+        "owner_id": "00000000-0000-4000-8000-000000000099",
+        "day_offset": 3,
+        "duration_minutes": 5,
+        "status": "planned",
+        "evidence_ids": [],
+        "completion_confirmation": null
+      },
+      {
+        "id": "9fbeb3ea-0303-551b-8f8a-c1ecaed557fd",
+        "revision": 1,
+        "user_edited_fields": [],
+        "review_state": "draft",
+        "source_refs": [
+          "721ec0ae-044f-502b-b819-da2b5e86494f"
+        ],
+        "condition_ids": [
+          "08e1d04a-553e-5750-b174-7c6638b5ce79"
+        ],
+        "description": "Read the paragraph and note one unclear sentence.",
+        "done_criterion": "Save a note of the work and confirm it yourself.",
+        "kind": "external",
+        "owner_id": "00000000-0000-4000-8000-000000000099",
+        "day_offset": 4,
+        "duration_minutes": 5,
+        "status": "planned",
+        "evidence_ids": [],
+        "completion_confirmation": null
+      },
+      {
+        "id": "8092d754-62b8-5c3a-9cd9-09dcfc1e8f32",
+        "revision": 1,
+        "user_edited_fields": [],
+        "review_state": "draft",
+        "source_refs": [
+          "721ec0ae-044f-502b-b819-da2b5e86494f"
+        ],
+        "condition_ids": [
+          "08e1d04a-553e-5750-b174-7c6638b5ce79"
+        ],
+        "description": "Propose a clearer version of that sentence.",
+        "done_criterion": "Save a note of the work and confirm it yourself.",
+        "kind": "external",
+        "owner_id": "00000000-0000-4000-8000-000000000099",
+        "day_offset": 5,
+        "duration_minutes": 5,
+        "status": "planned",
+        "evidence_ids": [],
+        "completion_confirmation": null
+      },
+      {
+        "id": "04768b13-2742-50ed-a0d6-4e8536e0216d",
+        "revision": 1,
+        "user_edited_fields": [],
+        "review_state": "draft",
+        "source_refs": [
+          "721ec0ae-044f-502b-b819-da2b5e86494f"
+        ],
+        "condition_ids": [
+          "08e1d04a-553e-5750-b174-7c6638b5ce79"
+        ],
+        "description": "Record one question a future reader could answer.",
+        "done_criterion": "Save a note of the work and confirm it yourself.",
+        "kind": "external",
+        "owner_id": "00000000-0000-4000-8000-000000000099",
+        "day_offset": 6,
+        "duration_minutes": 5,
+        "status": "planned",
+        "evidence_ids": [],
+        "completion_confirmation": null
+      },
+      {
+        "id": "6ba5a179-3e30-5e87-ae72-bb1056373e33",
+        "revision": 1,
+        "user_edited_fields": [],
+        "review_state": "draft",
+        "source_refs": [
+          "721ec0ae-044f-502b-b819-da2b5e86494f"
+        ],
+        "condition_ids": [
+          "08e1d04a-553e-5750-b174-7c6638b5ce79"
+        ],
+        "description": "Compare the notes and draft; choose one revision for the next cycle.",
+        "done_criterion": "Save a note of the work and confirm it yourself.",
+        "kind": "external",
+        "owner_id": "00000000-0000-4000-8000-000000000099",
+        "day_offset": 7,
+        "duration_minutes": 5,
+        "status": "planned",
+        "evidence_ids": [],
+        "completion_confirmation": null
+      }
+    ],
+    "dependencies": [
+      {
+        "from_id": "95eb8cbd-829b-5f79-87f4-d1f73500195a",
+        "to_id": "09c3040e-b11f-5e93-b648-23795fb904a8",
+        "relation": "enables",
+        "rationale": "Earlier notes inform the next review step.",
+        "source_refs": [
+          "721ec0ae-044f-502b-b819-da2b5e86494f"
+        ]
+      },
+      {
+        "from_id": "09c3040e-b11f-5e93-b648-23795fb904a8",
+        "to_id": "50fb370e-0cf8-5513-b56f-a506f0092eb2",
+        "relation": "enables",
+        "rationale": "Earlier notes inform the next review step.",
+        "source_refs": [
+          "721ec0ae-044f-502b-b819-da2b5e86494f"
+        ]
+      },
+      {
+        "from_id": "50fb370e-0cf8-5513-b56f-a506f0092eb2",
+        "to_id": "9fbeb3ea-0303-551b-8f8a-c1ecaed557fd",
+        "relation": "enables",
+        "rationale": "Earlier notes inform the next review step.",
+        "source_refs": [
+          "721ec0ae-044f-502b-b819-da2b5e86494f"
+        ]
+      },
+      {
+        "from_id": "9fbeb3ea-0303-551b-8f8a-c1ecaed557fd",
+        "to_id": "8092d754-62b8-5c3a-9cd9-09dcfc1e8f32",
+        "relation": "enables",
+        "rationale": "Earlier notes inform the next review step.",
+        "source_refs": [
+          "721ec0ae-044f-502b-b819-da2b5e86494f"
+        ]
+      },
+      {
+        "from_id": "8092d754-62b8-5c3a-9cd9-09dcfc1e8f32",
+        "to_id": "04768b13-2742-50ed-a0d6-4e8536e0216d",
+        "relation": "enables",
+        "rationale": "Earlier notes inform the next review step.",
+        "source_refs": [
+          "721ec0ae-044f-502b-b819-da2b5e86494f"
+        ]
+      },
+      {
+        "from_id": "04768b13-2742-50ed-a0d6-4e8536e0216d",
+        "to_id": "6ba5a179-3e30-5e87-ae72-bb1056373e33",
+        "relation": "enables",
+        "rationale": "Earlier notes inform the next review step.",
+        "source_refs": [
+          "721ec0ae-044f-502b-b819-da2b5e86494f"
+        ]
+      }
+    ],
+    "first_cycle": {
+      "id": "519de941-d4a5-54bb-b934-8e565051bda3",
+      "protocol": "1·60·7",
+      "days": [
+        {
+          "day_offset": 1,
+          "action_ids": [
+            "95eb8cbd-829b-5f79-87f4-d1f73500195a"
+          ]
+        },
+        {
+          "day_offset": 2,
+          "action_ids": [
+            "09c3040e-b11f-5e93-b648-23795fb904a8"
+          ]
+        },
+        {
+          "day_offset": 3,
+          "action_ids": [
+            "50fb370e-0cf8-5513-b56f-a506f0092eb2"
+          ]
+        },
+        {
+          "day_offset": 4,
+          "action_ids": [
+            "9fbeb3ea-0303-551b-8f8a-c1ecaed557fd"
+          ]
+        },
+        {
+          "day_offset": 5,
+          "action_ids": [
+            "8092d754-62b8-5c3a-9cd9-09dcfc1e8f32"
+          ]
+        },
+        {
+          "day_offset": 6,
+          "action_ids": [
+            "04768b13-2742-50ed-a0d6-4e8536e0216d"
+          ]
+        },
+        {
+          "day_offset": 7,
+          "action_ids": [
+            "6ba5a179-3e30-5e87-ae72-bb1056373e33"
+          ]
+        }
+      ],
+      "first_60_seconds": "Open a draft note and write its purpose in one sentence."
+    },
+    "story": {
+      "domain": "Choose the area of life this conduct belongs to.",
+      "why_hard": "Name the moment, environment or trigger where your old default is strongest. This is not known yet.",
+      "if_true": "Choose five repeatable behaviors that would follow from this conduct identity. Check them against your actual time and support.",
+      "ordinary_day": "A starting point to adapt to an ordinary day: Open a draft note and write its purpose in one sentence. Keep the action small enough for a regular day.",
+      "comes_with": "Check the practical demands on your time, energy, money and relationships. Name one trade-off you can realistically support.",
+      "when_you_slip": "Return at the next safe, appropriate opportunity. If misses repeat, review the action size, setting and support; adjust or rest when needed.",
+      "signs_working": "Look for changes in what you do and how you return after a miss. Record an observation; these are signals to look for, not promised results.",
+      "example": "Hypothetical moment, not a report about you: an ordinary day feels crowded. Choose a safe small start from your plan: Open a draft note and write its purpose in one sentence. Record what actually happened, if anything.",
+      "assistant_prompt": "Help me review this HALO Blueprint. Ask about my old default and hardest trigger. Review The Decision, Ask in the Moment, Why It's Hard, If This Is True, An Ordinary Day, What Comes With It, When You Slip, Signs It's Working and an Example. Use plain language, no guarantees or invented observations. Keep consequential decisions for appropriate qualified review."
+    }
+  },
+  "sources": [
+    {
+      "id": "721ec0ae-044f-502b-b819-da2b5e86494f",
+      "title": "Unreviewed deterministic mock scaffold v1",
+      "kind": "ai_inferred",
+      "locator": null,
+      "verified_at": null,
+      "reviewed_at": null,
+      "expires_on": null,
+      "review_state": "pending",
+      "inference_summary": "Fixed local mock assumptions; not AI or expert-verified."
+    }
+  ],
+  "evidence": [],
+  "generation": {
+    "run_id": "00000000-0000-4000-8000-000000000098",
+    "mode": "mock",
+    "model_id": null,
+    "prompt_version": "mock-scaffold-1",
+    "created_at": "2026-11-19T12:00:00+00:00",
+    "retrieval_source_ids": []
+  }
+}
