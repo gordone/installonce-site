@@ -2,3 +2,20 @@
   #halo-signin-email { width: 100%; }
   #halo-signin-status { font-size: 17px; }
   .product-nav { flex-wrap: wrap; }
+
+.native-halo-wordmark {
+  display: inline-block;
+  width: 112px;
+  max-width: 100%;
+  aspect-ratio: 1200 / 324;
+  vertical-align: middle;
+  background: currentColor;
+  mask: url('/halo-wordmark.png') center / contain no-repeat;
+}
+.native-halo-mobile { display: none; }
+.native-halo-product { font: inherit; }
+@media (max-width: 760px) {
+  .native-halo-mobile { display: inline-block; }
+  .native-halo-mobile .native-halo-wordmark { width: 76px; }
+  .native-halo-product { display: none; }
+}
